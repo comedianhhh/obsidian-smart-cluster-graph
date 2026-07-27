@@ -1,7 +1,7 @@
 # Smart Cluster Graph
 
 [![Obsidian Plugin](https://img.shields.io/badge/Obsidian-Plugin-purple.svg)](https://obsidian.md)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/comedianhhh/obsidian-smart-cluster-graph/releases)
+[![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)](https://github.com/comedianhhh/obsidian-smart-cluster-graph/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 A powerful, aesthetic cluster graph explorer for **Obsidian**. It automatically partitions your vault notes into distinct folder-based community clusters, renders tight soft convex hulls, and displays a clean knowledge skeleton powered by **Strongest Bridge Links** and **Line Crossing Avoidance**.
@@ -16,6 +16,7 @@ A powerful, aesthetic cluster graph explorer for **Obsidian**. It automatically 
 - 🌉 **Strongest Bridge Architecture (Cluster Skeleton)**: Completely hides internal node web clutter, rendering only the single strongest bridge edge between cluster pairs (capped at max 2 links per cluster).
 - ↪️ **Line Crossing Avoidance**: Smart curved routing algorithm that smoothly bends cross-cluster bridge lines around intermediate cluster hulls.
 - 🎨 **Tight Soft Convex Hulls**: Encloses all nodes and selection rings in tight, beautiful semi-transparent polygon/capsule envelopes with zero edge overflow.
+- 🔍 **Live Node Search**: Real-time Node Search input bar in the top toolbar to search and highlight notes instantly.
 - 🎯 **Active Note Highlighting**: Automatically synchronizes with your currently open Obsidian note, marking it with a crisp white selection ring.
 - 🖱️ **Intuitive Panning & Centered Zooming**: Supports smooth left-click canvas panning and screen-center wheel zooming without unwanted camera jumps.
 - ⚙️ **Customizable Zoom & Opacity**: Manually adjust your default initial zoom scale (`1.0x` to `6.0x`) and hull transparency directly from settings.
@@ -46,7 +47,8 @@ A powerful, aesthetic cluster graph explorer for **Obsidian**. It automatically 
 | **Open Note** | Double Left-Click | Opens the corresponding Markdown document in Obsidian. |
 | **Pan Canvas** | Left-Click Drag | Smoothly translates the graph viewport. |
 | **Zoom In/Out** | Scroll Wheel | Zooms in/out centered around the screen center. |
-| **Context Menu** | Right-Click Node | Access focus, pin, hide, and open in new tab options. |
+| **Context Menu** | Right-Click Node | Open note, open in new tab, and copy Obsidian link `[[Title]]`. |
+| **Node Search** | Search Input | Search note titles and file paths in real time. |
 
 ---
 
@@ -56,6 +58,7 @@ A powerful, aesthetic cluster graph explorer for **Obsidian**. It automatically 
 - **Follow Active Note**: Automatically highlight currently active editor tab in the graph.
 - **Focus Similarity Threshold**: Adjust vector similarity threshold (`0.30` to `0.85`) for semantic relations.
 - **Cluster Polygon Hull Opacity**: Adjust fill transparency for semi-transparent cluster envelopes.
+- **Default Graph Mode**: Select relationship discovery mode (`Neighborhood`, `Semantic Only`, `Links Only`).
 
 ---
 
