@@ -1,6 +1,6 @@
 import { App, PluginSettingTab, Setting } from 'obsidian';
 import type SmartGraphPlugin from '../main';
-import { LicenseManager } from '../license/licenseManager';
+import { GraphMode } from '../types';
 
 export class SmartGraphSettingsTab extends PluginSettingTab {
   private plugin: SmartGraphPlugin;
@@ -16,100 +16,82 @@ export class SmartGraphSettingsTab extends PluginSettingTab {
 
     containerEl.createEl('h2', { text: 'Smart Graph Explorer Settings' });
 
-    // 1. Similarity Threshold
+    // 1. Default Initial Zoom Scale (Manual adjustment)
     new Setting(containerEl)
-      .setName('Semantic Similarity Threshold')
-      .setDesc('Minimum similarity score (0.50 to 0.95) for connecting notes.')
+      .setName('Default Initial Zoom Scale')
+      .setDesc('Manually set default initial camera zoom level (1.0x to 6.0x).')
       .addSlider((slider) =>
         slider
-          .setLimits(0.5, 0.95, 0.05)
-          .setValue(this.plugin.settings.similarityThreshold)
+          .setLimits(1.0, 6.0, 0.2)
+          .setValue(this.plugin.settings.defaultZoomLevel || 3.5)
           .setDynamicTooltip()
           .onChange(async (val) => {
-            this.plugin.settings.similarityThreshold = val;
+            this.plugin.settings.defaultZoomLevel = val;
+            await this.plugin.saveSettings();
+            // Instantly update canvas zoom in real time without lagging graph rebuild!
+            this.plugin.updateZoomOnly(val);
+          })
+      );
+
+    // 2. Follow Active Note
+    new Setting(containerEl)
+      .setName('Follow Active Note')
+      .setDesc('Automatically update active note selection in graph when switching Obsidian tabs.')
+      .addToggle((toggle) =>
+        toggle
+          .setValue(this.plugin.settings.followActiveNote)
+          .onChange(async (val) => {
+            this.plugin.settings.followActiveNote = val;
+            await this.plugin.saveSettings();
+          })
+      );
+
+    // 3. Focus Similarity Threshold
+    new Setting(containerEl)
+      .setName('Focus Similarity Threshold')
+      .setDesc('Minimum vector similarity score (0.30 to 0.85) for semantic relationship discovery.')
+      .addSlider((slider) =>
+        slider
+          .setLimits(0.3, 0.85, 0.05)
+          .setValue(this.plugin.settings.focusSimilarityThreshold)
+          .setDynamicTooltip()
+          .onChange(async (val) => {
+            this.plugin.settings.focusSimilarityThreshold = val;
             await this.plugin.saveSettings();
             this.plugin.refreshView();
           })
       );
 
-    // 2. Max Nodes Limit
-    new Setting(containerEl)
-      .setName('Max Graph Nodes Limit')
-      .setDesc('Maximum number of nodes rendered to maintain high FPS performance.')
-      .addSlider((slider) =>
-        slider
-          .setLimits(30, 500, 10)
-          .setValue(this.plugin.settings.maxNodesLimit)
-          .setDynamicTooltip()
-          .onChange(async (val) => {
-            this.plugin.settings.maxNodesLimit = val;
-            await this.plugin.saveSettings();
-            this.plugin.refreshView();
-          })
-      );
-
-    // 3. Cluster Hulls Opacity
+    // 4. Cluster Polygon Hull Opacity
     new Setting(containerEl)
       .setName('Cluster Polygon Hull Opacity')
-      .setDesc('Background opacity of semi-transparent cluster convex hulls.')
+      .setDesc('Fill opacity for semi-transparent cluster hulls (0.01 to 0.20).')
       .addSlider((slider) =>
         slider
-          .setLimits(0.05, 0.5, 0.05)
-          .setValue(this.plugin.settings.clusterHullsOpacity)
+          .setLimits(0.01, 0.2, 0.01)
+          .setValue(this.plugin.settings.hullOpacity)
           .setDynamicTooltip()
           .onChange(async (val) => {
-            this.plugin.settings.clusterHullsOpacity = val;
+            this.plugin.settings.hullOpacity = val;
             await this.plugin.saveSettings();
             this.plugin.refreshView();
           })
       );
 
-    // 4. Multimodal Edge Toggles
+    // 5. Default Graph Mode
     new Setting(containerEl)
-      .setName('Show Semantic Similarity Links')
-      .setDesc('Draw solid edges for semantically similar notes calculated by Smart Connections.')
-      .addToggle((toggle) =>
-        toggle
-          .setValue(this.plugin.settings.showSemanticLinks)
+      .setName('Default Graph Mode')
+      .setDesc('Primary mode used for relationship discovery.')
+      .addDropdown((dropdown) =>
+        dropdown
+          .addOption('neighborhood', 'Neighborhood (Semantic + Links + Tags)')
+          .addOption('semantic', 'Semantic Only (Vector Similarity)')
+          .addOption('links', 'Links Only (WikiLinks & Backlinks)')
+          .setValue(this.plugin.settings.graphMode)
           .onChange(async (val) => {
-            this.plugin.settings.showSemanticLinks = val;
+            this.plugin.settings.graphMode = val as GraphMode;
             await this.plugin.saveSettings();
             this.plugin.refreshView();
-          })
-      );
-
-    new Setting(containerEl)
-      .setName('Show Obsidian Wiki Links')
-      .setDesc('Draw dashed edges for explicit [[Wiki Links]].')
-      .addToggle((toggle) =>
-        toggle
-          .setValue(this.plugin.settings.showWikiLinks)
-          .onChange(async (val) => {
-            this.plugin.settings.showWikiLinks = val;
-            await this.plugin.saveSettings();
-            this.plugin.refreshView();
-          })
-      );
-
-    // 5. Commercial License Key Section
-    containerEl.createEl('h3', { text: 'License & Monetization' });
-
-    const licenseManager = new LicenseManager(this.plugin.settings);
-
-    new Setting(containerEl)
-      .setName('Pro License Key')
-      .setDesc('Enter your commercial license key to unlock advanced cluster filters and export features.')
-      .addText((text) =>
-        text
-          .setPlaceholder('SG-PRO-XXXX-XXXX-XXXX')
-          .setValue(this.plugin.settings.licenseKey)
-          .onChange(async (val) => {
-            const res = await licenseManager.validateLicenseKey(val);
-            if (res.isValid) {
-              this.plugin.settings.licenseKey = val;
-              this.plugin.settings.isLicensed = true;
-            }
-            await this.plugin.saveSettings();
           })
       );
   }

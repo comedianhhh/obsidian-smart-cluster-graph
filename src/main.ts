@@ -32,12 +32,19 @@ export default class SmartGraphPlugin extends Plugin {
     // Register Settings Tab
     this.addSettingTab(new SmartGraphSettingsTab(this.app, this));
 
-    // Listen for active leaf change to update graph view centered on current note
+    // Listen for active leaf change to update graph view only if followActiveNote is enabled
     this.registerEvent(
       this.app.workspace.on('active-leaf-change', () => {
-        this.refreshView();
+        if (this.settings.followActiveNote) {
+          this.refreshView();
+        }
       })
     );
+
+    // Auto-open and pin in top right tab header bar when Obsidian layout is ready
+    this.app.workspace.onLayoutReady(() => {
+      this.activateView();
+    });
   }
 
   async activateView(): Promise<void> {
@@ -65,6 +72,15 @@ export default class SmartGraphPlugin extends Plugin {
     leaves.forEach((leaf) => {
       if (leaf.view instanceof SmartGraphView) {
         leaf.view.refreshGraph();
+      }
+    });
+  }
+
+  public updateZoomOnly(zoomLevel: number): void {
+    const leaves = this.app.workspace.getLeavesOfType(SMART_GRAPH_VIEW_TYPE);
+    leaves.forEach((leaf) => {
+      if (leaf.view instanceof SmartGraphView) {
+        leaf.view.setZoomLevel(zoomLevel);
       }
     });
   }

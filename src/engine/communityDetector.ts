@@ -7,92 +7,57 @@ export interface CommunityResult {
 
 export class CommunityDetector {
   /**
-   * Run community partition algorithm, select representatives, and map colors.
+   * Run folder-based and connectivity-based community detection.
+   * Limits max visible clusters to 5 and assigns unique sequential palette colors.
    */
   public detectCommunities(
     nodes: GraphNode[],
     edges: GraphEdge[],
     colorPalette: string[],
-    minimumClusterSize: number = 2
+    minimumClusterSize: number = 3
   ): CommunityResult {
     if (nodes.length === 0) {
       return { nodes: [], clusters: new Map() };
     }
 
-    const nodeMap = new Map<string, GraphNode>();
-    nodes.forEach((n) => nodeMap.set(n.id, n));
+    // 1. Group nodes by Folder Path if available
+    const folderMap = new Map<string, GraphNode[]>();
 
-    // 1. Build adjacency matrix & degree maps
-    const adjMap = new Map<string, Map<string, number>>();
-    nodes.forEach((n) => adjMap.set(n.id, new Map()));
-
-    edges.forEach((edge) => {
-      const srcId = typeof edge.source === 'object' ? (edge.source as GraphNode).id : edge.source;
-      const tgtId = typeof edge.target === 'object' ? (edge.target as GraphNode).id : edge.target;
-
-      if (adjMap.has(srcId) && adjMap.has(tgtId)) {
-        adjMap.get(srcId)!.set(tgtId, (adjMap.get(srcId)!.get(tgtId) || 0) + edge.weight);
-        adjMap.get(tgtId)!.set(srcId, (adjMap.get(tgtId)!.get(srcId) || 0) + edge.weight);
-      }
-    });
-
-    // 2. Modularity & Connected Component Partition
-    const visited = new Set<string>();
-    const communityAssignments = new Map<string, string>();
-    let clusterIndex = 0;
-
-    // Prioritize focus node to form cluster-0 at the center
-    const sortedNodes = [...nodes].sort((a, b) => (b.isFocus ? 1 : 0) - (a.isFocus ? 1 : 0));
-
-    sortedNodes.forEach((startNode) => {
-      if (visited.has(startNode.id)) return;
-
-      const clusterId = `cluster-${clusterIndex}`;
-      clusterIndex++;
-
-      const queue = [startNode.id];
-      visited.add(startNode.id);
-
-      while (queue.length > 0) {
-        const currId = queue.shift()!;
-        communityAssignments.set(currId, clusterId);
-
-        const neighbors = adjMap.get(currId);
-        if (neighbors) {
-          neighbors.forEach((weight, nbrId) => {
-            if (!visited.has(nbrId) && weight >= 0.3) {
-              visited.add(nbrId);
-              queue.push(nbrId);
-            }
-          });
-        }
-      }
-    });
-
-    // 3. Group nodes by community ID
-    const tempClusters = new Map<string, GraphNode[]>();
     nodes.forEach((node) => {
-      const cId = communityAssignments.get(node.id) || 'cluster-0';
-      if (!tempClusters.has(cId)) tempClusters.set(cId, []);
-      tempClusters.get(cId)!.push(node);
+      const parts = node.path.split('/');
+      const folderName = parts.length > 1 ? parts[0] : (node.isFocus ? 'Focus Topic' : 'Uncategorized');
+
+      if (!folderMap.has(folderName)) {
+        folderMap.set(folderName, []);
+      }
+      folderMap.get(folderName)!.push(node);
     });
 
-    // 4. Merge tiny clusters (< minimumClusterSize) into nearest larger cluster
+    // Sort folders by size (largest first, with focus folder prioritized)
+    const sortedFolders = Array.from(folderMap.entries()).sort(([f1, n1], [f2, n2]) => {
+      const hasFocus1 = n1.some((n) => n.isFocus);
+      const hasFocus2 = n2.some((n) => n.isFocus);
+      if (hasFocus1 !== hasFocus2) return hasFocus1 ? -1 : 1;
+      return n2.length - n1.length;
+    });
+
+    // Limit to max 5 visible primary clusters
+    const primaryFolders = sortedFolders.slice(0, 5);
+
     const clusters = new Map<string, ClusterGroup>();
-    let finalClusterIndex = 0;
 
-    tempClusters.forEach((cNodes, cId) => {
-      const color = colorPalette[finalClusterIndex % colorPalette.length];
-      finalClusterIndex++;
+    primaryFolders.forEach(([folderName, cNodes], folderIndex) => {
+      // Guarantee distinct sequential palette colors for all 5 clusters (no hash collision!)
+      const color = colorPalette[folderIndex % colorPalette.length];
 
-      // Compute internal degrees for representative selection
+      // Internal edges
       const internalEdges = edges.filter((e) => {
         const s = typeof e.source === 'object' ? e.source.id : e.source;
         const t = typeof e.target === 'object' ? e.target.id : e.target;
         return cNodes.some((n) => n.id === s) && cNodes.some((n) => n.id === t);
       });
 
-      // Find representative node: score = internalDegree * 0.6 + similarity * 0.4
+      // Representative node selection
       let representativeNode = cNodes[0];
       let maxScore = -1;
 
@@ -109,27 +74,46 @@ export class CommunityDetector {
         }
       });
 
-      // Apply node metadata & properties
+      // Size Hierarchy according to user spec:
+      // Normal node = 4.5px, Representative / Focus = 8.0px
       cNodes.forEach((node) => {
-        node.clusterId = cId;
-        node.cluster = cId;
+        node.clusterId = folderName;
+        node.cluster = folderName;
+        node.clusterColor = color;
         node.color = color;
         node.isRepresentative = node.id === representativeNode.id && !node.isFocus;
         node.type = node.isFocus || node.isRepresentative ? 'cluster-center' : 'note';
 
-        // Size rules according to spec
-        if (node.isFocus) node.size = 10;
-        else if (node.isRepresentative) node.size = 8;
-        else node.size = 4;
+        if (node.isFocus || node.isRepresentative) {
+          node.size = 8.0;
+          node.isOrphan = false;
+        } else if (cNodes.length < minimumClusterSize && !node.isFocus) {
+          node.isOrphan = true;
+          node.size = 2.5;
+          node.opacity = 0.25;
+        } else {
+          node.size = 4.5;
+          node.isOrphan = false;
+        }
       });
 
-      clusters.set(cId, {
-        id: cId,
-        name: representativeNode ? representativeNode.title : `Cluster ${cId}`,
+      clusters.set(folderName, {
+        id: folderName,
+        name: representativeNode ? representativeNode.title : folderName,
         color,
         nodes: cNodes,
         representativeId: representativeNode ? representativeNode.id : undefined,
       });
+    });
+
+    // Handle nodes outside top 5 clusters as background orphan nodes
+    const primaryFolderNames = new Set(primaryFolders.map(([f]) => f));
+    nodes.forEach((node) => {
+      if (!primaryFolderNames.has(node.clusterId || '')) {
+        node.isOrphan = true;
+        node.size = 2.5;
+        node.opacity = 0.25;
+      }
     });
 
     return { nodes, clusters };

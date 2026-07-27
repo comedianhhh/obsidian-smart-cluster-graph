@@ -5824,47 +5824,50 @@ __export(main_exports, {
   default: () => SmartGraphPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian3 = require("obsidian");
+var import_obsidian4 = require("obsidian");
 
 // src/types.ts
+var CLUSTER_MUTED_PALETTE = [
+  "#55B476",
+  // Emerald Green
+  "#EB9433",
+  // Bright Orange
+  "#D962B2",
+  // Vivid Pink
+  "#5E8FE8",
+  // Bright Royal Blue
+  "#EB6070",
+  // Vivid Coral Red
+  "#73B9B3"
+  // Crisp Teal
+];
 var DEFAULT_SETTINGS = {
   candidateLimit: 80,
   visibleNodeLimit: 60,
   focusSimilarityThreshold: 0.42,
   clusterSimilarityThreshold: 0.52,
-  maxSemanticEdgesPerNode: 4,
+  maxSemanticEdgesPerNode: 2,
   maxCrossClusterEdgesPerPair: 1,
-  minimumClusterSize: 2,
-  maximumClusterCount: 12,
-  clusterSpacing: 180,
-  hullPadding: 14,
-  hullOpacity: 0.07,
-  clusterColors: [
-    "#58B77B",
-    // Soft Emerald Green
-    "#E3B529",
-    // Golden Yellow
-    "#5889E8",
-    // Royal Blue
-    "#DE6372",
-    // Coral Pink
-    "#D86DC0",
-    // Soft Orchid Purple
-    "#36C5F0",
-    // Sky Blue
-    "#ECB22E"
-    // Amber
-  ],
+  minimumClusterSize: 3,
+  maximumClusterCount: 5,
+  clusterSpacing: 140,
+  hullPadding: 10,
+  hullOpacity: 0.035,
+  defaultZoomLevel: 2.8,
+  clusterColors: CLUSTER_MUTED_PALETTE,
   showSemanticLinks: true,
   showWikiLinks: true,
   showBacklinks: true,
   showSharedTags: true,
+  followActiveNote: false,
+  graphMode: "neighborhood",
+  densityPreset: "balanced",
   licenseKey: "",
   isLicensed: false
 };
 
 // src/views/smartGraphView.ts
-var import_obsidian = require("obsidian");
+var import_obsidian2 = require("obsidian");
 
 // node_modules/d3-selection/src/namespaces.js
 var xhtml = "http://www.w3.org/1999/xhtml";
@@ -16944,39 +16947,37 @@ var GraphDataEngine = class {
     this.bridge = bridge;
   }
   /**
-   * Build multi-cluster candidate graph around focus note file.
+   * Resolve density preset into concrete limits.
+   */
+  getDensityLimits(preset) {
+    switch (preset) {
+      case "compact":
+        return { maxNodes: 20, maxEdgesPerNode: 2 };
+      case "expanded":
+        return { maxNodes: 100, maxEdgesPerNode: 6 };
+      case "balanced":
+      default:
+        return { maxNodes: 50, maxEdgesPerNode: 4 };
+    }
+  }
+  /**
+   * Build complete multi-cluster candidate graph around focus note file and vault notes.
    */
   async buildGraphData(centerFile, settings) {
     const nodes = [];
     const edges = [];
     const candidateMap = /* @__PURE__ */ new Map();
-    if (!centerFile) {
-      const files = this.app.vault.getMarkdownFiles().slice(0, settings.visibleNodeLimit);
-      files.forEach((file, idx) => {
-        nodes.push({
-          id: file.path,
-          title: file.basename,
-          path: file.path,
-          clusterId: `cluster-${idx % 5}`,
-          cluster: `cluster-${idx % 5}`,
-          size: 4,
-          color: settings.clusterColors[idx % settings.clusterColors.length],
-          type: "note",
-          depth: 1,
-          similarity: 0.5,
-          isFocus: idx === 0,
-          isRepresentative: false
-        });
+    const focusPath = centerFile ? centerFile.path : "";
+    const densityLimits = this.getDensityLimits(settings.densityPreset || "balanced");
+    const nodeLimit = Math.min(settings.visibleNodeLimit, densityLimits.maxNodes);
+    if (centerFile) {
+      candidateMap.set(focusPath, {
+        path: focusPath,
+        score: 1,
+        title: centerFile.basename
       });
-      return { nodes, edges };
     }
-    const focusPath = centerFile.path;
-    candidateMap.set(focusPath, {
-      path: focusPath,
-      score: 1,
-      title: centerFile.basename
-    });
-    if (this.bridge.isSmartConnectionsAvailable()) {
+    if (centerFile && this.bridge.isSmartConnectionsAvailable() && settings.graphMode !== "links") {
       const candidates = await this.bridge.getSimilarSources(
         focusPath,
         settings.candidateLimit
@@ -16987,20 +16988,17 @@ var GraphDataEngine = class {
         }
       });
     }
-    const cache = this.app.metadataCache.getFileCache(centerFile);
-    if (cache && cache.links && settings.showWikiLinks) {
-      cache.links.forEach((link) => {
-        const destFile = this.app.metadataCache.getFirstLinkpathDest(link.link, focusPath);
-        if (destFile && !candidateMap.has(destFile.path)) {
-          candidateMap.set(destFile.path, {
-            path: destFile.path,
-            score: 0.75,
-            title: destFile.basename
-          });
-        }
-      });
-    }
-    const candidateList = Array.from(candidateMap.values()).slice(0, settings.visibleNodeLimit);
+    const allVaultFiles = this.app.vault.getMarkdownFiles();
+    allVaultFiles.forEach((file) => {
+      if (candidateMap.size < nodeLimit && !candidateMap.has(file.path)) {
+        candidateMap.set(file.path, {
+          path: file.path,
+          score: file.path === focusPath ? 1 : 0.5,
+          title: file.basename
+        });
+      }
+    });
+    const candidateList = Array.from(candidateMap.values());
     candidateList.forEach((cand) => {
       const isFocus = cand.path === focusPath;
       const node = {
@@ -17009,8 +17007,9 @@ var GraphDataEngine = class {
         path: cand.path,
         clusterId: "cluster-0",
         cluster: "cluster-0",
-        size: isFocus ? 10 : 4,
-        color: "#ffffff",
+        clusterColor: "#59a978",
+        size: isFocus ? 7 : 4,
+        color: "#59a978",
         type: isFocus ? "cluster-center" : "note",
         depth: isFocus ? 0 : 1,
         similarity: cand.score,
@@ -17019,27 +17018,87 @@ var GraphDataEngine = class {
       };
       nodes.push(node);
     });
-    const edgeCountMap = /* @__PURE__ */ new Map();
+    const fileTagsMap = /* @__PURE__ */ new Map();
+    allVaultFiles.forEach((file) => {
+      const cache = this.app.metadataCache.getFileCache(file);
+      const tagSet = /* @__PURE__ */ new Set();
+      if (cache?.tags) {
+        cache.tags.forEach((t3) => tagSet.add(t3.tag.toLowerCase()));
+      }
+      if (cache?.frontmatter?.tags) {
+        const fmTags = Array.isArray(cache.frontmatter.tags) ? cache.frontmatter.tags : [cache.frontmatter.tags];
+        fmTags.forEach((t3) => tagSet.add(String(t3).toLowerCase()));
+      }
+      fileTagsMap.set(file.path, tagSet);
+    });
+    const resolvedLinks = this.app.metadataCache.resolvedLinks || {};
+    const edgeKeySet = /* @__PURE__ */ new Set();
+    const nodeEdgeCounts = /* @__PURE__ */ new Map();
+    const mode = settings.graphMode || "neighborhood";
     for (let i2 = 0; i2 < candidateList.length; i2++) {
       for (let j2 = i2 + 1; j2 < candidateList.length; j2++) {
         const candA = candidateList[i2];
         const candB = candidateList[j2];
-        const score = await this.bridge.getPairwiseSimilarity(candA, candB);
-        if (score >= settings.clusterSimilarityThreshold || candA.path === focusPath || candB.path === focusPath) {
-          const countA = edgeCountMap.get(candA.path) || 0;
-          const countB = edgeCountMap.get(candB.path) || 0;
-          if (countA < settings.maxSemanticEdgesPerNode && countB < settings.maxSemanticEdgesPerNode) {
-            edgeCountMap.set(candA.path, countA + 1);
-            edgeCountMap.set(candB.path, countB + 1);
-            edges.push({
-              source: candA.path,
-              target: candB.path,
-              type: "semantic",
-              weight: score || 0.6,
-              dashed: false,
-              opacity: Math.max(0.15, score)
-            });
+        const countA = nodeEdgeCounts.get(candA.path) || 0;
+        const countB = nodeEdgeCounts.get(candB.path) || 0;
+        if (countA >= densityLimits.maxEdgesPerNode && countB >= densityLimits.maxEdgesPerNode) {
+          continue;
+        }
+        const key = candA.path < candB.path ? `${candA.path}|${candB.path}` : `${candB.path}|${candA.path}`;
+        if (edgeKeySet.has(key))
+          continue;
+        let isWikiLink = false;
+        let isSharedTag = false;
+        let semanticScore = 0;
+        if (mode === "neighborhood" || mode === "links") {
+          if (resolvedLinks[candA.path] && resolvedLinks[candA.path][candB.path] || resolvedLinks[candB.path] && resolvedLinks[candB.path][candA.path]) {
+            isWikiLink = true;
           }
+        }
+        if (mode === "neighborhood") {
+          const tagsA = fileTagsMap.get(candA.path);
+          const tagsB = fileTagsMap.get(candB.path);
+          if (tagsA && tagsB) {
+            for (const tag of tagsA) {
+              if (tagsB.has(tag)) {
+                isSharedTag = true;
+                break;
+              }
+            }
+          }
+        }
+        if ((mode === "neighborhood" || mode === "semantic") && this.bridge.isSmartConnectionsAvailable()) {
+          semanticScore = await this.bridge.getPairwiseSimilarity(candA, candB);
+        }
+        let edgeType = null;
+        let weight = 0;
+        if (isWikiLink) {
+          edgeType = "wiki-link";
+          weight = 0.85;
+        } else if (isSharedTag) {
+          edgeType = "shared-tag";
+          weight = 0.65;
+        } else if (semanticScore >= settings.clusterSimilarityThreshold) {
+          edgeType = "semantic";
+          weight = semanticScore;
+        } else if (candA.path === focusPath || candB.path === focusPath) {
+          if (semanticScore >= settings.focusSimilarityThreshold) {
+            edgeType = "semantic";
+            weight = semanticScore;
+          }
+        }
+        if (edgeType) {
+          edgeKeySet.add(key);
+          nodeEdgeCounts.set(candA.path, countA + 1);
+          nodeEdgeCounts.set(candB.path, countB + 1);
+          edges.push({
+            source: candA.path,
+            target: candB.path,
+            type: edgeType,
+            weight,
+            dashed: edgeType === "shared-tag",
+            opacity: edgeType === "wiki-link" ? 0.4 : 0.25
+          });
         }
       }
     }
@@ -17050,61 +17109,33 @@ var GraphDataEngine = class {
 // src/engine/communityDetector.ts
 var CommunityDetector = class {
   /**
-   * Run community partition algorithm, select representatives, and map colors.
+   * Run folder-based and connectivity-based community detection.
+   * Limits max visible clusters to 5 and assigns unique sequential palette colors.
    */
-  detectCommunities(nodes, edges, colorPalette, minimumClusterSize = 2) {
+  detectCommunities(nodes, edges, colorPalette, minimumClusterSize = 3) {
     if (nodes.length === 0) {
       return { nodes: [], clusters: /* @__PURE__ */ new Map() };
     }
-    const nodeMap = /* @__PURE__ */ new Map();
-    nodes.forEach((n2) => nodeMap.set(n2.id, n2));
-    const adjMap = /* @__PURE__ */ new Map();
-    nodes.forEach((n2) => adjMap.set(n2.id, /* @__PURE__ */ new Map()));
-    edges.forEach((edge) => {
-      const srcId = typeof edge.source === "object" ? edge.source.id : edge.source;
-      const tgtId = typeof edge.target === "object" ? edge.target.id : edge.target;
-      if (adjMap.has(srcId) && adjMap.has(tgtId)) {
-        adjMap.get(srcId).set(tgtId, (adjMap.get(srcId).get(tgtId) || 0) + edge.weight);
-        adjMap.get(tgtId).set(srcId, (adjMap.get(tgtId).get(srcId) || 0) + edge.weight);
-      }
-    });
-    const visited = /* @__PURE__ */ new Set();
-    const communityAssignments = /* @__PURE__ */ new Map();
-    let clusterIndex = 0;
-    const sortedNodes = [...nodes].sort((a3, b2) => (b2.isFocus ? 1 : 0) - (a3.isFocus ? 1 : 0));
-    sortedNodes.forEach((startNode) => {
-      if (visited.has(startNode.id))
-        return;
-      const clusterId = `cluster-${clusterIndex}`;
-      clusterIndex++;
-      const queue = [startNode.id];
-      visited.add(startNode.id);
-      while (queue.length > 0) {
-        const currId = queue.shift();
-        communityAssignments.set(currId, clusterId);
-        const neighbors = adjMap.get(currId);
-        if (neighbors) {
-          neighbors.forEach((weight, nbrId) => {
-            if (!visited.has(nbrId) && weight >= 0.3) {
-              visited.add(nbrId);
-              queue.push(nbrId);
-            }
-          });
-        }
-      }
-    });
-    const tempClusters = /* @__PURE__ */ new Map();
+    const folderMap = /* @__PURE__ */ new Map();
     nodes.forEach((node) => {
-      const cId = communityAssignments.get(node.id) || "cluster-0";
-      if (!tempClusters.has(cId))
-        tempClusters.set(cId, []);
-      tempClusters.get(cId).push(node);
+      const parts = node.path.split("/");
+      const folderName = parts.length > 1 ? parts[0] : node.isFocus ? "Focus Topic" : "Uncategorized";
+      if (!folderMap.has(folderName)) {
+        folderMap.set(folderName, []);
+      }
+      folderMap.get(folderName).push(node);
     });
+    const sortedFolders = Array.from(folderMap.entries()).sort(([f1, n1], [f2, n2]) => {
+      const hasFocus1 = n1.some((n3) => n3.isFocus);
+      const hasFocus2 = n2.some((n3) => n3.isFocus);
+      if (hasFocus1 !== hasFocus2)
+        return hasFocus1 ? -1 : 1;
+      return n2.length - n1.length;
+    });
+    const primaryFolders = sortedFolders.slice(0, 5);
     const clusters = /* @__PURE__ */ new Map();
-    let finalClusterIndex = 0;
-    tempClusters.forEach((cNodes, cId) => {
-      const color2 = colorPalette[finalClusterIndex % colorPalette.length];
-      finalClusterIndex++;
+    primaryFolders.forEach(([folderName, cNodes], folderIndex) => {
+      const color2 = colorPalette[folderIndex % colorPalette.length];
       const internalEdges = edges.filter((e2) => {
         const s2 = typeof e2.source === "object" ? e2.source.id : e2.source;
         const t3 = typeof e2.target === "object" ? e2.target.id : e2.target;
@@ -17123,25 +17154,39 @@ var CommunityDetector = class {
         }
       });
       cNodes.forEach((node) => {
-        node.clusterId = cId;
-        node.cluster = cId;
+        node.clusterId = folderName;
+        node.cluster = folderName;
+        node.clusterColor = color2;
         node.color = color2;
         node.isRepresentative = node.id === representativeNode.id && !node.isFocus;
         node.type = node.isFocus || node.isRepresentative ? "cluster-center" : "note";
-        if (node.isFocus)
-          node.size = 10;
-        else if (node.isRepresentative)
+        if (node.isFocus || node.isRepresentative) {
           node.size = 8;
-        else
-          node.size = 4;
+          node.isOrphan = false;
+        } else if (cNodes.length < minimumClusterSize && !node.isFocus) {
+          node.isOrphan = true;
+          node.size = 2.5;
+          node.opacity = 0.25;
+        } else {
+          node.size = 4.5;
+          node.isOrphan = false;
+        }
       });
-      clusters.set(cId, {
-        id: cId,
-        name: representativeNode ? representativeNode.title : `Cluster ${cId}`,
+      clusters.set(folderName, {
+        id: folderName,
+        name: representativeNode ? representativeNode.title : folderName,
         color: color2,
         nodes: cNodes,
         representativeId: representativeNode ? representativeNode.id : void 0
       });
+    });
+    const primaryFolderNames = new Set(primaryFolders.map(([f2]) => f2));
+    nodes.forEach((node) => {
+      if (!primaryFolderNames.has(node.clusterId || "")) {
+        node.isOrphan = true;
+        node.size = 2.5;
+        node.opacity = 0.25;
+      }
     });
     return { nodes, clusters };
   }
@@ -17187,23 +17232,32 @@ function hull_default(points) {
 // src/views/hullRenderer.ts
 var HullRenderer = class {
   /**
-   * Render convex hulls / polygons per cluster on Canvas 2D context.
+   * Render tight soft polygon envelopes per cluster on Canvas 2D context.
+   * Guarantees all nodes and selection rings are 100% enclosed inside the hull boundary.
    */
-  drawHulls(ctx, clusters, globalOpacity = 0.07, padding = 18) {
+  drawHulls(ctx, clusters, selectedNodeId = null, globalOpacity = 0.035, padding = 18) {
     clusters.forEach((cluster) => {
-      const nodes = cluster.nodes.filter((n2) => n2.x !== void 0 && n2.y !== void 0);
+      const nodes = cluster.nodes.filter(
+        (n2) => n2.x !== void 0 && n2.y !== void 0 && !n2.isHidden
+      );
       if (nodes.length === 0)
         return;
-      const fillColor = tinycolor(cluster.color).setAlpha(globalOpacity).toRgbString();
-      const strokeColor = tinycolor(cluster.color).setAlpha(globalOpacity * 2.5).toRgbString();
+      const containsSelected = selectedNodeId ? nodes.some((n2) => n2.id === selectedNodeId) : false;
+      const fillOpacity = containsSelected ? 0.05 : globalOpacity;
+      const strokeOpacity = containsSelected ? 0.18 : Math.min(globalOpacity * 3.7, 0.13);
+      const fillColor = tinycolor(cluster.color).setAlpha(fillOpacity).toRgbString();
+      const strokeColor = tinycolor(cluster.color).setAlpha(strokeOpacity).toRgbString();
       ctx.save();
       ctx.fillStyle = fillColor;
       ctx.strokeStyle = strokeColor;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 1.2;
+      const expansionPadding = 22;
       if (nodes.length === 1) {
         const n2 = nodes[0];
+        const radius = Math.max((n2.size || 4.5) + expansionPadding, 22);
         ctx.beginPath();
-        ctx.arc(n2.x, n2.y, 22, 0, 2 * Math.PI);
+        ctx.arc(n2.x, n2.y, radius, 0, 2 * Math.PI, false);
+        ctx.closePath();
         ctx.fill();
         ctx.stroke();
       } else if (nodes.length === 2) {
@@ -17211,8 +17265,7 @@ var HullRenderer = class {
         const dx = n2.x - n1.x;
         const dy = n2.y - n1.y;
         const angle = Math.atan2(dy, dx);
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const radius = 18;
+        const radius = Math.max(Math.max(n1.size || 4.5, n2.size || 4.5) + 14, 20);
         ctx.beginPath();
         ctx.arc(n1.x, n1.y, radius, angle + Math.PI / 2, angle - Math.PI / 2);
         ctx.arc(n2.x, n2.y, radius, angle - Math.PI / 2, angle + Math.PI / 2);
@@ -17229,16 +17282,18 @@ var HullRenderer = class {
             const dy = y5 - centroid[1];
             const dist = Math.sqrt(dx * dx + dy * dy) || 1;
             return [
-              x5 + dx / dist * padding,
-              y5 + dy / dist * padding
+              x5 + dx / dist * expansionPadding,
+              y5 + dy / dist * expansionPadding
             ];
           });
-          ctx.beginPath();
+          const len = expandedPoints.length;
+          const last = expandedPoints[len - 1];
           const first = expandedPoints[0];
-          ctx.moveTo(first[0], first[1]);
-          for (let i2 = 0; i2 < expandedPoints.length; i2++) {
+          ctx.beginPath();
+          ctx.moveTo((last[0] + first[0]) / 2, (last[1] + first[1]) / 2);
+          for (let i2 = 0; i2 < len; i2++) {
             const p1 = expandedPoints[i2];
-            const p2 = expandedPoints[(i2 + 1) % expandedPoints.length];
+            const p2 = expandedPoints[(i2 + 1) % len];
             const midX = (p1[0] + p2[0]) / 2;
             const midY = (p1[1] + p2[1]) / 2;
             ctx.quadraticCurveTo(p1[0], p1[1], midX, midY);
@@ -17262,9 +17317,40 @@ var HullRenderer = class {
   }
 };
 
+// src/views/contextMenu.ts
+var import_obsidian = require("obsidian");
+function showNodeContextMenu(event, node, app, callbacks) {
+  event.preventDefault();
+  const menu = new import_obsidian.Menu();
+  menu.addItem((item) => {
+    item.setTitle("Open note").setIcon("document").onClick(() => callbacks.onOpenNote(node, false));
+  });
+  menu.addItem((item) => {
+    item.setTitle("Open in new tab").setIcon("file-plus").onClick(() => callbacks.onOpenNote(node, true));
+  });
+  menu.addSeparator();
+  menu.addItem((item) => {
+    item.setTitle("Set as center").setIcon("crosshair").onClick(() => callbacks.onSetCenter(node));
+  });
+  menu.addItem((item) => {
+    item.setTitle(node.isPinned ? "Unpin node" : "Pin node").setIcon(node.isPinned ? "pin-off" : "pin").onClick(() => callbacks.onTogglePin(node));
+  });
+  menu.addItem((item) => {
+    item.setTitle("Hide node").setIcon("eye-off").onClick(() => callbacks.onHideNode(node));
+  });
+  menu.addSeparator();
+  menu.addItem((item) => {
+    item.setTitle("Copy Obsidian link").setIcon("link").onClick(() => {
+      const link = `[[${node.title}]]`;
+      navigator.clipboard.writeText(link);
+    });
+  });
+  menu.showAtPosition({ x: event.clientX, y: event.clientY });
+}
+
 // src/views/smartGraphView.ts
 var SMART_GRAPH_VIEW_TYPE = "smart-graph-explorer-view";
-var SmartGraphView = class extends import_obsidian.ItemView {
+var SmartGraphView = class extends import_obsidian2.ItemView {
   plugin;
   bridge;
   dataEngine;
@@ -17273,8 +17359,13 @@ var SmartGraphView = class extends import_obsidian.ItemView {
   container = null;
   canvasWrapper = null;
   graphInstance = null;
+  resizeObserver = null;
+  // Interaction State
   hoverNode = null;
-  hasInitialFit = false;
+  selectedNode = null;
+  focusFile = null;
+  pinnedNodes = /* @__PURE__ */ new Set();
+  hiddenNodes = /* @__PURE__ */ new Set();
   currentNodes = [];
   currentEdges = [];
   currentClusters = /* @__PURE__ */ new Map();
@@ -17300,139 +17391,473 @@ var SmartGraphView = class extends import_obsidian.ItemView {
     container.empty();
     container.addClass("smart-graph-view-container");
     this.container = container;
-    const toolbar = container.createDiv({ cls: "smart-graph-header-toolbar" });
-    toolbar.createDiv({ cls: "smart-graph-title", text: "Smart Graph Explorer" });
-    const scAvailable = this.bridge.isSmartConnectionsAvailable();
-    const badge = toolbar.createDiv({
-      cls: "smart-graph-badge",
-      text: scAvailable ? "Smart Connections Linked" : "Standalone Mode"
-    });
-    if (!scAvailable) {
-      badge.style.background = "#e74c3c22";
-      badge.style.color = "#e74c3c";
-      badge.style.borderColor = "#e74c3c44";
-    }
+    this.buildHeaderToolbar(container);
     this.canvasWrapper = container.createDiv({ cls: "smart-graph-canvas-wrapper" });
+    this.resizeObserver = new ResizeObserver(() => {
+      this.syncDimensions();
+    });
+    this.resizeObserver.observe(this.canvasWrapper);
+    this.registerEvent(
+      this.app.workspace.on("layout-change", () => {
+        this.handleVisibilityRestore();
+      })
+    );
+    this.registerEvent(
+      this.app.workspace.on("active-leaf-change", (leaf) => {
+        if (leaf === this.leaf) {
+          this.handleVisibilityRestore();
+        } else {
+          this.syncActiveFileSelection();
+        }
+      })
+    );
+    window.addEventListener("visibilitychange", this.handleWindowVisibility);
     this.initGraph();
     await this.refreshGraph();
+  }
+  onResize() {
+    super.onResize();
+    this.handleVisibilityRestore();
+  }
+  handleWindowVisibility = () => {
+    if (document.visibilityState === "visible") {
+      this.handleVisibilityRestore();
+    }
+  };
+  handleVisibilityRestore() {
+    if (!this.canvasWrapper || !this.graphInstance)
+      return;
+    const width = this.canvasWrapper.clientWidth;
+    const height = this.canvasWrapper.clientHeight;
+    if (width > 50 && height > 50) {
+      this.graphInstance.width(width).height(height);
+      if (typeof this.graphInstance.resumeAnimation === "function") {
+        this.graphInstance.resumeAnimation();
+      }
+      if (typeof this.graphInstance.d3ReheatSimulation === "function") {
+        this.graphInstance.d3ReheatSimulation();
+      }
+      this.applyUserZoomAndCentering();
+    }
+  }
+  syncDimensions() {
+    if (this.canvasWrapper && this.graphInstance) {
+      const width = this.canvasWrapper.clientWidth;
+      const height = this.canvasWrapper.clientHeight;
+      if (width > 50 && height > 50) {
+        this.graphInstance.width(width).height(height);
+      }
+    }
+  }
+  syncActiveFileSelection() {
+    const activeFile = this.app.workspace.getActiveFile();
+    if (activeFile) {
+      const matchedNode = this.currentNodes.find((n2) => n2.path === activeFile.path);
+      if (matchedNode) {
+        this.selectedNode = matchedNode;
+      }
+    }
+  }
+  setZoomLevel(zoom2) {
+    if (this.graphInstance) {
+      this.graphInstance.zoom(zoom2, 150);
+    }
+  }
+  applyUserZoomAndCentering() {
+    if (!this.graphInstance)
+      return;
+    const activeNodes = this.currentNodes.filter((n2) => !n2.isHidden);
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    activeNodes.forEach((n2) => {
+      if (n2.x !== void 0 && n2.y !== void 0) {
+        if (n2.x < minX)
+          minX = n2.x;
+        if (n2.x > maxX)
+          maxX = n2.x;
+        if (n2.y < minY)
+          minY = n2.y;
+        if (n2.y > maxY)
+          maxY = n2.y;
+      }
+    });
+    const userZoom = this.plugin.settings.defaultZoomLevel || 3.5;
+    if (minX !== Infinity && maxX !== -Infinity) {
+      const midX = (minX + maxX) / 2;
+      const midY = (minY + maxY) / 2;
+      this.graphInstance.centerAt(midX, midY, 150);
+      this.graphInstance.zoom(userZoom, 150);
+    } else {
+      this.graphInstance.centerAt(0, 0, 150);
+      this.graphInstance.zoom(userZoom, 150);
+    }
+  }
+  buildHeaderToolbar(container) {
+    const toolbar = container.createDiv({ cls: "smart-graph-header-toolbar" });
+    const titleGroup = toolbar.createDiv({ cls: "smart-graph-title-group" });
+    titleGroup.createDiv({ cls: "smart-graph-title", text: "Smart Graph Explorer" });
+    const refreshBtn = toolbar.createDiv({ cls: "smart-graph-refresh-button" });
+    (0, import_obsidian2.setIcon)(refreshBtn, "refresh-cw");
+    refreshBtn.setAttribute("aria-label", "Refresh graph");
+    refreshBtn.addEventListener("click", () => this.refreshGraph());
+    if (!this.bridge.isSmartConnectionsAvailable()) {
+      const banner = container.createDiv({
+        cls: "smart-graph-notice-banner",
+        text: "Smart Connections unavailable"
+      });
+      banner.style.position = "absolute";
+      banner.style.top = "50px";
+      banner.style.left = "12px";
+      banner.style.zIndex = "25";
+    }
   }
   initGraph() {
     if (!this.canvasWrapper)
       return;
-    const width = this.canvasWrapper.clientWidth || 800;
-    const height = this.canvasWrapper.clientHeight || 600;
-    this.graphInstance = forceGraph()(this.canvasWrapper).backgroundColor("#0f1115").nodeId("id").nodeVal((node) => node.size || 4).nodeColor((node) => node.color || "#ffffff").linkSource("source").linkTarget("target").linkWidth(0.8).linkColor(() => "rgba(170, 176, 190, 0.18)").onNodeHover((node) => {
+    this.graphInstance = forceGraph()(this.canvasWrapper).backgroundColor("#0f1115").nodeId("id").nodeVal((node) => node.size || 4.5).nodeColor((node) => node.clusterColor || node.color || "#55B476").linkSource("source").linkTarget("target").onNodeHover((node) => {
       this.hoverNode = node || null;
+    }).onEngineStop(() => {
+      this.applyUserZoomAndCentering();
+    }).enablePanInteraction(true).enableZoomInteraction(false).linkCanvasObject((link, ctx) => {
+      const sId = typeof link.source === "object" ? link.source.id : link.source;
+      const tId = typeof link.target === "object" ? link.target.id : link.target;
+      const sNode = typeof link.source === "object" ? link.source : this.currentNodes.find((n2) => n2.id === sId);
+      const tNode = typeof link.target === "object" ? link.target : this.currentNodes.find((n2) => n2.id === tId);
+      if (!sNode || !tNode || sNode.isHidden || tNode.isHidden)
+        return;
+      if (sNode.clusterId === tNode.clusterId)
+        return;
+      const x1 = sNode.x || 0;
+      const y1 = sNode.y || 0;
+      const x22 = tNode.x || 0;
+      const y22 = tNode.y || 0;
+      const dx = x22 - x1;
+      const dy = y22 - y1;
+      const len = Math.sqrt(dx * dx + dy * dy) || 1;
+      const ux = dx / len;
+      const uy = dy / len;
+      let maxDeflection = 0;
+      let deflectionSign = 1;
+      this.currentClusters.forEach((cluster) => {
+        if (cluster.id === sNode.clusterId || cluster.id === tNode.clusterId)
+          return;
+        let cx = 0, cy = 0;
+        const activeClusterNodes = cluster.nodes.filter((n2) => !n2.isHidden);
+        if (activeClusterNodes.length === 0)
+          return;
+        activeClusterNodes.forEach((n2) => {
+          cx += n2.x || 0;
+          cy += n2.y || 0;
+        });
+        cx /= activeClusterNodes.length;
+        cy /= activeClusterNodes.length;
+        const proj = (cx - x1) * ux + (cy - y1) * uy;
+        if (proj > 15 && proj < len - 15) {
+          const perpDist = Math.abs((x22 - x1) * (y1 - cy) - (x1 - cx) * (y22 - y1)) / len;
+          const clearance = 65;
+          if (perpDist < clearance) {
+            const shift = clearance - perpDist + 20;
+            if (shift > maxDeflection) {
+              maxDeflection = shift;
+              const side = (x22 - x1) * (cy - y1) - (y22 - y1) * (cx - x1);
+              deflectionSign = side > 0 ? -1 : 1;
+            }
+          }
+        }
+      });
+      const isHovered = this.hoverNode && (sNode.id === this.hoverNode.id || tNode.id === this.hoverNode.id);
+      ctx.save();
+      ctx.lineWidth = isHovered ? 1.8 : 1.2;
+      ctx.strokeStyle = isHovered ? "rgba(235, 238, 244, 0.65)" : "rgba(205, 210, 220, 0.16)";
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      if (maxDeflection > 0) {
+        const midX = (x1 + x22) / 2;
+        const midY = (y1 + y22) / 2;
+        const nx = -uy * deflectionSign;
+        const ny = ux * deflectionSign;
+        const ctrlX = midX + nx * maxDeflection;
+        const ctrlY = midY + ny * maxDeflection;
+        ctx.quadraticCurveTo(ctrlX, ctrlY, x22, y22);
+      } else {
+        ctx.lineTo(x22, y22);
+      }
+      ctx.stroke();
+      ctx.restore();
     }).onRenderFramePre((ctx) => {
       if (this.currentClusters.size > 0) {
         this.hullRenderer.drawHulls(
           ctx,
           this.currentClusters,
+          this.selectedNode?.id || null,
           this.plugin.settings.hullOpacity,
-          this.plugin.settings.hullPadding
+          18
         );
       }
     }).nodeCanvasObject((node, ctx, globalScale) => {
+      if (node.isHidden)
+        return;
       const x5 = node.x || 0;
       const y5 = node.y || 0;
-      const radius = node.size || 4;
-      if (node.isFocus) {
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(x5, y5, 14, 0, 2 * Math.PI, false);
-        ctx.fillStyle = "rgba(88, 183, 123, 0.18)";
-        ctx.fill();
-        ctx.strokeStyle = "rgba(88, 183, 123, 0.4)";
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        ctx.restore();
+      let radius = node.size || 4.5;
+      if (this.hoverNode && this.hoverNode.id === node.id) {
+        radius *= 1.1;
       }
-      ctx.beginPath();
-      ctx.arc(x5, y5, radius, 0, 2 * Math.PI, false);
-      ctx.fillStyle = node.color || "#ffffff";
-      ctx.fill();
-      const showLabel = node.isFocus || node.isRepresentative || this.hoverNode && this.hoverNode.id === node.id;
-      if (showLabel) {
-        const label = node.title;
-        const fontSize = Math.max(9 / globalScale, 2.5);
-        ctx.font = `${fontSize}px Sans-Serif`;
-        const textWidth = ctx.measureText(label).width;
-        const bckgDimensions = [textWidth + 6, fontSize + 4];
-        ctx.fillStyle = "rgba(10, 11, 13, 0.88)";
-        ctx.fillRect(
-          x5 - bckgDimensions[0] / 2,
-          y5 + radius + 3,
-          bckgDimensions[0],
-          bckgDimensions[1]
-        );
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillStyle = "rgba(245, 246, 248, 0.95)";
-        ctx.fillText(label, x5, y5 + radius + 3 + bckgDimensions[1] / 2);
-      }
-    }).onNodeClick((node) => {
-      if (node && node.path) {
-        const file = this.app.vault.getAbstractFileByPath(node.path);
-        if (file instanceof import_obsidian.TFile) {
-          this.app.workspace.getLeaf().openFile(file);
+      let opacity = 1;
+      if (this.hoverNode && this.hoverNode.id !== node.id) {
+        const isConnected = this.currentEdges.some((e2) => {
+          const sId = typeof e2.source === "object" ? e2.source.id : e2.source;
+          const tId = typeof e2.target === "object" ? e2.target.id : e2.target;
+          return sId === this.hoverNode.id && tId === node.id || tId === this.hoverNode.id && sId === node.id;
+        });
+        if (!isConnected) {
+          opacity = 0.18;
         }
       }
-    }).onEngineStop(() => {
-      if (!this.hasInitialFit && this.graphInstance) {
-        this.hasInitialFit = true;
-        this.graphInstance.zoomToFit(500, 70);
+      ctx.save();
+      ctx.globalAlpha = opacity;
+      ctx.beginPath();
+      ctx.arc(x5, y5, radius, 0, 2 * Math.PI, false);
+      ctx.fillStyle = node.clusterColor || node.color || "#55B476";
+      ctx.fill();
+      if (this.selectedNode && this.selectedNode.id === node.id) {
+        ctx.beginPath();
+        ctx.arc(x5, y5, radius + 1.2, 0, 2 * Math.PI, false);
+        ctx.strokeStyle = "rgba(245, 247, 250, 0.95)";
+        ctx.lineWidth = 1.4;
+        ctx.stroke();
+      }
+      const isSelected = this.selectedNode && this.selectedNode.id === node.id;
+      const isHovered = this.hoverNode && this.hoverNode.id === node.id;
+      const showCenterBadge = node.isFocus || node.isRepresentative;
+      const showHoverLabel = (isSelected || isHovered) && !showCenterBadge;
+      if (showCenterBadge) {
+        this.drawCenterBadgeLabel(ctx, node, x5, y5, radius, globalScale);
+      } else if (showHoverLabel) {
+        this.drawFormattedLabel(ctx, node, x5, y5, radius, globalScale);
+      }
+      ctx.restore();
+    }).onNodeClick((node, event) => {
+      this.selectedNode = node;
+    }).onNodeRightClick((node, event) => {
+      if (node) {
+        showNodeContextMenu(event, node, this.app, {
+          onOpenNote: (n2, tab) => this.openNodeFile(n2, tab),
+          onSetCenter: (n2) => this.setNodeAsFocus(n2),
+          onTogglePin: (n2) => this.togglePinNode(n2),
+          onHideNode: (n2) => this.hideNode(n2)
+        });
       }
     });
-    this.graphInstance.d3Force("center", null);
+    const canvas = this.canvasWrapper.querySelector("canvas");
+    if (canvas) {
+      const preventMiddleClick = (e2) => {
+        if (e2.button === 1) {
+          e2.preventDefault();
+          e2.stopPropagation();
+        }
+      };
+      canvas.addEventListener("pointerdown", preventMiddleClick, true);
+      canvas.addEventListener("mousedown", preventMiddleClick, true);
+      canvas.addEventListener("auxclick", preventMiddleClick, true);
+      canvas.addEventListener(
+        "wheel",
+        (e2) => {
+          e2.preventDefault();
+          e2.stopPropagation();
+          const currentZoom = this.graphInstance.zoom();
+          const zoomFactor = e2.deltaY < 0 ? 1.12 : 0.88;
+          const targetZoom = Math.max(0.3, Math.min(6, currentZoom * zoomFactor));
+          this.graphInstance.zoom(targetZoom, 80);
+        },
+        { passive: false }
+      );
+      canvas.addEventListener("dblclick", () => {
+        if (this.hoverNode) {
+          this.openNodeFile(this.hoverNode);
+        }
+      });
+    }
   }
-  applyClusterForces(width, height) {
+  /**
+   * P2 Style: Badge centered directly below representative node (labelY = y + radius + 5)
+   */
+  drawCenterBadgeLabel(ctx, node, x5, y5, radius, globalScale) {
+    const fontSize = Math.max(8.5 / globalScale, 2.8);
+    ctx.font = `600 ${fontSize}px Sans-Serif`;
+    const text = node.title;
+    const textWidth = ctx.measureText(text).width;
+    const padX = 3.5 / globalScale;
+    const padY = 1.5 / globalScale;
+    const bgWidth = textWidth + padX * 2;
+    const bgHeight = fontSize + padY * 2;
+    const labelY = y5 + radius + padY + 3 / globalScale;
+    const rectX = x5 - bgWidth / 2;
+    const rectY = labelY;
+    ctx.fillStyle = "rgba(8, 9, 11, 0.94)";
+    ctx.fillRect(rectX, rectY, bgWidth, bgHeight);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+    ctx.lineWidth = 0.8 / globalScale;
+    ctx.strokeRect(rectX, rectY, bgWidth, bgHeight);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "rgba(245, 246, 248, 0.98)";
+    ctx.fillText(text, x5, labelY + bgHeight / 2);
+  }
+  drawFormattedLabel(ctx, node, x5, y5, radius, globalScale) {
+    const fontSize = Math.max(8.5 / globalScale, 2.5);
+    ctx.font = `500 ${fontSize}px Sans-Serif`;
+    const rawTitle = node.title;
+    const textWidth = ctx.measureText(rawTitle).width;
+    const padX = 3.5 / globalScale;
+    const padY = 1.5 / globalScale;
+    const bgWidth = textWidth + padX * 2;
+    const bgHeight = fontSize + padY * 2;
+    const labelY = y5 + radius + padY + 3 / globalScale;
+    ctx.fillStyle = "rgba(8, 9, 11, 0.90)";
+    ctx.fillRect(x5 - bgWidth / 2, labelY, bgWidth, bgHeight);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "rgba(245, 246, 248, 0.96)";
+    ctx.fillText(rawTitle, x5, labelY + bgHeight / 2);
+  }
+  openNodeFile(node, newTab = false) {
+    if (node && node.path) {
+      const file = this.app.vault.getAbstractFileByPath(node.path);
+      if (file instanceof import_obsidian2.TFile) {
+        const leaf = newTab ? this.app.workspace.getLeaf("tab") : this.app.workspace.getLeaf();
+        leaf.openFile(file);
+      }
+    }
+  }
+  setNodeAsFocus(node) {
+    const file = this.app.vault.getAbstractFileByPath(node.path);
+    if (file instanceof import_obsidian2.TFile) {
+      this.refreshGraph();
+    }
+  }
+  togglePinNode(node) {
+    if (node.isPinned) {
+      node.isPinned = false;
+      node.fx = null;
+      node.fy = null;
+      this.pinnedNodes.delete(node.id);
+    } else {
+      node.isPinned = true;
+      node.fx = node.x;
+      node.fy = node.y;
+      this.pinnedNodes.add(node.id);
+    }
+  }
+  hideNode(node) {
+    node.isHidden = true;
+    this.hiddenNodes.add(node.id);
+    if (this.selectedNode?.id === node.id) {
+      this.selectedNode = null;
+    }
+    if (this.graphInstance) {
+      this.graphInstance.graphData({
+        nodes: this.currentNodes.filter((n2) => !n2.isHidden),
+        links: this.currentEdges
+      });
+    }
+  }
+  /**
+   * Filter edges to display ONLY the strongest bridge per cluster pair (max 2 bridges per cluster).
+   * Completely excludes internal edges from visual rendering.
+   */
+  buildVisibleEdges(edges, nodes) {
+    const nodeClusterMap = /* @__PURE__ */ new Map();
+    nodes.forEach((n2) => nodeClusterMap.set(n2.id, n2.clusterId));
+    const strongestByClusterPair = /* @__PURE__ */ new Map();
+    for (const edge of edges) {
+      const sId = typeof edge.source === "object" ? edge.source.id : edge.source;
+      const tId = typeof edge.target === "object" ? edge.target.id : edge.target;
+      const sourceCluster = nodeClusterMap.get(sId);
+      const targetCluster = nodeClusterMap.get(tId);
+      if (!sourceCluster || !targetCluster)
+        continue;
+      if (sourceCluster === targetCluster)
+        continue;
+      const pairKey = [sourceCluster, targetCluster].sort().join("::");
+      const existing = strongestByClusterPair.get(pairKey);
+      if (!existing || (edge.weight || 0) > (existing.weight || 0)) {
+        strongestByClusterPair.set(pairKey, edge);
+      }
+    }
+    const bridges = Array.from(strongestByClusterPair.values());
+    bridges.sort((a3, b2) => (b2.weight || 0) - (a3.weight || 0));
+    const clusterDegreeMap = /* @__PURE__ */ new Map();
+    const filteredBridges = [];
+    for (const bridge of bridges) {
+      const sId = typeof bridge.source === "object" ? bridge.source.id : bridge.source;
+      const tId = typeof bridge.target === "object" ? bridge.target.id : bridge.target;
+      const sCluster = nodeClusterMap.get(sId);
+      const tCluster = nodeClusterMap.get(tId);
+      const degS = clusterDegreeMap.get(sCluster) || 0;
+      const degT = clusterDegreeMap.get(tCluster) || 0;
+      if (degS < 2 && degT < 2) {
+        clusterDegreeMap.set(sCluster, degS + 1);
+        clusterDegreeMap.set(tCluster, degT + 1);
+        bridge.isPrimaryCrossCluster = true;
+        filteredBridges.push(bridge);
+      }
+    }
+    return filteredBridges;
+  }
+  applyClusterForces() {
     if (!this.graphInstance || this.currentClusters.size === 0)
       return;
     const clusterIds = Array.from(this.currentClusters.keys());
     const anchors = /* @__PURE__ */ new Map();
-    const centerX = width / 2;
-    const centerY = height / 2;
-    const radiusX = width * 0.32;
-    const radiusY = height * 0.32;
+    const centerX = 0;
+    const centerY = 0;
+    const radius = 150;
     let focusClusterId = clusterIds[0];
     this.currentClusters.forEach((c3, id2) => {
       if (c3.nodes.some((n2) => n2.isFocus))
         focusClusterId = id2;
     });
     anchors.set(focusClusterId, { x: centerX, y: centerY });
+    const focusNode = this.currentNodes.find((n2) => n2.isFocus);
+    if (focusNode) {
+      focusNode.fx = 0;
+      focusNode.fy = 0;
+    }
     const remainingClusters = clusterIds.filter((id2) => id2 !== focusClusterId);
     remainingClusters.forEach((clusterId, index7) => {
       const angle = index7 / remainingClusters.length * Math.PI * 2 - Math.PI / 2;
       anchors.set(clusterId, {
-        x: centerX + Math.cos(angle) * radiusX,
-        y: centerY + Math.sin(angle) * radiusY
+        x: centerX + Math.cos(angle) * radius,
+        y: centerY + Math.sin(angle) * radius
       });
     });
     this.graphInstance.d3Force(
       "clusterX",
-      x_default4((node) => anchors.get(node.clusterId)?.x ?? centerX).strength(0.12)
+      x_default4((node) => anchors.get(node.clusterId)?.x ?? 0).strength(0.28)
     );
     this.graphInstance.d3Force(
       "clusterY",
-      y_default3((node) => anchors.get(node.clusterId)?.y ?? centerY).strength(0.12)
+      y_default3((node) => anchors.get(node.clusterId)?.y ?? 0).strength(0.28)
     );
+    this.graphInstance.d3Force("centerGravityX", x_default4(0).strength(0.14));
+    this.graphInstance.d3Force("centerGravityY", y_default3(0).strength(0.14));
     this.graphInstance.d3Force(
       "charge",
-      manyBody_default2().strength((node) => node.isRepresentative || node.isFocus ? -90 : -30)
+      manyBody_default2().strength((node) => node.isRepresentative || node.isFocus ? -70 : -30)
     );
     this.graphInstance.d3Force(
       "collision",
-      collide_default().radius((node) => node.isRepresentative || node.isFocus ? 18 : 9).strength(0.8)
+      collide_default().radius((node) => node.isRepresentative || node.isFocus ? 18 : 10).strength(0.85)
     );
     this.graphInstance.d3Force(
       "link",
-      link_default2().distance((edge) => {
-        if (edge.type === "cluster-link")
-          return 180;
-        if (edge.type === "wiki-link")
-          return 70;
-        return 45;
-      }).strength((edge) => edge.type === "cluster-link" ? 0.05 : 0.25)
+      link_default2().distance((edge) => edge.type === "semantic" ? 100 : 45).strength((edge) => {
+        const s2 = typeof edge.source === "object" ? edge.source : this.currentNodes.find((n2) => n2.id === edge.source);
+        const t3 = typeof edge.target === "object" ? edge.target : this.currentNodes.find((n2) => n2.id === edge.target);
+        if (s2 && t3 && s2.clusterId === t3.clusterId)
+          return 0.35;
+        return 0.06;
+      })
     );
   }
   async refreshGraph() {
@@ -17447,22 +17872,47 @@ var SmartGraphView = class extends import_obsidian.ItemView {
       this.plugin.settings.clusterColors,
       this.plugin.settings.minimumClusterSize
     );
-    this.currentNodes = clusteredNodes;
-    this.currentEdges = edges;
+    const primaryNodes = clusteredNodes.filter((n2) => !n2.isOrphan);
+    const visibleEdges = this.buildVisibleEdges(edges, primaryNodes);
+    if (activeFile) {
+      const activeNode = primaryNodes.find((n2) => n2.path === activeFile.path);
+      if (activeNode) {
+        this.selectedNode = activeNode;
+      }
+    }
+    primaryNodes.forEach((node) => {
+      if (this.pinnedNodes.has(node.id)) {
+        node.isPinned = true;
+      }
+      if (this.hiddenNodes.has(node.id)) {
+        node.isHidden = true;
+      }
+    });
+    this.currentNodes = primaryNodes;
+    this.currentEdges = visibleEdges;
     this.currentClusters = clusters;
-    this.hasInitialFit = false;
-    if (this.graphInstance && this.canvasWrapper) {
-      const width = this.canvasWrapper.clientWidth || 800;
-      const height = this.canvasWrapper.clientHeight || 600;
+    if (this.graphInstance) {
+      this.syncDimensions();
       this.graphInstance.graphData({
-        nodes: this.currentNodes,
+        nodes: this.currentNodes.filter((n2) => !n2.isHidden),
         links: this.currentEdges
       });
-      this.applyClusterForces(width, height);
+      this.applyClusterForces();
       this.graphInstance.numDimensions(2);
+      setTimeout(() => {
+        this.applyUserZoomAndCentering();
+      }, 250);
+      setTimeout(() => {
+        this.applyUserZoomAndCentering();
+      }, 600);
     }
   }
   async onClose() {
+    window.removeEventListener("visibilitychange", this.handleWindowVisibility);
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
     if (this.graphInstance) {
       this.graphInstance._destructor?.();
       this.graphInstance = null;
@@ -17471,51 +17921,8 @@ var SmartGraphView = class extends import_obsidian.ItemView {
 };
 
 // src/settings/settingsTab.ts
-var import_obsidian2 = require("obsidian");
-
-// src/license/licenseManager.ts
-var LicenseManager = class {
-  settings;
-  constructor(settings) {
-    this.settings = settings;
-  }
-  /**
-   * Validate license key.
-   * Interface is prepared for remote server validation (LemonSqueezy / Gumroad API).
-   */
-  async validateLicenseKey(key) {
-    const trimmedKey = key.trim();
-    if (!trimmedKey) {
-      return {
-        isValid: false,
-        licenseKey: "",
-        planName: "Free / Unregistered",
-        errorMessage: "No license key entered."
-      };
-    }
-    if (trimmedKey.startsWith("SG-PRO-") || trimmedKey.length >= 12) {
-      this.settings.isLicensed = true;
-      this.settings.licenseKey = trimmedKey;
-      return {
-        isValid: true,
-        licenseKey: trimmedKey,
-        planName: "Smart Graph Pro (Commercial)"
-      };
-    }
-    return {
-      isValid: false,
-      licenseKey: trimmedKey,
-      planName: "Invalid Key",
-      errorMessage: "Invalid license key format."
-    };
-  }
-  isProEnabled() {
-    return this.settings.isLicensed || this.settings.licenseKey.length > 0;
-  }
-};
-
-// src/settings/settingsTab.ts
-var SmartGraphSettingsTab = class extends import_obsidian2.PluginSettingTab {
+var import_obsidian3 = require("obsidian");
+var SmartGraphSettingsTab = class extends import_obsidian3.PluginSettingTab {
   plugin;
   constructor(app, plugin) {
     super(app, plugin);
@@ -17525,58 +17932,45 @@ var SmartGraphSettingsTab = class extends import_obsidian2.PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
     containerEl.createEl("h2", { text: "Smart Graph Explorer Settings" });
-    new import_obsidian2.Setting(containerEl).setName("Semantic Similarity Threshold").setDesc("Minimum similarity score (0.50 to 0.95) for connecting notes.").addSlider(
-      (slider) => slider.setLimits(0.5, 0.95, 0.05).setValue(this.plugin.settings.similarityThreshold).setDynamicTooltip().onChange(async (val) => {
-        this.plugin.settings.similarityThreshold = val;
+    new import_obsidian3.Setting(containerEl).setName("Default Initial Zoom Scale").setDesc("Manually set default initial camera zoom level (1.0x to 6.0x).").addSlider(
+      (slider) => slider.setLimits(1, 6, 0.2).setValue(this.plugin.settings.defaultZoomLevel || 3.5).setDynamicTooltip().onChange(async (val) => {
+        this.plugin.settings.defaultZoomLevel = val;
+        await this.plugin.saveSettings();
+        this.plugin.updateZoomOnly(val);
+      })
+    );
+    new import_obsidian3.Setting(containerEl).setName("Follow Active Note").setDesc("Automatically update active note selection in graph when switching Obsidian tabs.").addToggle(
+      (toggle) => toggle.setValue(this.plugin.settings.followActiveNote).onChange(async (val) => {
+        this.plugin.settings.followActiveNote = val;
+        await this.plugin.saveSettings();
+      })
+    );
+    new import_obsidian3.Setting(containerEl).setName("Focus Similarity Threshold").setDesc("Minimum vector similarity score (0.30 to 0.85) for semantic relationship discovery.").addSlider(
+      (slider) => slider.setLimits(0.3, 0.85, 0.05).setValue(this.plugin.settings.focusSimilarityThreshold).setDynamicTooltip().onChange(async (val) => {
+        this.plugin.settings.focusSimilarityThreshold = val;
         await this.plugin.saveSettings();
         this.plugin.refreshView();
       })
     );
-    new import_obsidian2.Setting(containerEl).setName("Max Graph Nodes Limit").setDesc("Maximum number of nodes rendered to maintain high FPS performance.").addSlider(
-      (slider) => slider.setLimits(30, 500, 10).setValue(this.plugin.settings.maxNodesLimit).setDynamicTooltip().onChange(async (val) => {
-        this.plugin.settings.maxNodesLimit = val;
+    new import_obsidian3.Setting(containerEl).setName("Cluster Polygon Hull Opacity").setDesc("Fill opacity for semi-transparent cluster hulls (0.01 to 0.20).").addSlider(
+      (slider) => slider.setLimits(0.01, 0.2, 0.01).setValue(this.plugin.settings.hullOpacity).setDynamicTooltip().onChange(async (val) => {
+        this.plugin.settings.hullOpacity = val;
         await this.plugin.saveSettings();
         this.plugin.refreshView();
       })
     );
-    new import_obsidian2.Setting(containerEl).setName("Cluster Polygon Hull Opacity").setDesc("Background opacity of semi-transparent cluster convex hulls.").addSlider(
-      (slider) => slider.setLimits(0.05, 0.5, 0.05).setValue(this.plugin.settings.clusterHullsOpacity).setDynamicTooltip().onChange(async (val) => {
-        this.plugin.settings.clusterHullsOpacity = val;
+    new import_obsidian3.Setting(containerEl).setName("Default Graph Mode").setDesc("Primary mode used for relationship discovery.").addDropdown(
+      (dropdown) => dropdown.addOption("neighborhood", "Neighborhood (Semantic + Links + Tags)").addOption("semantic", "Semantic Only (Vector Similarity)").addOption("links", "Links Only (WikiLinks & Backlinks)").setValue(this.plugin.settings.graphMode).onChange(async (val) => {
+        this.plugin.settings.graphMode = val;
         await this.plugin.saveSettings();
         this.plugin.refreshView();
-      })
-    );
-    new import_obsidian2.Setting(containerEl).setName("Show Semantic Similarity Links").setDesc("Draw solid edges for semantically similar notes calculated by Smart Connections.").addToggle(
-      (toggle) => toggle.setValue(this.plugin.settings.showSemanticLinks).onChange(async (val) => {
-        this.plugin.settings.showSemanticLinks = val;
-        await this.plugin.saveSettings();
-        this.plugin.refreshView();
-      })
-    );
-    new import_obsidian2.Setting(containerEl).setName("Show Obsidian Wiki Links").setDesc("Draw dashed edges for explicit [[Wiki Links]].").addToggle(
-      (toggle) => toggle.setValue(this.plugin.settings.showWikiLinks).onChange(async (val) => {
-        this.plugin.settings.showWikiLinks = val;
-        await this.plugin.saveSettings();
-        this.plugin.refreshView();
-      })
-    );
-    containerEl.createEl("h3", { text: "License & Monetization" });
-    const licenseManager = new LicenseManager(this.plugin.settings);
-    new import_obsidian2.Setting(containerEl).setName("Pro License Key").setDesc("Enter your commercial license key to unlock advanced cluster filters and export features.").addText(
-      (text) => text.setPlaceholder("SG-PRO-XXXX-XXXX-XXXX").setValue(this.plugin.settings.licenseKey).onChange(async (val) => {
-        const res = await licenseManager.validateLicenseKey(val);
-        if (res.isValid) {
-          this.plugin.settings.licenseKey = val;
-          this.plugin.settings.isLicensed = true;
-        }
-        await this.plugin.saveSettings();
       })
     );
   }
 };
 
 // src/main.ts
-var SmartGraphPlugin = class extends import_obsidian3.Plugin {
+var SmartGraphPlugin = class extends import_obsidian4.Plugin {
   settings = DEFAULT_SETTINGS;
   async onload() {
     await this.loadSettings();
@@ -17597,9 +17991,14 @@ var SmartGraphPlugin = class extends import_obsidian3.Plugin {
     this.addSettingTab(new SmartGraphSettingsTab(this.app, this));
     this.registerEvent(
       this.app.workspace.on("active-leaf-change", () => {
-        this.refreshView();
+        if (this.settings.followActiveNote) {
+          this.refreshView();
+        }
       })
     );
+    this.app.workspace.onLayoutReady(() => {
+      this.activateView();
+    });
   }
   async activateView() {
     const { workspace } = this.app;
@@ -17623,6 +18022,14 @@ var SmartGraphPlugin = class extends import_obsidian3.Plugin {
     leaves.forEach((leaf) => {
       if (leaf.view instanceof SmartGraphView) {
         leaf.view.refreshGraph();
+      }
+    });
+  }
+  updateZoomOnly(zoomLevel) {
+    const leaves = this.app.workspace.getLeavesOfType(SMART_GRAPH_VIEW_TYPE);
+    leaves.forEach((leaf) => {
+      if (leaf.view instanceof SmartGraphView) {
+        leaf.view.setZoomLevel(zoomLevel);
       }
     });
   }

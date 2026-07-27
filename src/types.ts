@@ -2,12 +2,17 @@ export type NodeType = 'cluster-center' | 'note';
 
 export type EdgeType = 'semantic' | 'wiki-link' | 'backlink' | 'shared-tag' | 'cluster-link';
 
+export type GraphMode = 'neighborhood' | 'semantic' | 'links';
+
+export type DensityPreset = 'compact' | 'balanced' | 'expanded';
+
 export interface GraphNode {
   id: string; // file path or unique key
   title: string;
   path: string;
   clusterId: string;
   cluster: string; // legacy alias
+  clusterColor: string;
   size: number;
   color: string;
   type: NodeType;
@@ -16,6 +21,10 @@ export interface GraphNode {
   score?: number;
   isFocus: boolean;
   isRepresentative: boolean;
+  isOrphan?: boolean;
+  opacity?: number;
+  isPinned?: boolean;
+  isHidden?: boolean;
   x?: number;
   y?: number;
   vx?: number;
@@ -31,6 +40,7 @@ export interface GraphEdge {
   weight: number;
   dashed: boolean;
   opacity: number;
+  isPrimaryCrossCluster?: boolean;
 }
 
 export interface ClusterGroup {
@@ -41,6 +51,25 @@ export interface ClusterGroup {
   representativeId?: string;
   anchorX?: number;
   anchorY?: number;
+}
+
+export interface NodeInteractionState {
+  hoveredNodeId: string | null;
+  selectedNodeId: string | null;
+  focusNodeId: string | null;
+  focusHistory: string[];
+  focusHistoryIndex: number;
+}
+
+export interface SavedGraphView {
+  name: string;
+  focusPath: string;
+  mode: GraphMode;
+  density: DensityPreset;
+  pinnedNodeIds: string[];
+  hiddenNodeIds: string[];
+  zoom?: number;
+  center?: { x: number; y: number };
 }
 
 export interface SmartGraphSettings {
@@ -55,40 +84,49 @@ export interface SmartGraphSettings {
   clusterSpacing: number;
   hullPadding: number;
   hullOpacity: number;
+  defaultZoomLevel: number;
   clusterColors: string[];
   showSemanticLinks: boolean;
   showWikiLinks: boolean;
   showBacklinks: boolean;
   showSharedTags: boolean;
+  followActiveNote: boolean;
+  graphMode: GraphMode;
+  densityPreset: DensityPreset;
   licenseKey: string;
   isLicensed: boolean;
 }
+
+export const CLUSTER_MUTED_PALETTE = [
+  '#55B476', // Emerald Green
+  '#EB9433', // Bright Orange
+  '#D962B2', // Vivid Pink
+  '#5E8FE8', // Bright Royal Blue
+  '#EB6070', // Vivid Coral Red
+  '#73B9B3', // Crisp Teal
+];
 
 export const DEFAULT_SETTINGS: SmartGraphSettings = {
   candidateLimit: 80,
   visibleNodeLimit: 60,
   focusSimilarityThreshold: 0.42,
   clusterSimilarityThreshold: 0.52,
-  maxSemanticEdgesPerNode: 4,
+  maxSemanticEdgesPerNode: 2,
   maxCrossClusterEdgesPerPair: 1,
-  minimumClusterSize: 2,
-  maximumClusterCount: 12,
-  clusterSpacing: 180,
-  hullPadding: 14,
-  hullOpacity: 0.07,
-  clusterColors: [
-    '#58B77B', // Soft Emerald Green
-    '#E3B529', // Golden Yellow
-    '#5889E8', // Royal Blue
-    '#DE6372', // Coral Pink
-    '#D86DC0', // Soft Orchid Purple
-    '#36C5F0', // Sky Blue
-    '#ECB22E', // Amber
-  ],
+  minimumClusterSize: 3,
+  maximumClusterCount: 5,
+  clusterSpacing: 140,
+  hullPadding: 10,
+  hullOpacity: 0.035,
+  defaultZoomLevel: 2.8,
+  clusterColors: CLUSTER_MUTED_PALETTE,
   showSemanticLinks: true,
   showWikiLinks: true,
   showBacklinks: true,
   showSharedTags: true,
+  followActiveNote: false,
+  graphMode: 'neighborhood',
+  densityPreset: 'balanced',
   licenseKey: '',
   isLicensed: false,
 };
