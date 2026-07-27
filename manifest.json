@@ -2,9 +2,10 @@
   "id": "smart-cluster-graph",
   "name": "Smart Cluster Graph",
   "version": "1.0.0",
-  "minAppVersion": "1.0.0",
+  "minAppVersion": "1.5.0",
   "description": "Folder-based cluster graph explorer with strongest cross-community bridges, line crossing avoidance, and tight convex hulls.",
   "author": "comedianhhh",
-  "authorUrl": "https://github.com/comedianhhh/obsidian-smart-cluster-graph",
+  "authorUrl": "https://github.com/comedianhhh",
   "isDesktopOnly": true
 }
+

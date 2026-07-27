@@ -1,4 +1,4 @@
-import { App, TFile } from 'obsidian';
+import { App } from 'obsidian';
 import { GraphNode, GraphEdge, ClusterGroup } from '../types';
 
 export interface InspectorCallbacks {
@@ -77,8 +77,8 @@ export class InspectorPanel {
 
     // Section 2: Relations Overview & "Why connected?"
     const connectedEdges = edges.filter((e) => {
-      const sId = typeof e.source === 'object' ? (e.source as GraphNode).id : e.source;
-      const tId = typeof e.target === 'object' ? (e.target as GraphNode).id : e.target;
+      const sId = typeof e.source === 'object' ? e.source.id : e.source;
+      const tId = typeof e.target === 'object' ? e.target.id : e.target;
       return sId === node.id || tId === node.id;
     });
 
@@ -94,16 +94,16 @@ export class InspectorPanel {
       if (e.type === 'shared-tag') sharedTagCount++;
       if (e.type === 'semantic') semanticCount++;
 
-      const otherId = typeof e.source === 'object'
-        ? (e.source as GraphNode).id === node.id ? (e.target as any).id || e.target : (e.source as GraphNode).id
-        : e.source === node.id ? e.target : e.source;
+      const sourceId = typeof e.source === 'object' ? e.source.id : e.source;
+      const targetId = typeof e.target === 'object' ? e.target.id : e.target;
+      const otherId = sourceId === node.id ? targetId : sourceId;
 
       const otherTitle = typeof otherId === 'string' ? otherId.split('/').pop()?.replace('.md', '') : 'Neighbor';
 
       if (e.type === 'semantic' && e.weight > 0.4) {
         reasons.push(`• Semantic similarity ${(e.weight).toFixed(2)} with ${otherTitle}`);
-      } else if (e.type === 'wiki-link') {
-        reasons.push(`• Wiki-link relation with ${otherTitle}`);
+      } else if (e.type === 'wiki-link' || e.type === 'backlink') {
+        reasons.push(`• Link relation with ${otherTitle}`);
       } else if (e.type === 'shared-tag') {
         reasons.push(`• Shared tag with ${otherTitle}`);
       }
@@ -117,8 +117,9 @@ export class InspectorPanel {
     relBox.createDiv({ cls: 'smart-graph-section-title', text: 'Relations' });
     const relSummary = relBox.createDiv({ cls: 'smart-graph-relations-summary' });
     relSummary.setText(
-      `${connectedEdges.length} links (${wikiCount} wiki, ${sharedTagCount} tags, ${semanticCount} semantic)`
+      `${connectedEdges.length} links (${wikiCount + backlinkCount} wiki, ${sharedTagCount} tags, ${semanticCount} semantic)`
     );
+
 
     // Why connected section
     const whySection = body.createDiv({ cls: 'smart-graph-inspector-section' });

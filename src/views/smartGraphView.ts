@@ -193,7 +193,10 @@ export class SmartGraphView extends ItemView {
     const refreshBtn = toolbar.createDiv({ cls: 'smart-graph-refresh-button' });
     setIcon(refreshBtn, 'refresh-cw');
     refreshBtn.setAttribute('aria-label', 'Refresh graph');
-    refreshBtn.addEventListener('click', () => this.refreshGraph());
+    refreshBtn.addEventListener('click', () => {
+      void this.refreshGraph();
+    });
+
 
     // Show warning banner ONLY if Smart Connections is unavailable
     if (!this.bridge.isSmartConnectionsAvailable()) {
@@ -201,17 +204,22 @@ export class SmartGraphView extends ItemView {
         cls: 'smart-graph-notice-banner',
         text: 'Smart Connections unavailable',
       });
-      banner.style.position = 'absolute';
-      banner.style.top = '50px';
-      banner.style.left = '12px';
-      banner.style.zIndex = '25';
+      banner.setCssStyles({
+        position: 'absolute',
+        top: '50px',
+        left: '12px',
+        zIndex: '25',
+      });
     }
+
   }
 
   private initGraph(): void {
     if (!this.canvasWrapper) return;
 
-    this.graphInstance = ForceGraph()(this.canvasWrapper)
+    const forceGraphFn = ForceGraph as unknown as (element: HTMLElement) => any;
+    this.graphInstance = forceGraphFn(this.canvasWrapper)
+
       .backgroundColor('#0f1115')
       .nodeId('id')
       .nodeVal((node: any) => node.size || 4.5)
@@ -347,15 +355,17 @@ export class SmartGraphView extends ItemView {
         let opacity = 1.0;
 
         if (this.hoverNode && this.hoverNode.id !== node.id) {
+          const hoverId = this.hoverNode.id;
           const isConnected = this.currentEdges.some((e) => {
-            const sId = typeof e.source === 'object' ? (e.source as GraphNode).id : e.source;
-            const tId = typeof e.target === 'object' ? (e.target as GraphNode).id : e.target;
-            return (sId === this.hoverNode!.id && tId === node.id) || (tId === this.hoverNode!.id && sId === node.id);
+            const sId = typeof e.source === 'object' ? e.source.id : e.source;
+            const tId = typeof e.target === 'object' ? e.target.id : e.target;
+            return (sId === hoverId && tId === node.id) || (tId === hoverId && sId === node.id);
           });
           if (!isConnected) {
             opacity = 0.18;
           }
         }
+
 
         ctx.save();
         ctx.globalAlpha = opacity;
@@ -519,7 +529,7 @@ export class SmartGraphView extends ItemView {
       const file = this.app.vault.getAbstractFileByPath(node.path);
       if (file instanceof TFile) {
         const leaf = newTab ? this.app.workspace.getLeaf('tab') : this.app.workspace.getLeaf();
-        leaf.openFile(file);
+        void leaf.openFile(file);
       }
     }
   }
@@ -527,9 +537,10 @@ export class SmartGraphView extends ItemView {
   private setNodeAsFocus(node: GraphNode): void {
     const file = this.app.vault.getAbstractFileByPath(node.path);
     if (file instanceof TFile) {
-      this.refreshGraph();
+      void this.refreshGraph();
     }
   }
+
 
   private togglePinNode(node: GraphNode): void {
     if (node.isPinned) {
@@ -574,8 +585,8 @@ export class SmartGraphView extends ItemView {
     const strongestByClusterPair = new Map<string, GraphEdge>();
 
     for (const edge of edges) {
-      const sId = typeof edge.source === 'object' ? (edge.source as GraphNode).id : edge.source;
-      const tId = typeof edge.target === 'object' ? (edge.target as GraphNode).id : edge.target;
+      const sId = typeof edge.source === 'object' ? edge.source.id : edge.source;
+      const tId = typeof edge.target === 'object' ? edge.target.id : edge.target;
 
       const sourceCluster = nodeClusterMap.get(sId);
       const targetCluster = nodeClusterMap.get(tId);
@@ -601,8 +612,9 @@ export class SmartGraphView extends ItemView {
     const filteredBridges: GraphEdge[] = [];
 
     for (const bridge of bridges) {
-      const sId = typeof bridge.source === 'object' ? (bridge.source as GraphNode).id : bridge.source;
-      const tId = typeof bridge.target === 'object' ? (bridge.target as GraphNode).id : bridge.target;
+      const sId = typeof bridge.source === 'object' ? bridge.source.id : bridge.source;
+      const tId = typeof bridge.target === 'object' ? bridge.target.id : bridge.target;
+
 
       const sCluster = nodeClusterMap.get(sId)!;
       const tCluster = nodeClusterMap.get(tId)!;
@@ -687,7 +699,7 @@ export class SmartGraphView extends ItemView {
     // 5. Link force
     this.graphInstance.d3Force(
       'link',
-      forceLink<any>()
+      forceLink<any, any>()
         .distance((edge: any) => (edge.type === 'semantic' ? 100 : 45))
         .strength((edge: any) => {
           const s = typeof edge.source === 'object' ? edge.source : this.currentNodes.find((n) => n.id === edge.source);
@@ -753,15 +765,16 @@ export class SmartGraphView extends ItemView {
       this.graphInstance.numDimensions(2);
 
       // Lock user configured zoom both early (250ms) and on simulation stop
-      setTimeout(() => {
+      window.setTimeout(() => {
         this.applyUserZoomAndCentering();
       }, 250);
 
-      setTimeout(() => {
+      window.setTimeout(() => {
         this.applyUserZoomAndCentering();
       }, 600);
     }
   }
+
 
   async onClose(): Promise<void> {
     window.removeEventListener('visibilitychange', this.handleWindowVisibility);

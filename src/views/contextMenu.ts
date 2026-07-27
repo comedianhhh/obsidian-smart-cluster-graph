@@ -1,4 +1,4 @@
-import { App, Menu, TFile } from 'obsidian';
+import { App, Menu } from 'obsidian';
 import { GraphNode } from '../types';
 
 export interface ContextMenuCallbacks {
@@ -62,9 +62,10 @@ export function showNodeContextMenu(
       .setIcon('link')
       .onClick(() => {
         const link = `[[${node.title}]]`;
-        navigator.clipboard.writeText(link);
+        void navigator.clipboard.writeText(link);
       });
   });
 
-  menu.showAtPosition({ x: event.clientX, y: event.clientY });
+  menu.showAtMouseEvent(event);
 }
+

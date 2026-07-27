@@ -1,6 +1,6 @@
 import esbuild from "esbuild";
 import process from "process";
-import builtins from "builtin-modules";
+import { builtinModules } from "node:module";
 
 const banner =
 `/*
@@ -31,10 +31,7 @@ const context = await esbuild.context({
 		"@lezer/common",
 		"@lezer/highlight",
 		"@lezer/lr",
-		...builtins],
-	alias: {
-		"lodash-es": "lodash",
-	},
+		...builtinModules],
 	mainFields: ["browser", "module", "main"],
 	format: "cjs",
 	target: "es2022",
@@ -50,3 +47,4 @@ if (prod) {
 } else {
 	await context.watch();
 }
+

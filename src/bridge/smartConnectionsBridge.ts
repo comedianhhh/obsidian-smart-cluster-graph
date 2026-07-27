@@ -8,6 +8,28 @@ export interface SemanticNeighbor {
   vec?: number[];
 }
 
+interface SmartConnectionsItem {
+  path?: string;
+  key?: string;
+  name?: string;
+  vec?: number[];
+}
+
+interface SmartConnectionsResult {
+  item?: SmartConnectionsItem;
+  path?: string;
+  key?: string;
+  name?: string;
+  score?: number;
+  similarity?: number;
+  title?: string;
+  vec?: number[];
+}
+
+interface ObsidianPluginManager {
+  getPlugin(id: string): SmartConnectionsPlugin | null;
+}
+
 export class SmartConnectionsBridge {
   private app: App;
 
@@ -16,13 +38,13 @@ export class SmartConnectionsBridge {
   }
 
   public isSmartConnectionsAvailable(): boolean {
-    const plugins = (this.app as any).plugins;
+    const plugins = (this.app as unknown as { plugins?: ObsidianPluginManager }).plugins;
     if (!plugins) return false;
     return !!plugins.getPlugin('smart-connections');
   }
 
   public getPluginInstance(): SmartConnectionsPlugin | null {
-    const plugins = (this.app as any).plugins;
+    const plugins = (this.app as unknown as { plugins?: ObsidianPluginManager }).plugins;
     if (!plugins) return null;
     return plugins.getPlugin('smart-connections') || null;
   }
@@ -37,15 +59,17 @@ export class SmartConnectionsBridge {
     try {
       const env = sc.smart_env || sc.env;
       if (env && env.smart_sources) {
-        const source = env.smart_sources.get ? env.smart_sources.get(filePath) : env.smart_sources[filePath];
+        const source = typeof env.smart_sources.get === 'function'
+          ? env.smart_sources.get(filePath)
+          : env.smart_sources[filePath];
         if (source && typeof source.find_similar === 'function') {
-          const results = await source.find_similar(topK);
+          const results = (await source.find_similar(topK)) as SmartConnectionsResult[];
           if (Array.isArray(results)) {
             return results
-              .map((r: any) => ({
+              .map((r: SmartConnectionsResult) => ({
                 path: r.item?.path || r.path || r.key || '',
                 score: r.score || r.similarity || 0,
-                title: r.item?.name || r.name || (r.path ? r.path.split('/').pop()?.replace('.md', '') : ''),
+                title: r.item?.name || r.name || (r.path ? r.path.split('/').pop()?.replace('.md', '') : '') || '',
                 vec: r.item?.vec || r.vec || undefined,
               }))
               .filter((n) => n.path && n.path !== filePath);
@@ -54,22 +78,24 @@ export class SmartConnectionsBridge {
       }
 
       if (sc.api?.get_nearest) {
-        const results = await sc.api.get_nearest(filePath, topK);
+        const results = (await sc.api.get_nearest(filePath, topK)) as SmartConnectionsResult[];
         return (results || [])
-          .map((r: any) => ({
+          .map((r: SmartConnectionsResult) => ({
             path: r.path || '',
             score: r.score || 0,
-            title: r.title || r.path?.split('/').pop()?.replace('.md', '') || '',
+            title: r.title || (r.path ? r.path.split('/').pop()?.replace('.md', '') : '') || '',
             vec: r.vec || undefined,
           }))
           .filter((n) => n.path && n.path !== filePath);
       }
+
     } catch (err) {
       console.warn('[SmartGraph] Error in getSimilarSources:', err);
     }
 
     return [];
   }
+
 
   /**
    * Compute pairwise similarity score between two files.

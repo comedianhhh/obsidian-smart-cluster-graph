@@ -6,7 +6,6 @@
     "module": "ESNext",
     "target": "ES2022",
     "allowJs": true,
-    "isModule": true,
     "moduleResolution": "node",
     "importHelpers": true,
     "strict": true,
@@ -21,3 +20,4 @@
   },
   "include": ["src/**/*.ts"]
 }
+

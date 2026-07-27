@@ -1,6 +1,7 @@
 import { App, TFile } from 'obsidian';
 import { SmartConnectionsBridge, SemanticNeighbor } from '../bridge/smartConnectionsBridge';
-import { GraphNode, GraphEdge, SmartGraphSettings, DensityPreset, GraphMode } from '../types';
+import { GraphNode, GraphEdge, SmartGraphSettings, DensityPreset } from '../types';
+
 
 export class GraphDataEngine {
   private app: App;

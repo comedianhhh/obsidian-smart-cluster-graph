@@ -1,7 +1,7 @@
 # Smart Cluster Graph
 
 [![Obsidian Plugin](https://img.shields.io/badge/Obsidian-Plugin-purple.svg)](https://obsidian.md)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/alan996-Dev/obsidian-smart-cluster-graph/releases)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/comedianhhh/obsidian-smart-cluster-graph/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 A powerful, aesthetic cluster graph explorer for **Obsidian**. It automatically partitions your vault notes into distinct folder-based community clusters, renders tight soft convex hulls, and displays a clean knowledge skeleton powered by **Strongest Bridge Links** and **Line Crossing Avoidance**.
@@ -31,7 +31,7 @@ A powerful, aesthetic cluster graph explorer for **Obsidian**. It automatically 
 4. Click **Install**, then **Enable**.
 
 ### Option 2: Manual Installation
-1. Download `main.js`, `manifest.json`, and `styles.css` from the latest [GitHub Release](https://github.com/alan996-Dev/obsidian-smart-cluster-graph/releases).
+1. Download `main.js`, `manifest.json`, and `styles.css` from the latest [GitHub Release](https://github.com/comedianhhh/obsidian-smart-cluster-graph/releases).
 2. Create a folder named `smart-cluster-graph` under your vault's `.obsidian/plugins/` directory.
 3. Copy the downloaded files into `.obsidian/plugins/smart-cluster-graph/`.
 4. Reload Obsidian and enable **Smart Cluster Graph** under Community plugins.

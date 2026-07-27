@@ -14,7 +14,7 @@ export class SmartGraphSettingsTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl('h2', { text: 'Smart Cluster Graph Settings' });
+    new Setting(containerEl).setName('Smart Cluster Graph Settings').setHeading();
 
     // 1. Default Initial Zoom Scale (Manual adjustment)
     new Setting(containerEl)
@@ -24,7 +24,6 @@ export class SmartGraphSettingsTab extends PluginSettingTab {
         slider
           .setLimits(1.0, 6.0, 0.2)
           .setValue(this.plugin.settings.defaultZoomLevel || 3.5)
-          .setDynamicTooltip()
           .onChange(async (val) => {
             this.plugin.settings.defaultZoomLevel = val;
             await this.plugin.saveSettings();
@@ -54,7 +53,6 @@ export class SmartGraphSettingsTab extends PluginSettingTab {
         slider
           .setLimits(0.3, 0.85, 0.05)
           .setValue(this.plugin.settings.focusSimilarityThreshold)
-          .setDynamicTooltip()
           .onChange(async (val) => {
             this.plugin.settings.focusSimilarityThreshold = val;
             await this.plugin.saveSettings();
@@ -70,7 +68,6 @@ export class SmartGraphSettingsTab extends PluginSettingTab {
         slider
           .setLimits(0.01, 0.2, 0.01)
           .setValue(this.plugin.settings.hullOpacity)
-          .setDynamicTooltip()
           .onChange(async (val) => {
             this.plugin.settings.hullOpacity = val;
             await this.plugin.saveSettings();
@@ -96,3 +93,4 @@ export class SmartGraphSettingsTab extends PluginSettingTab {
       );
   }
 }
+

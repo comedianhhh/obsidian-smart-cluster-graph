@@ -17,15 +17,15 @@ export default class SmartGraphPlugin extends Plugin {
 
     // Add Ribbon Icon to Left Sidebar
     this.addRibbonIcon('dot-network', 'Smart Cluster Graph', () => {
-      this.activateView();
+      void this.activateView();
     });
 
     // Add Command Palette Command
     this.addCommand({
-      id: 'open-smart-cluster-graph',
-      name: 'Open Smart Cluster Graph',
+      id: 'open-graph',
+      name: 'Open graph',
       callback: () => {
-        this.activateView();
+        void this.activateView();
       },
     });
 
@@ -43,7 +43,7 @@ export default class SmartGraphPlugin extends Plugin {
 
     // Auto-open and pin in top right tab header bar when Obsidian layout is ready
     this.app.workspace.onLayoutReady(() => {
-      this.activateView();
+      void this.activateView();
     });
   }
 
@@ -63,7 +63,7 @@ export default class SmartGraphPlugin extends Plugin {
     }
 
     if (leaf) {
-      workspace.revealLeaf(leaf);
+      void workspace.revealLeaf(leaf);
     }
   }
 
@@ -71,7 +71,7 @@ export default class SmartGraphPlugin extends Plugin {
     const leaves = this.app.workspace.getLeavesOfType(SMART_GRAPH_VIEW_TYPE);
     leaves.forEach((leaf) => {
       if (leaf.view instanceof SmartGraphView) {
-        leaf.view.refreshGraph();
+        void leaf.view.refreshGraph();
       }
     });
   }
@@ -85,8 +85,8 @@ export default class SmartGraphPlugin extends Plugin {
     });
   }
 
-  async onunload(): Promise<void> {
-    this.app.workspace.detachLeavesOfType(SMART_GRAPH_VIEW_TYPE);
+  onunload(): void {
+    // Leaves are preserved when reloading plugin to maintain user workspace layout
   }
 
   async loadSettings(): Promise<void> {
@@ -97,3 +97,4 @@ export default class SmartGraphPlugin extends Plugin {
     await this.saveData(this.settings);
   }
 }
+

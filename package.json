@@ -18,12 +18,10 @@
   "author": "alan996",
   "license": "MIT",
   "dependencies": {
-    "@types/lodash-es": "^4.17.12",
     "d3-force": "^3.0.0",
     "d3-polygon": "^3.0.1",
     "d3-shape": "^3.2.0",
     "force-graph": "^1.43.5",
-    "lodash-es": "^4.18.1",
     "tinycolor2": "^1.6.0"
   },
   "devDependencies": {
@@ -34,10 +32,10 @@
     "@types/tinycolor2": "^1.4.6",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
-    "builtin-modules": "^3.3.0",
     "esbuild": "^0.19.11",
     "obsidian": "latest",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   }
 }
+
