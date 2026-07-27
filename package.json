@@ -1,6 +1,6 @@
 {
   "name": "obsidian-smart-cluster-graph",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Folder-based cluster graph explorer with strongest cross-community bridges, line crossing avoidance, and tight convex hulls.",
   "main": "main.js",
   "scripts": {

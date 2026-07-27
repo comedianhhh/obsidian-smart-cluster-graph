@@ -86,8 +86,6 @@ export class SmartGraphSettingsTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    new Setting(containerEl).setName('General').setHeading();
-
     // 1. Default Initial Zoom Scale (Manual adjustment)
     new Setting(containerEl)
       .setName('Default Initial Zoom Scale')

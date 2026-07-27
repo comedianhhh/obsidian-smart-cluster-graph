@@ -176,7 +176,6 @@ export class SmartGraphView extends ItemView {
       const matchedNode = this.currentNodes.find((n) => n.path === activeFile.path);
       if (matchedNode) {
         this.selectedNode = matchedNode;
-        this.openInspectorForNode(matchedNode);
       }
     }
   }

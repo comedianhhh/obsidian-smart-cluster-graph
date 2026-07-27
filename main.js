@@ -11883,7 +11883,6 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
       const matchedNode = this.currentNodes.find((n2) => n2.path === activeFile.path);
       if (matchedNode) {
         this.selectedNode = matchedNode;
-        this.openInspectorForNode(matchedNode);
       }
     }
   }
@@ -12420,7 +12419,6 @@ var SmartGraphSettingsTab = class extends import_obsidian3.PluginSettingTab {
   display() {
     const { containerEl } = this;
     containerEl.empty();
-    new import_obsidian3.Setting(containerEl).setName("General").setHeading();
     new import_obsidian3.Setting(containerEl).setName("Default Initial Zoom Scale").setDesc("Manually set default initial camera zoom level (1.0x to 6.0x).").addSlider(
       (slider) => slider.setLimits(1, 6, 0.2).setValue(this.plugin.settings.defaultZoomLevel || 3.5).onChange(async (val) => {
         this.plugin.settings.defaultZoomLevel = val;
