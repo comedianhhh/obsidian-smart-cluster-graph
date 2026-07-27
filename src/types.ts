@@ -131,11 +131,25 @@ export const DEFAULT_SETTINGS: SmartGraphSettings = {
   isLicensed: false,
 };
 
+export interface SmartSource {
+  find_similar?: (topK: number) => Promise<unknown>;
+}
+
+export interface SmartSources {
+  get?: (key: string) => SmartSource | undefined;
+  [key: string]: unknown;
+}
+
+export interface SmartEnv {
+  smart_sources?: SmartSources;
+  [key: string]: unknown;
+}
+
 export interface SmartConnectionsPlugin {
-  env?: any;
-  smart_env?: any;
+  env?: SmartEnv;
+  smart_env?: SmartEnv;
   api?: {
-    search?: (query: string, options?: any) => Promise<any[]>;
-    get_nearest?: (filePath: string, topK?: number) => Promise<any[]>;
+    search?: (query: string, options?: Record<string, unknown>) => Promise<unknown[]>;
+    get_nearest?: (filePath: string, topK?: number) => Promise<unknown[]>;
   };
 }

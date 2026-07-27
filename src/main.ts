@@ -63,7 +63,7 @@ export default class SmartGraphPlugin extends Plugin {
     }
 
     if (leaf) {
-      void workspace.revealLeaf(leaf);
+      workspace.setActiveLeaf(leaf, { focus: true });
     }
   }
 
@@ -90,7 +90,8 @@ export default class SmartGraphPlugin extends Plugin {
   }
 
   async loadSettings(): Promise<void> {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    const loadedData = (await this.loadData()) as Partial<SmartGraphSettings> | null;
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, loadedData ?? {});
   }
 
   async saveSettings(): Promise<void> {

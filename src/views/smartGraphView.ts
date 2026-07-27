@@ -11,6 +11,37 @@ import { showNodeContextMenu } from './contextMenu';
 
 export const SMART_GRAPH_VIEW_TYPE = 'smart-cluster-graph-view';
 
+interface ForceGraphInstance {
+  width(w: number): ForceGraphInstance;
+  height(h: number): ForceGraphInstance;
+  backgroundColor(color: string): ForceGraphInstance;
+  nodeId(id: string): ForceGraphInstance;
+  nodeVal(fn: (node: GraphNode) => number): ForceGraphInstance;
+  nodeColor(fn: (node: GraphNode) => string): ForceGraphInstance;
+  linkSource(source: string): ForceGraphInstance;
+  linkTarget(target: string): ForceGraphInstance;
+  onNodeHover(fn: (node: GraphNode | null) => void): ForceGraphInstance;
+  onEngineStop(fn: () => void): ForceGraphInstance;
+  enablePanInteraction(enable: boolean): ForceGraphInstance;
+  enableZoomInteraction(enable: boolean): ForceGraphInstance;
+  linkCanvasObject(fn: (link: GraphEdge, ctx: CanvasRenderingContext2D) => void): ForceGraphInstance;
+  onRenderFramePre(fn: (ctx: CanvasRenderingContext2D) => void): ForceGraphInstance;
+  nodeCanvasObject(fn: (node: GraphNode, ctx: CanvasRenderingContext2D, globalScale: number) => void): ForceGraphInstance;
+  onNodeClick(fn: (node: GraphNode, event: MouseEvent) => void): ForceGraphInstance;
+  onNodeRightClick(fn: (node: GraphNode, event: MouseEvent) => void): ForceGraphInstance;
+  onBackgroundClick(fn: () => void): ForceGraphInstance;
+  zoom(): number;
+  zoom(level: number, duration?: number): ForceGraphInstance;
+  centerAt(x?: number, y?: number, duration?: number): ForceGraphInstance;
+  graphData(data: { nodes: GraphNode[]; links: GraphEdge[] }): ForceGraphInstance;
+  d3Force(name: string): unknown;
+  d3Force(name: string, force: unknown): ForceGraphInstance;
+  numDimensions(dims: number): ForceGraphInstance;
+  resumeAnimation(): void;
+  d3ReheatSimulation(): void;
+  _destructor?(): void;
+}
+
 export class SmartGraphView extends ItemView {
   private plugin: SmartGraphPlugin;
   private bridge: SmartConnectionsBridge;
@@ -20,8 +51,9 @@ export class SmartGraphView extends ItemView {
 
   private container: HTMLDivElement | null = null;
   private canvasWrapper: HTMLDivElement | null = null;
-  private graphInstance: any = null;
+  private graphInstance: ForceGraphInstance | null = null;
   private resizeObserver: ResizeObserver | null = null;
+  private searchQuery: string = '';
 
   // Interaction State
   private hoverNode: GraphNode | null = null;
@@ -144,6 +176,7 @@ export class SmartGraphView extends ItemView {
       const matchedNode = this.currentNodes.find((n) => n.path === activeFile.path);
       if (matchedNode) {
         this.selectedNode = matchedNode;
+        this.openInspectorForNode(matchedNode);
       }
     }
   }
@@ -185,18 +218,32 @@ export class SmartGraphView extends ItemView {
   private buildHeaderToolbar(container: HTMLDivElement): void {
     const toolbar = container.createDiv({ cls: 'smart-graph-header-toolbar' });
 
-    // Left: Title ONLY
+    // Left: Title
     const titleGroup = toolbar.createDiv({ cls: 'smart-graph-title-group' });
     titleGroup.createDiv({ cls: 'smart-graph-title', text: 'Smart Cluster Graph' });
 
-    // Right: Single Refresh Button
-    const refreshBtn = toolbar.createDiv({ cls: 'smart-graph-refresh-button' });
+    // Right Action Section
+    const rightActions = toolbar.createDiv({ cls: 'smart-graph-toolbar-right' });
+
+    // Minimal Node Search Bar
+    const searchContainer = rightActions.createDiv({ cls: 'smart-graph-search-container' });
+    const searchInput = searchContainer.createEl('input', {
+      cls: 'smart-graph-search-input',
+      type: 'text',
+      placeholder: 'Search nodes...',
+    });
+    searchInput.addEventListener('input', (e) => {
+      this.searchQuery = (e.target as HTMLInputElement).value.trim().toLowerCase();
+      this.handleSearchFilter();
+    });
+
+    // Refresh Button
+    const refreshBtn = rightActions.createDiv({ cls: 'smart-graph-refresh-button' });
     setIcon(refreshBtn, 'refresh-cw');
     refreshBtn.setAttribute('aria-label', 'Refresh graph');
     refreshBtn.addEventListener('click', () => {
       void this.refreshGraph();
     });
-
 
     // Show warning banner ONLY if Smart Connections is unavailable
     if (!this.bridge.isSmartConnectionsAvailable()) {
@@ -207,19 +254,31 @@ export class SmartGraphView extends ItemView {
     }
   }
 
+  private handleSearchFilter(): void {
+    if (!this.searchQuery) return;
+
+    const matchedNode = this.currentNodes.find(
+      (n) => !n.isHidden && (n.title.toLowerCase().includes(this.searchQuery) || n.path.toLowerCase().includes(this.searchQuery))
+    );
+
+    if (matchedNode) {
+      this.selectedNode = matchedNode;
+    }
+  }
+
   private initGraph(): void {
     if (!this.canvasWrapper) return;
 
-    this.graphInstance = (ForceGraph as any)()(this.canvasWrapper)
-
-
+    const forceGraphConstructor = ForceGraph as unknown as () => (element: HTMLElement) => ForceGraphInstance;
+    const createGraph = forceGraphConstructor();
+    this.graphInstance = createGraph(this.canvasWrapper)
       .backgroundColor('#0f1115')
       .nodeId('id')
-      .nodeVal((node: any) => node.size || 4.5)
-      .nodeColor((node: any) => node.clusterColor || node.color || '#55B476')
+      .nodeVal((node: GraphNode) => node.size || 4.5)
+      .nodeColor((node: GraphNode) => node.clusterColor || node.color || '#55B476')
       .linkSource('source')
       .linkTarget('target')
-      .onNodeHover((node: any) => {
+      .onNodeHover((node: GraphNode | null) => {
         this.hoverNode = node || null;
       })
 
@@ -235,7 +294,7 @@ export class SmartGraphView extends ItemView {
       .enableZoomInteraction(false)
 
       // Custom Edge Rendering with Line Crossing Avoidance (Curves around intermediate clusters)
-      .linkCanvasObject((link: any, ctx: CanvasRenderingContext2D) => {
+      .linkCanvasObject((link: GraphEdge, ctx: CanvasRenderingContext2D) => {
         const sId = typeof link.source === 'object' ? link.source.id : link.source;
         const tId = typeof link.target === 'object' ? link.target.id : link.target;
         const sNode = typeof link.source === 'object' ? link.source : this.currentNodes.find((n) => n.id === sId);
@@ -333,7 +392,7 @@ export class SmartGraphView extends ItemView {
       })
 
       // Custom Node Canvas Painting & Center Label Badges
-      .nodeCanvasObject((node: any, ctx: CanvasRenderingContext2D, globalScale: number) => {
+      .nodeCanvasObject((node: GraphNode, ctx: CanvasRenderingContext2D, globalScale: number) => {
         if (node.isHidden) return;
 
         const x = node.x || 0;
@@ -393,19 +452,21 @@ export class SmartGraphView extends ItemView {
         ctx.restore();
       })
 
-      // Single Click Node -> Select node ONLY (DO NOT shift/re-center graph!)
-      .onNodeClick((node: any, event: MouseEvent) => {
+      // Single Click Node -> Select node ONLY
+      .onNodeClick((node: GraphNode) => {
         this.selectedNode = node;
       })
 
+      // Click Background -> Deselect node
+      .onBackgroundClick(() => {
+        this.selectedNode = null;
+      })
+
       // Right Click Node -> Context Menu
-      .onNodeRightClick((node: any, event: MouseEvent) => {
+      .onNodeRightClick((node: GraphNode, event: MouseEvent) => {
         if (node) {
           showNodeContextMenu(event, node, this.app, {
             onOpenNote: (n, tab) => this.openNodeFile(n, tab),
-            onSetCenter: (n) => this.setNodeAsFocus(n),
-            onTogglePin: (n) => this.togglePinNode(n),
-            onHideNode: (n) => this.hideNode(n),
           });
         }
       });
@@ -527,42 +588,6 @@ export class SmartGraphView extends ItemView {
     }
   }
 
-  private setNodeAsFocus(node: GraphNode): void {
-    const file = this.app.vault.getAbstractFileByPath(node.path);
-    if (file instanceof TFile) {
-      void this.refreshGraph();
-    }
-  }
-
-
-  private togglePinNode(node: GraphNode): void {
-    if (node.isPinned) {
-      node.isPinned = false;
-      node.fx = null;
-      node.fy = null;
-      this.pinnedNodes.delete(node.id);
-    } else {
-      node.isPinned = true;
-      node.fx = node.x;
-      node.fy = node.y;
-      this.pinnedNodes.add(node.id);
-    }
-  }
-
-  private hideNode(node: GraphNode): void {
-    node.isHidden = true;
-    this.hiddenNodes.add(node.id);
-    if (this.selectedNode?.id === node.id) {
-      this.selectedNode = null;
-    }
-    if (this.graphInstance) {
-      this.graphInstance.graphData({
-        nodes: this.currentNodes.filter((n) => !n.isHidden),
-        links: this.currentEdges,
-      });
-    }
-  }
-
   /**
    * Filter edges to display ONLY the strongest bridge per cluster pair (max 2 bridges per cluster).
    * Completely excludes internal edges from visual rendering.
@@ -663,28 +688,28 @@ export class SmartGraphView extends ItemView {
     // 1. Cluster Anchor Force
     this.graphInstance.d3Force(
       'clusterX',
-      forceX<any>((node) => anchors.get(node.clusterId)?.x ?? 0).strength(0.28)
+      forceX<GraphNode>((node) => anchors.get(node.clusterId)?.x ?? 0).strength(0.28)
     );
 
     this.graphInstance.d3Force(
       'clusterY',
-      forceY<any>((node) => anchors.get(node.clusterId)?.y ?? 0).strength(0.28)
+      forceY<GraphNode>((node) => anchors.get(node.clusterId)?.y ?? 0).strength(0.28)
     );
 
     // 2. Central Attraction
-    this.graphInstance.d3Force('centerGravityX', forceX<any>(0).strength(0.14));
-    this.graphInstance.d3Force('centerGravityY', forceY<any>(0).strength(0.14));
+    this.graphInstance.d3Force('centerGravityX', forceX<GraphNode>(0).strength(0.14));
+    this.graphInstance.d3Force('centerGravityY', forceY<GraphNode>(0).strength(0.14));
 
     // 3. Charge force
     this.graphInstance.d3Force(
       'charge',
-      forceManyBody<any>().strength((node) => (node.isRepresentative || node.isFocus ? -70 : -30))
+      forceManyBody<GraphNode>().strength((node) => (node.isRepresentative || node.isFocus ? -70 : -30))
     );
 
     // 4. Collision force
     this.graphInstance.d3Force(
       'collision',
-      forceCollide<any>()
+      forceCollide<GraphNode>()
         .radius((node) => (node.isRepresentative || node.isFocus ? 18 : 10))
         .strength(0.85)
     );
@@ -692,9 +717,9 @@ export class SmartGraphView extends ItemView {
     // 5. Link force
     this.graphInstance.d3Force(
       'link',
-      forceLink<any, any>()
-        .distance((edge: any) => (edge.type === 'semantic' ? 100 : 45))
-        .strength((edge: any) => {
+      forceLink<GraphNode, GraphEdge>()
+        .distance((edge: GraphEdge) => (edge.type === 'semantic' ? 100 : 45))
+        .strength((edge: GraphEdge) => {
           const s = typeof edge.source === 'object' ? edge.source : this.currentNodes.find((n) => n.id === edge.source);
           const t = typeof edge.target === 'object' ? edge.target : this.currentNodes.find((n) => n.id === edge.target);
           if (s && t && s.clusterId === t.clusterId) return 0.35;

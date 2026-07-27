@@ -11312,10 +11312,12 @@ var SmartConnectionsBridge = class {
     try {
       const env = sc.smart_env || sc.env;
       if (env && env.smart_sources) {
-        const source = typeof env.smart_sources.get === "function" ? env.smart_sources.get(filePath) : env.smart_sources[filePath];
+        const smartSources = env.smart_sources;
+        const source = typeof smartSources.get === "function" ? smartSources.get(filePath) : smartSources[filePath];
         if (source && typeof source.find_similar === "function") {
-          const results = await source.find_similar(topK);
-          if (Array.isArray(results)) {
+          const rawResults = await source.find_similar(topK);
+          if (Array.isArray(rawResults)) {
+            const results = rawResults;
             return results.map((r2) => ({
               path: r2.item?.path || r2.path || r2.key || "",
               score: r2.score || r2.similarity || 0,
@@ -11326,13 +11328,16 @@ var SmartConnectionsBridge = class {
         }
       }
       if (sc.api?.get_nearest) {
-        const results = await sc.api.get_nearest(filePath, topK);
-        return (results || []).map((r2) => ({
-          path: r2.path || "",
-          score: r2.score || 0,
-          title: r2.title || (r2.path ? r2.path.split("/").pop()?.replace(".md", "") : "") || "",
-          vec: r2.vec || void 0
-        })).filter((n2) => n2.path && n2.path !== filePath);
+        const rawResults = await sc.api.get_nearest(filePath, topK);
+        if (Array.isArray(rawResults)) {
+          const results = rawResults;
+          return results.map((r2) => ({
+            path: r2.path || "",
+            score: r2.score || 0,
+            title: r2.title || (r2.path ? r2.path.split("/").pop()?.replace(".md", "") : "") || "",
+            vec: r2.vec || void 0
+          })).filter((n2) => n2.path && n2.path !== filePath);
+        }
       }
     } catch (err) {
       console.warn("[SmartGraph] Error in getSimilarSources:", err);
@@ -11762,16 +11767,6 @@ function showNodeContextMenu(event, node, app, callbacks) {
   });
   menu.addSeparator();
   menu.addItem((item) => {
-    item.setTitle("Set as center").setIcon("crosshair").onClick(() => callbacks.onSetCenter(node));
-  });
-  menu.addItem((item) => {
-    item.setTitle(node.isPinned ? "Unpin node" : "Pin node").setIcon(node.isPinned ? "pin-off" : "pin").onClick(() => callbacks.onTogglePin(node));
-  });
-  menu.addItem((item) => {
-    item.setTitle("Hide node").setIcon("eye-off").onClick(() => callbacks.onHideNode(node));
-  });
-  menu.addSeparator();
-  menu.addItem((item) => {
     item.setTitle("Copy Obsidian link").setIcon("link").onClick(() => {
       const link = `[[${node.title}]]`;
       void navigator.clipboard.writeText(link);
@@ -11792,6 +11787,7 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
   canvasWrapper = null;
   graphInstance = null;
   resizeObserver = null;
+  searchQuery = "";
   // Interaction State
   hoverNode = null;
   selectedNode = null;
@@ -11887,6 +11883,7 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
       const matchedNode = this.currentNodes.find((n2) => n2.path === activeFile.path);
       if (matchedNode) {
         this.selectedNode = matchedNode;
+        this.openInspectorForNode(matchedNode);
       }
     }
   }
@@ -11927,7 +11924,18 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
     const toolbar = container.createDiv({ cls: "smart-graph-header-toolbar" });
     const titleGroup = toolbar.createDiv({ cls: "smart-graph-title-group" });
     titleGroup.createDiv({ cls: "smart-graph-title", text: "Smart Cluster Graph" });
-    const refreshBtn = toolbar.createDiv({ cls: "smart-graph-refresh-button" });
+    const rightActions = toolbar.createDiv({ cls: "smart-graph-toolbar-right" });
+    const searchContainer = rightActions.createDiv({ cls: "smart-graph-search-container" });
+    const searchInput = searchContainer.createEl("input", {
+      cls: "smart-graph-search-input",
+      type: "text",
+      placeholder: "Search nodes..."
+    });
+    searchInput.addEventListener("input", (e2) => {
+      this.searchQuery = e2.target.value.trim().toLowerCase();
+      this.handleSearchFilter();
+    });
+    const refreshBtn = rightActions.createDiv({ cls: "smart-graph-refresh-button" });
     (0, import_obsidian2.setIcon)(refreshBtn, "refresh-cw");
     refreshBtn.setAttribute("aria-label", "Refresh graph");
     refreshBtn.addEventListener("click", () => {
@@ -11940,10 +11948,22 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
       });
     }
   }
+  handleSearchFilter() {
+    if (!this.searchQuery)
+      return;
+    const matchedNode = this.currentNodes.find(
+      (n2) => !n2.isHidden && (n2.title.toLowerCase().includes(this.searchQuery) || n2.path.toLowerCase().includes(this.searchQuery))
+    );
+    if (matchedNode) {
+      this.selectedNode = matchedNode;
+    }
+  }
   initGraph() {
     if (!this.canvasWrapper)
       return;
-    this.graphInstance = forceGraph()(this.canvasWrapper).backgroundColor("#0f1115").nodeId("id").nodeVal((node) => node.size || 4.5).nodeColor((node) => node.clusterColor || node.color || "#55B476").linkSource("source").linkTarget("target").onNodeHover((node) => {
+    const forceGraphConstructor = forceGraph;
+    const createGraph = forceGraphConstructor();
+    this.graphInstance = createGraph(this.canvasWrapper).backgroundColor("#0f1115").nodeId("id").nodeVal((node) => node.size || 4.5).nodeColor((node) => node.clusterColor || node.color || "#55B476").linkSource("source").linkTarget("target").onNodeHover((node) => {
       this.hoverNode = node || null;
     }).onEngineStop(() => {
       this.applyUserZoomAndCentering();
@@ -12067,15 +12087,14 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
         this.drawFormattedLabel(ctx, node, x5, y5, radius, globalScale);
       }
       ctx.restore();
-    }).onNodeClick((node, event) => {
+    }).onNodeClick((node) => {
       this.selectedNode = node;
+    }).onBackgroundClick(() => {
+      this.selectedNode = null;
     }).onNodeRightClick((node, event) => {
       if (node) {
         showNodeContextMenu(event, node, this.app, {
-          onOpenNote: (n2, tab) => this.openNodeFile(n2, tab),
-          onSetCenter: (n2) => this.setNodeAsFocus(n2),
-          onTogglePin: (n2) => this.togglePinNode(n2),
-          onHideNode: (n2) => this.hideNode(n2)
+          onOpenNote: (n2, tab) => this.openNodeFile(n2, tab)
         });
       }
     });
@@ -12158,38 +12177,6 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
         const leaf = newTab ? this.app.workspace.getLeaf("tab") : this.app.workspace.getLeaf();
         void leaf.openFile(file);
       }
-    }
-  }
-  setNodeAsFocus(node) {
-    const file = this.app.vault.getAbstractFileByPath(node.path);
-    if (file instanceof import_obsidian2.TFile) {
-      void this.refreshGraph();
-    }
-  }
-  togglePinNode(node) {
-    if (node.isPinned) {
-      node.isPinned = false;
-      node.fx = null;
-      node.fy = null;
-      this.pinnedNodes.delete(node.id);
-    } else {
-      node.isPinned = true;
-      node.fx = node.x;
-      node.fy = node.y;
-      this.pinnedNodes.add(node.id);
-    }
-  }
-  hideNode(node) {
-    node.isHidden = true;
-    this.hiddenNodes.add(node.id);
-    if (this.selectedNode?.id === node.id) {
-      this.selectedNode = null;
-    }
-    if (this.graphInstance) {
-      this.graphInstance.graphData({
-        nodes: this.currentNodes.filter((n2) => !n2.isHidden),
-        links: this.currentEdges
-      });
     }
   }
   /**
@@ -12359,10 +12346,81 @@ var SmartGraphSettingsTab = class extends import_obsidian3.PluginSettingTab {
     super(app, plugin);
     this.plugin = plugin;
   }
+  getSettingDefinitions() {
+    return [
+      {
+        id: "defaultZoomLevel",
+        title: "Default Initial Zoom Scale",
+        desc: "Manually set default initial camera zoom level (1.0x to 6.0x).",
+        type: "slider",
+        limits: [1, 6, 0.2],
+        value: this.plugin.settings.defaultZoomLevel || 3.5,
+        onChange: async (val) => {
+          this.plugin.settings.defaultZoomLevel = val;
+          await this.plugin.saveSettings();
+          this.plugin.updateZoomOnly(val);
+        }
+      },
+      {
+        id: "followActiveNote",
+        title: "Follow Active Note",
+        desc: "Automatically update active note selection in graph when switching Obsidian tabs.",
+        type: "toggle",
+        value: this.plugin.settings.followActiveNote,
+        onChange: async (val) => {
+          this.plugin.settings.followActiveNote = val;
+          await this.plugin.saveSettings();
+        }
+      },
+      {
+        id: "focusSimilarityThreshold",
+        title: "Focus Similarity Threshold",
+        desc: "Minimum vector similarity score (0.30 to 0.85) for semantic relationship discovery.",
+        type: "slider",
+        limits: [0.3, 0.85, 0.05],
+        value: this.plugin.settings.focusSimilarityThreshold,
+        onChange: async (val) => {
+          this.plugin.settings.focusSimilarityThreshold = val;
+          await this.plugin.saveSettings();
+          this.plugin.refreshView();
+        }
+      },
+      {
+        id: "hullOpacity",
+        title: "Cluster Polygon Hull Opacity",
+        desc: "Fill opacity for semi-transparent cluster hulls (0.01 to 0.20).",
+        type: "slider",
+        limits: [0.01, 0.2, 0.01],
+        value: this.plugin.settings.hullOpacity,
+        onChange: async (val) => {
+          this.plugin.settings.hullOpacity = val;
+          await this.plugin.saveSettings();
+          this.plugin.refreshView();
+        }
+      },
+      {
+        id: "graphMode",
+        title: "Default Graph Mode",
+        desc: "Primary mode used for relationship discovery.",
+        type: "dropdown",
+        options: {
+          neighborhood: "Neighborhood (Semantic + Links + Tags)",
+          semantic: "Semantic Only (Vector Similarity)",
+          links: "Links Only (WikiLinks & Backlinks)"
+        },
+        value: this.plugin.settings.graphMode,
+        onChange: async (val) => {
+          this.plugin.settings.graphMode = val;
+          await this.plugin.saveSettings();
+          this.plugin.refreshView();
+        }
+      }
+    ];
+  }
   display() {
     const { containerEl } = this;
     containerEl.empty();
-    new import_obsidian3.Setting(containerEl).setName("Smart Cluster Graph Settings").setHeading();
+    new import_obsidian3.Setting(containerEl).setName("General").setHeading();
     new import_obsidian3.Setting(containerEl).setName("Default Initial Zoom Scale").setDesc("Manually set default initial camera zoom level (1.0x to 6.0x).").addSlider(
       (slider) => slider.setLimits(1, 6, 0.2).setValue(this.plugin.settings.defaultZoomLevel || 3.5).onChange(async (val) => {
         this.plugin.settings.defaultZoomLevel = val;
@@ -12445,7 +12503,7 @@ var SmartGraphPlugin = class extends import_obsidian4.Plugin {
       });
     }
     if (leaf) {
-      void workspace.revealLeaf(leaf);
+      workspace.setActiveLeaf(leaf, { focus: true });
     }
   }
   refreshView() {
@@ -12467,7 +12525,8 @@ var SmartGraphPlugin = class extends import_obsidian4.Plugin {
   onunload() {
   }
   async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    const loadedData = await this.loadData();
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, loadedData ?? {});
   }
   async saveSettings() {
     await this.saveData(this.settings);

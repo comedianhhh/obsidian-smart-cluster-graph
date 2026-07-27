@@ -35,7 +35,15 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+}
+
+.smart-graph-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-direction: row;
+  flex-shrink: 0;
 }
 
 .smart-graph-toolbar-section {
@@ -220,198 +228,7 @@
   gap: 2px;
 }
 
-/* Inspector Panel */
-.smart-graph-inspector-panel {
-  position: absolute;
-  top: 60px;
-  right: 12px;
-  bottom: 12px;
-  width: 280px;
-  z-index: 30;
-  background: rgba(18, 20, 24, 0.92);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  box-shadow: -4px 4px 24px rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  padding: 14px;
-  gap: 12px;
-  overflow: hidden;
-  animation: slideInRight 0.2s ease-out;
-}
 
-@keyframes slideInRight {
-  from { transform: translateX(20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-.smart-graph-inspector-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 8px;
-}
-
-.smart-graph-inspector-title-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  overflow: hidden;
-}
-
-.smart-graph-inspector-color-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.smart-graph-inspector-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.smart-graph-inspector-close-btn {
-  background: transparent;
-  border: none;
-  color: #8a8f9d;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.smart-graph-inspector-close-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.smart-graph-inspector-body {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.smart-graph-inspector-meta-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.smart-graph-inspector-meta-box {
-  background: rgba(10, 12, 15, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 6px;
-  padding: 6px 10px;
-}
-
-.smart-graph-meta-label {
-  font-size: 10px;
-  color: #7a7f8d;
-  margin-bottom: 2px;
-}
-
-.smart-graph-meta-val {
-  font-size: 11px;
-  font-weight: 500;
-  color: #e0e4ec;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.smart-graph-meta-val.highlight {
-  color: #59a978;
-  font-weight: 600;
-}
-
-.smart-graph-inspector-section {
-  background: rgba(10, 12, 15, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 6px;
-  padding: 8px 10px;
-}
-
-.smart-graph-section-title {
-  font-size: 11px;
-  font-weight: 600;
-  color: #b0b5c4;
-  margin-bottom: 6px;
-}
-
-.smart-graph-relations-summary {
-  font-size: 11px;
-  color: #9aa0b0;
-}
-
-.smart-graph-why-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.smart-graph-why-item {
-  font-size: 10px;
-  color: #8fa0bd;
-  line-height: 1.3;
-}
-
-.smart-graph-inspector-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  padding-top: 6px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.smart-graph-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #d1d5db;
-  border-radius: 6px;
-  padding: 5px 8px;
-  font-size: 11px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.smart-graph-btn:hover {
-  background: rgba(255, 255, 255, 0.18);
-  color: #fff;
-}
-
-.smart-graph-btn.primary {
-  background: rgba(89, 169, 120, 0.25);
-  border-color: rgba(89, 169, 120, 0.45);
-  color: #6fc990;
-}
-
-.smart-graph-btn.primary:hover {
-  background: rgba(89, 169, 120, 0.4);
-  color: #ffffff;
-}
-
-.smart-graph-btn.danger {
-  background: rgba(216, 97, 114, 0.15);
-  border-color: rgba(216, 97, 114, 0.35);
-  color: #d86172;
-}
-
-.smart-graph-btn.danger:hover {
-  background: rgba(216, 97, 114, 0.3);
-  color: #ffffff;
-}
 
 /* Collapsible Legend */
 .smart-graph-legend-container {

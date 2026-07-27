@@ -1,5 +1,5 @@
 import { App } from 'obsidian';
-import { SmartConnectionsPlugin } from '../types';
+import { SmartConnectionsPlugin, SmartSource } from '../types';
 
 export interface SemanticNeighbor {
   path: string;
@@ -59,12 +59,17 @@ export class SmartConnectionsBridge {
     try {
       const env = sc.smart_env || sc.env;
       if (env && env.smart_sources) {
-        const source = typeof env.smart_sources.get === 'function'
-          ? env.smart_sources.get(filePath)
-          : env.smart_sources[filePath];
+        const smartSources = env.smart_sources;
+        const source = (
+          typeof smartSources.get === 'function'
+            ? smartSources.get(filePath)
+            : (smartSources as Record<string, unknown>)[filePath]
+        ) as SmartSource | undefined;
+
         if (source && typeof source.find_similar === 'function') {
-          const results = (await source.find_similar(topK)) as SmartConnectionsResult[];
-          if (Array.isArray(results)) {
+          const rawResults = await source.find_similar(topK);
+          if (Array.isArray(rawResults)) {
+            const results = rawResults as SmartConnectionsResult[];
             return results
               .map((r: SmartConnectionsResult) => ({
                 path: r.item?.path || r.path || r.key || '',
@@ -78,17 +83,19 @@ export class SmartConnectionsBridge {
       }
 
       if (sc.api?.get_nearest) {
-        const results = (await sc.api.get_nearest(filePath, topK)) as SmartConnectionsResult[];
-        return (results || [])
-          .map((r: SmartConnectionsResult) => ({
-            path: r.path || '',
-            score: r.score || 0,
-            title: r.title || (r.path ? r.path.split('/').pop()?.replace('.md', '') : '') || '',
-            vec: r.vec || undefined,
-          }))
-          .filter((n) => n.path && n.path !== filePath);
+        const rawResults = await sc.api.get_nearest(filePath, topK);
+        if (Array.isArray(rawResults)) {
+          const results = rawResults as SmartConnectionsResult[];
+          return results
+            .map((r: SmartConnectionsResult) => ({
+              path: r.path || '',
+              score: r.score || 0,
+              title: r.title || (r.path ? r.path.split('/').pop()?.replace('.md', '') : '') || '',
+              vec: r.vec || undefined,
+            }))
+            .filter((n) => n.path && n.path !== filePath);
+        }
       }
-
     } catch (err) {
       console.warn('[SmartGraph] Error in getSimilarSources:', err);
     }

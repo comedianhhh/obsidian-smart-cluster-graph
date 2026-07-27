@@ -3,9 +3,6 @@ import { GraphNode } from '../types';
 
 export interface ContextMenuCallbacks {
   onOpenNote: (node: GraphNode, inNewTab: boolean) => void;
-  onSetCenter: (node: GraphNode) => void;
-  onTogglePin: (node: GraphNode) => void;
-  onHideNode: (node: GraphNode) => void;
 }
 
 export function showNodeContextMenu(
@@ -35,29 +32,6 @@ export function showNodeContextMenu(
 
   menu.addItem((item) => {
     item
-      .setTitle('Set as center')
-      .setIcon('crosshair')
-      .onClick(() => callbacks.onSetCenter(node));
-  });
-
-  menu.addItem((item) => {
-    item
-      .setTitle(node.isPinned ? 'Unpin node' : 'Pin node')
-      .setIcon(node.isPinned ? 'pin-off' : 'pin')
-      .onClick(() => callbacks.onTogglePin(node));
-  });
-
-  menu.addItem((item) => {
-    item
-      .setTitle('Hide node')
-      .setIcon('eye-off')
-      .onClick(() => callbacks.onHideNode(node));
-  });
-
-  menu.addSeparator();
-
-  menu.addItem((item) => {
-    item
       .setTitle('Copy Obsidian link')
       .setIcon('link')
       .onClick(() => {
@@ -68,4 +42,3 @@ export function showNodeContextMenu(
 
   menu.showAtMouseEvent(event);
 }
-
