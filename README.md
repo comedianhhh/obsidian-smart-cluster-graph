@@ -1,67 +1,37 @@
 # Smart Cluster Graph
 
-[![Obsidian Plugin](https://img.shields.io/badge/Obsidian-Plugin-purple.svg)](https://obsidian.md)
-[![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)](https://github.com/comedianhhh/obsidian-smart-cluster-graph/releases)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-
-A powerful, aesthetic cluster graph explorer for **Obsidian**. It automatically partitions your vault notes into distinct folder-based community clusters, renders tight soft convex hulls, and displays a clean knowledge skeleton powered by **Strongest Bridge Links** and **Line Crossing Avoidance**.
+A folder-based cluster graph view plugin for [Obsidian](https://obsidian.md). It organizes your vault notes into distinct community clusters with soft convex hulls, line-crossing avoidance, and real-time node search.
 
 ![Smart Cluster Graph Demo](./Demo.png)
 
----
+## Features
 
-## ✨ Key Features
+- 🏝️ **Community Clusters**: Groups notes into clean topic clusters with soft convex hulls.
+- 🌉 **Strongest Bridge Links**: Displays key cross-cluster bridge relationships without web clutter.
+- ↪️ **Line Crossing Avoidance**: Curves cross-cluster links smoothly around intermediate hulls.
+- 🔍 **Live Node Search**: Search and highlight notes directly within the graph view.
+- 🎯 **Active Note Tracking**: Automatically syncs with your currently open Obsidian note.
 
-- 🏝️ **Folder-Based Community Clusters**: Partitions notes into distinct, vibrant topic clusters with zero overlapping bubble clutter.
-- 🌉 **Strongest Bridge Architecture (Cluster Skeleton)**: Completely hides internal node web clutter, rendering only the single strongest bridge edge between cluster pairs (capped at max 2 links per cluster).
-- ↪️ **Line Crossing Avoidance**: Smart curved routing algorithm that smoothly bends cross-cluster bridge lines around intermediate cluster hulls.
-- 🎨 **Tight Soft Convex Hulls**: Encloses all nodes and selection rings in tight, beautiful semi-transparent polygon/capsule envelopes with zero edge overflow.
-- 🔍 **Live Node Search**: Real-time Node Search input bar in the top toolbar to search and highlight notes instantly.
-- 🎯 **Active Note Highlighting**: Automatically synchronizes with your currently open Obsidian note, marking it with a crisp white selection ring.
-- 🖱️ **Intuitive Panning & Centered Zooming**: Supports smooth left-click canvas panning and screen-center wheel zooming without unwanted camera jumps.
-- ⚙️ **Customizable Zoom & Opacity**: Manually adjust your default initial zoom scale (`1.0x` to `6.0x`) and hull transparency directly from settings.
+## Usage
 
----
+- **Click Node**: Select node.
+- **Double Click Node**: Open note in Obsidian workspace.
+- **Right Click Node**: Open context menu (Open note, Open in new tab, Copy link).
+- **Search Bar**: Type to filter and highlight matching nodes in real time.
+- **Pan & Zoom**: Drag canvas to pan; scroll wheel to zoom around screen center.
 
-## 🚀 Installation
+## Installation
 
-### Option 1: Obsidian Community Plugin Store (Recommended)
-1. Open Obsidian **Settings** -> **Community plugins**.
-2. Turn off **Restricted mode**.
-3. Click **Browse** and search for `Smart Cluster Graph`.
-4. Click **Install**, then **Enable**.
+### Community Plugins
+1. Open Obsidian **Settings** → **Community plugins**.
+2. Search for `Smart Cluster Graph`.
+3. Click **Install**, then **Enable**.
 
-### Option 2: Manual Installation
-1. Download `main.js`, `manifest.json`, and `styles.css` from the latest [GitHub Release](https://github.com/comedianhhh/obsidian-smart-cluster-graph/releases).
-2. Create a folder named `smart-cluster-graph` under your vault's `.obsidian/plugins/` directory.
-3. Copy the downloaded files into `.obsidian/plugins/smart-cluster-graph/`.
-4. Reload Obsidian and enable **Smart Cluster Graph** under Community plugins.
+### Manual Installation
+1. Download `main.js`, `manifest.json`, and `styles.css` from the latest [Release](https://github.com/comedianhhh/obsidian-smart-cluster-graph/releases).
+2. Copy files into your vault's `.obsidian/plugins/smart-cluster-graph/` directory.
+3. Reload Obsidian and enable the plugin in settings.
 
----
+## License
 
-## 🕹️ Controls & Navigation
-
-| Action | Control | Description |
-| :--- | :--- | :--- |
-| **Select Node** | Single Left-Click | Marks node with a tight white ring (does NOT shift camera). |
-| **Open Note** | Double Left-Click | Opens the corresponding Markdown document in Obsidian. |
-| **Pan Canvas** | Left-Click Drag | Smoothly translates the graph viewport. |
-| **Zoom In/Out** | Scroll Wheel | Zooms in/out centered around the screen center. |
-| **Context Menu** | Right-Click Node | Open note, open in new tab, and copy Obsidian link `[[Title]]`. |
-| **Node Search** | Search Input | Search note titles and file paths in real time. |
-
----
-
-## ⚙️ Settings
-
-- **Default Initial Zoom Scale**: Manually set default camera zoom level on startup (`1.0x` to `6.0x`).
-- **Follow Active Note**: Automatically highlight currently active editor tab in the graph.
-- **Focus Similarity Threshold**: Adjust vector similarity threshold (`0.30` to `0.85`) for semantic relations.
-- **Cluster Polygon Hull Opacity**: Adjust fill transparency for semi-transparent cluster envelopes.
-- **Default Graph Mode**: Select relationship discovery mode (`Neighborhood`, `Semantic Only`, `Links Only`).
-
----
-
-## 📄 License
-
-Distributed under the [MIT License](LICENSE).
+[MIT](LICENSE)
