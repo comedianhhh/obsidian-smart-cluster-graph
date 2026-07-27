@@ -5,6 +5,6 @@
   "minAppVersion": "1.0.0",
   "description": "Folder-based cluster graph explorer with strongest cross-community bridges, line crossing avoidance, and tight convex hulls.",
   "author": "alan996",
-  "authorUrl": "https://github.com/alan996-Dev/Tools",
+  "authorUrl": "https://github.com/alan996-Dev/obsidian-smart-cluster-graph",
   "isDesktopOnly": true
 }
