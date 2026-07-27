@@ -14,7 +14,7 @@ export class SmartGraphSettingsTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl('h2', { text: 'Smart Graph Explorer Settings' });
+    containerEl.createEl('h2', { text: 'Smart Cluster Graph Settings' });
 
     // 1. Default Initial Zoom Scale (Manual adjustment)
     new Setting(containerEl)

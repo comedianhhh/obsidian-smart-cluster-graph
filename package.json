@@ -1,7 +1,7 @@
 {
-  "name": "obsidian-smart-graph-explorer",
+  "name": "obsidian-smart-cluster-graph",
   "version": "1.0.0",
-  "description": "Semantic graph explorer with cluster convex hulls for Obsidian, powered by Smart Connections.",
+  "description": "Folder-based cluster graph explorer with strongest cross-community bridges, line crossing avoidance, and tight convex hulls.",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",
@@ -11,12 +11,12 @@
     "obsidian",
     "obsidian-plugin",
     "graph-view",
-    "smart-connections",
+    "smart-cluster-graph",
     "semantic-graph",
-    "ai"
+    "community-detection"
   ],
-  "author": "Smart Graph",
-  "license": "Commercial",
+  "author": "alan996",
+  "license": "MIT",
   "dependencies": {
     "@types/lodash-es": "^4.17.12",
     "d3-force": "^3.0.0",

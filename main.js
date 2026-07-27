@@ -17349,7 +17349,7 @@ function showNodeContextMenu(event, node, app, callbacks) {
 }
 
 // src/views/smartGraphView.ts
-var SMART_GRAPH_VIEW_TYPE = "smart-graph-explorer-view";
+var SMART_GRAPH_VIEW_TYPE = "smart-cluster-graph-view";
 var SmartGraphView = class extends import_obsidian2.ItemView {
   plugin;
   bridge;
@@ -17381,7 +17381,7 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
     return SMART_GRAPH_VIEW_TYPE;
   }
   getDisplayText() {
-    return "Smart Graph Explorer";
+    return "Smart Cluster Graph";
   }
   getIcon() {
     return "dot-network";
@@ -17494,7 +17494,7 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
   buildHeaderToolbar(container) {
     const toolbar = container.createDiv({ cls: "smart-graph-header-toolbar" });
     const titleGroup = toolbar.createDiv({ cls: "smart-graph-title-group" });
-    titleGroup.createDiv({ cls: "smart-graph-title", text: "Smart Graph Explorer" });
+    titleGroup.createDiv({ cls: "smart-graph-title", text: "Smart Cluster Graph" });
     const refreshBtn = toolbar.createDiv({ cls: "smart-graph-refresh-button" });
     (0, import_obsidian2.setIcon)(refreshBtn, "refresh-cw");
     refreshBtn.setAttribute("aria-label", "Refresh graph");
@@ -17931,7 +17931,7 @@ var SmartGraphSettingsTab = class extends import_obsidian3.PluginSettingTab {
   display() {
     const { containerEl } = this;
     containerEl.empty();
-    containerEl.createEl("h2", { text: "Smart Graph Explorer Settings" });
+    containerEl.createEl("h2", { text: "Smart Cluster Graph Settings" });
     new import_obsidian3.Setting(containerEl).setName("Default Initial Zoom Scale").setDesc("Manually set default initial camera zoom level (1.0x to 6.0x).").addSlider(
       (slider) => slider.setLimits(1, 6, 0.2).setValue(this.plugin.settings.defaultZoomLevel || 3.5).setDynamicTooltip().onChange(async (val) => {
         this.plugin.settings.defaultZoomLevel = val;
@@ -17978,12 +17978,12 @@ var SmartGraphPlugin = class extends import_obsidian4.Plugin {
       SMART_GRAPH_VIEW_TYPE,
       (leaf) => new SmartGraphView(leaf, this)
     );
-    this.addRibbonIcon("dot-network", "Smart Graph Explorer", () => {
+    this.addRibbonIcon("dot-network", "Smart Cluster Graph", () => {
       this.activateView();
     });
     this.addCommand({
-      id: "open-smart-graph-explorer",
-      name: "Open Smart Graph Explorer",
+      id: "open-smart-cluster-graph",
+      name: "Open Smart Cluster Graph",
       callback: () => {
         this.activateView();
       }

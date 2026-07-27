@@ -9,7 +9,7 @@ import { CommunityDetector } from '../engine/communityDetector';
 import { HullRenderer } from './hullRenderer';
 import { showNodeContextMenu } from './contextMenu';
 
-export const SMART_GRAPH_VIEW_TYPE = 'smart-graph-explorer-view';
+export const SMART_GRAPH_VIEW_TYPE = 'smart-cluster-graph-view';
 
 export class SmartGraphView extends ItemView {
   private plugin: SmartGraphPlugin;
@@ -49,7 +49,7 @@ export class SmartGraphView extends ItemView {
   }
 
   getDisplayText(): string {
-    return 'Smart Graph Explorer';
+    return 'Smart Cluster Graph';
   }
 
   getIcon(): string {
@@ -187,7 +187,7 @@ export class SmartGraphView extends ItemView {
 
     // Left: Title ONLY
     const titleGroup = toolbar.createDiv({ cls: 'smart-graph-title-group' });
-    titleGroup.createDiv({ cls: 'smart-graph-title', text: 'Smart Graph Explorer' });
+    titleGroup.createDiv({ cls: 'smart-graph-title', text: 'Smart Cluster Graph' });
 
     // Right: Single Refresh Button
     const refreshBtn = toolbar.createDiv({ cls: 'smart-graph-refresh-button' });

@@ -16,14 +16,14 @@ export default class SmartGraphPlugin extends Plugin {
     );
 
     // Add Ribbon Icon to Left Sidebar
-    this.addRibbonIcon('dot-network', 'Smart Graph Explorer', () => {
+    this.addRibbonIcon('dot-network', 'Smart Cluster Graph', () => {
       this.activateView();
     });
 
     // Add Command Palette Command
     this.addCommand({
-      id: 'open-smart-graph-explorer',
-      name: 'Open Smart Graph Explorer',
+      id: 'open-smart-cluster-graph',
+      name: 'Open Smart Cluster Graph',
       callback: () => {
         this.activateView();
       },
