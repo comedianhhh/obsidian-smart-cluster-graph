@@ -394,17 +394,17 @@ var require_lodash = __commonJS({
         return func.apply(thisArg, args);
       }
       function arrayAggregator(array2, setter, iteratee, accumulator) {
-        var index6 = -1, length = array2 == null ? 0 : array2.length;
-        while (++index6 < length) {
-          var value = array2[index6];
+        var index7 = -1, length = array2 == null ? 0 : array2.length;
+        while (++index7 < length) {
+          var value = array2[index7];
           setter(accumulator, value, iteratee(value), array2);
         }
         return accumulator;
       }
       function arrayEach(array2, iteratee) {
-        var index6 = -1, length = array2 == null ? 0 : array2.length;
-        while (++index6 < length) {
-          if (iteratee(array2[index6], index6, array2) === false) {
+        var index7 = -1, length = array2 == null ? 0 : array2.length;
+        while (++index7 < length) {
+          if (iteratee(array2[index7], index7, array2) === false) {
             break;
           }
         }
@@ -420,19 +420,19 @@ var require_lodash = __commonJS({
         return array2;
       }
       function arrayEvery(array2, predicate) {
-        var index6 = -1, length = array2 == null ? 0 : array2.length;
-        while (++index6 < length) {
-          if (!predicate(array2[index6], index6, array2)) {
+        var index7 = -1, length = array2 == null ? 0 : array2.length;
+        while (++index7 < length) {
+          if (!predicate(array2[index7], index7, array2)) {
             return false;
           }
         }
         return true;
       }
       function arrayFilter(array2, predicate) {
-        var index6 = -1, length = array2 == null ? 0 : array2.length, resIndex = 0, result = [];
-        while (++index6 < length) {
-          var value = array2[index6];
-          if (predicate(value, index6, array2)) {
+        var index7 = -1, length = array2 == null ? 0 : array2.length, resIndex = 0, result = [];
+        while (++index7 < length) {
+          var value = array2[index7];
+          if (predicate(value, index7, array2)) {
             result[resIndex++] = value;
           }
         }
@@ -443,35 +443,35 @@ var require_lodash = __commonJS({
         return !!length && baseIndexOf(array2, value, 0) > -1;
       }
       function arrayIncludesWith(array2, value, comparator) {
-        var index6 = -1, length = array2 == null ? 0 : array2.length;
-        while (++index6 < length) {
-          if (comparator(value, array2[index6])) {
+        var index7 = -1, length = array2 == null ? 0 : array2.length;
+        while (++index7 < length) {
+          if (comparator(value, array2[index7])) {
             return true;
           }
         }
         return false;
       }
       function arrayMap(array2, iteratee) {
-        var index6 = -1, length = array2 == null ? 0 : array2.length, result = Array(length);
-        while (++index6 < length) {
-          result[index6] = iteratee(array2[index6], index6, array2);
+        var index7 = -1, length = array2 == null ? 0 : array2.length, result = Array(length);
+        while (++index7 < length) {
+          result[index7] = iteratee(array2[index7], index7, array2);
         }
         return result;
       }
       function arrayPush(array2, values) {
-        var index6 = -1, length = values.length, offset = array2.length;
-        while (++index6 < length) {
-          array2[offset + index6] = values[index6];
+        var index7 = -1, length = values.length, offset = array2.length;
+        while (++index7 < length) {
+          array2[offset + index7] = values[index7];
         }
         return array2;
       }
       function arrayReduce(array2, iteratee, accumulator, initAccum) {
-        var index6 = -1, length = array2 == null ? 0 : array2.length;
+        var index7 = -1, length = array2 == null ? 0 : array2.length;
         if (initAccum && length) {
-          accumulator = array2[++index6];
+          accumulator = array2[++index7];
         }
-        while (++index6 < length) {
-          accumulator = iteratee(accumulator, array2[index6], index6, array2);
+        while (++index7 < length) {
+          accumulator = iteratee(accumulator, array2[index7], index7, array2);
         }
         return accumulator;
       }
@@ -486,9 +486,9 @@ var require_lodash = __commonJS({
         return accumulator;
       }
       function arraySome(array2, predicate) {
-        var index6 = -1, length = array2 == null ? 0 : array2.length;
-        while (++index6 < length) {
-          if (predicate(array2[index6], index6, array2)) {
+        var index7 = -1, length = array2 == null ? 0 : array2.length;
+        while (++index7 < length) {
+          if (predicate(array2[index7], index7, array2)) {
             return true;
           }
         }
@@ -512,10 +512,10 @@ var require_lodash = __commonJS({
         return result;
       }
       function baseFindIndex(array2, predicate, fromIndex, fromRight) {
-        var length = array2.length, index6 = fromIndex + (fromRight ? 1 : -1);
-        while (fromRight ? index6-- : ++index6 < length) {
-          if (predicate(array2[index6], index6, array2)) {
-            return index6;
+        var length = array2.length, index7 = fromIndex + (fromRight ? 1 : -1);
+        while (fromRight ? index7-- : ++index7 < length) {
+          if (predicate(array2[index7], index7, array2)) {
+            return index7;
           }
         }
         return -1;
@@ -524,10 +524,10 @@ var require_lodash = __commonJS({
         return value === value ? strictIndexOf(array2, value, fromIndex) : baseFindIndex(array2, baseIsNaN, fromIndex);
       }
       function baseIndexOfWith(array2, value, fromIndex, comparator) {
-        var index6 = fromIndex - 1, length = array2.length;
-        while (++index6 < length) {
-          if (comparator(array2[index6], value)) {
-            return index6;
+        var index7 = fromIndex - 1, length = array2.length;
+        while (++index7 < length) {
+          if (comparator(array2[index7], value)) {
+            return index7;
           }
         }
         return -1;
@@ -550,8 +550,8 @@ var require_lodash = __commonJS({
         };
       }
       function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
-        eachFunc(collection, function(value, index6, collection2) {
-          accumulator = initAccum ? (initAccum = false, value) : iteratee(accumulator, value, index6, collection2);
+        eachFunc(collection, function(value, index7, collection2) {
+          accumulator = initAccum ? (initAccum = false, value) : iteratee(accumulator, value, index7, collection2);
         });
         return accumulator;
       }
@@ -564,9 +564,9 @@ var require_lodash = __commonJS({
         return array2;
       }
       function baseSum(array2, iteratee) {
-        var result, index6 = -1, length = array2.length;
-        while (++index6 < length) {
-          var current = iteratee(array2[index6]);
+        var result, index7 = -1, length = array2.length;
+        while (++index7 < length) {
+          var current = iteratee(array2[index7]);
           if (current !== undefined2) {
             result = result === undefined2 ? current : result + current;
           }
@@ -574,9 +574,9 @@ var require_lodash = __commonJS({
         return result;
       }
       function baseTimes(n2, iteratee) {
-        var index6 = -1, result = Array(n2);
-        while (++index6 < n2) {
-          result[index6] = iteratee(index6);
+        var index7 = -1, result = Array(n2);
+        while (++index7 < n2) {
+          result[index7] = iteratee(index7);
         }
         return result;
       }
@@ -602,16 +602,16 @@ var require_lodash = __commonJS({
         return cache.has(key);
       }
       function charsStartIndex(strSymbols, chrSymbols) {
-        var index6 = -1, length = strSymbols.length;
-        while (++index6 < length && baseIndexOf(chrSymbols, strSymbols[index6], 0) > -1) {
+        var index7 = -1, length = strSymbols.length;
+        while (++index7 < length && baseIndexOf(chrSymbols, strSymbols[index7], 0) > -1) {
         }
-        return index6;
+        return index7;
       }
       function charsEndIndex(strSymbols, chrSymbols) {
-        var index6 = strSymbols.length;
-        while (index6-- && baseIndexOf(chrSymbols, strSymbols[index6], 0) > -1) {
+        var index7 = strSymbols.length;
+        while (index7-- && baseIndexOf(chrSymbols, strSymbols[index7], 0) > -1) {
         }
-        return index6;
+        return index7;
       }
       function countHolders(array2, placeholder) {
         var length = array2.length, result = 0;
@@ -644,9 +644,9 @@ var require_lodash = __commonJS({
         return result;
       }
       function mapToArray(map) {
-        var index6 = -1, result = Array(map.size);
+        var index7 = -1, result = Array(map.size);
         map.forEach(function(value, key) {
-          result[++index6] = [key, value];
+          result[++index7] = [key, value];
         });
         return result;
       }
@@ -656,47 +656,47 @@ var require_lodash = __commonJS({
         };
       }
       function replaceHolders(array2, placeholder) {
-        var index6 = -1, length = array2.length, resIndex = 0, result = [];
-        while (++index6 < length) {
-          var value = array2[index6];
+        var index7 = -1, length = array2.length, resIndex = 0, result = [];
+        while (++index7 < length) {
+          var value = array2[index7];
           if (value === placeholder || value === PLACEHOLDER) {
-            array2[index6] = PLACEHOLDER;
-            result[resIndex++] = index6;
+            array2[index7] = PLACEHOLDER;
+            result[resIndex++] = index7;
           }
         }
         return result;
       }
       function setToArray(set3) {
-        var index6 = -1, result = Array(set3.size);
+        var index7 = -1, result = Array(set3.size);
         set3.forEach(function(value) {
-          result[++index6] = value;
+          result[++index7] = value;
         });
         return result;
       }
       function setToPairs(set3) {
-        var index6 = -1, result = Array(set3.size);
+        var index7 = -1, result = Array(set3.size);
         set3.forEach(function(value) {
-          result[++index6] = [value, value];
+          result[++index7] = [value, value];
         });
         return result;
       }
       function strictIndexOf(array2, value, fromIndex) {
-        var index6 = fromIndex - 1, length = array2.length;
-        while (++index6 < length) {
-          if (array2[index6] === value) {
-            return index6;
+        var index7 = fromIndex - 1, length = array2.length;
+        while (++index7 < length) {
+          if (array2[index7] === value) {
+            return index7;
           }
         }
         return -1;
       }
       function strictLastIndexOf(array2, value, fromIndex) {
-        var index6 = fromIndex + 1;
-        while (index6--) {
-          if (array2[index6] === value) {
-            return index6;
+        var index7 = fromIndex + 1;
+        while (index7--) {
+          if (array2[index7] === value) {
+            return index7;
           }
         }
-        return index6;
+        return index7;
       }
       function stringSize(string) {
         return hasUnicode(string) ? unicodeSize(string) : asciiSize(string);
@@ -705,10 +705,10 @@ var require_lodash = __commonJS({
         return hasUnicode(string) ? unicodeToArray(string) : asciiToArray(string);
       }
       function trimmedEndIndex(string) {
-        var index6 = string.length;
-        while (index6-- && reWhitespace.test(string.charAt(index6))) {
+        var index7 = string.length;
+        while (index7-- && reWhitespace.test(string.charAt(index7))) {
         }
-        return index6;
+        return index7;
       }
       var unescapeHtmlChar = basePropertyOf(htmlUnescapes);
       function unicodeSize(string) {
@@ -874,15 +874,15 @@ var require_lodash = __commonJS({
           return result2;
         }
         function lazyValue() {
-          var array2 = this.__wrapped__.value(), dir = this.__dir__, isArr = isArray(array2), isRight = dir < 0, arrLength = isArr ? array2.length : 0, view = getView(0, arrLength, this.__views__), start2 = view.start, end = view.end, length = end - start2, index6 = isRight ? end : start2 - 1, iteratees = this.__iteratees__, iterLength = iteratees.length, resIndex = 0, takeCount = nativeMin(length, this.__takeCount__);
+          var array2 = this.__wrapped__.value(), dir = this.__dir__, isArr = isArray(array2), isRight = dir < 0, arrLength = isArr ? array2.length : 0, view = getView(0, arrLength, this.__views__), start2 = view.start, end = view.end, length = end - start2, index7 = isRight ? end : start2 - 1, iteratees = this.__iteratees__, iterLength = iteratees.length, resIndex = 0, takeCount = nativeMin(length, this.__takeCount__);
           if (!isArr || !isRight && arrLength == length && takeCount == length) {
             return baseWrapperValue(array2, this.__actions__);
           }
           var result2 = [];
           outer:
             while (length-- && resIndex < takeCount) {
-              index6 += dir;
-              var iterIndex = -1, value = array2[index6];
+              index7 += dir;
+              var iterIndex = -1, value = array2[index7];
               while (++iterIndex < iterLength) {
                 var data = iteratees[iterIndex], iteratee2 = data.iteratee, type = data.type, computed = iteratee2(value);
                 if (type == LAZY_MAP_FLAG) {
@@ -902,10 +902,10 @@ var require_lodash = __commonJS({
         LazyWrapper.prototype = baseCreate(baseLodash.prototype);
         LazyWrapper.prototype.constructor = LazyWrapper;
         function Hash(entries) {
-          var index6 = -1, length = entries == null ? 0 : entries.length;
+          var index7 = -1, length = entries == null ? 0 : entries.length;
           this.clear();
-          while (++index6 < length) {
-            var entry = entries[index6];
+          while (++index7 < length) {
+            var entry = entries[index7];
             this.set(entry[0], entry[1]);
           }
         }
@@ -942,10 +942,10 @@ var require_lodash = __commonJS({
         Hash.prototype.has = hashHas;
         Hash.prototype.set = hashSet;
         function ListCache(entries) {
-          var index6 = -1, length = entries == null ? 0 : entries.length;
+          var index7 = -1, length = entries == null ? 0 : entries.length;
           this.clear();
-          while (++index6 < length) {
-            var entry = entries[index6];
+          while (++index7 < length) {
+            var entry = entries[index7];
             this.set(entry[0], entry[1]);
           }
         }
@@ -954,33 +954,33 @@ var require_lodash = __commonJS({
           this.size = 0;
         }
         function listCacheDelete(key) {
-          var data = this.__data__, index6 = assocIndexOf(data, key);
-          if (index6 < 0) {
+          var data = this.__data__, index7 = assocIndexOf(data, key);
+          if (index7 < 0) {
             return false;
           }
           var lastIndex = data.length - 1;
-          if (index6 == lastIndex) {
+          if (index7 == lastIndex) {
             data.pop();
           } else {
-            splice.call(data, index6, 1);
+            splice.call(data, index7, 1);
           }
           --this.size;
           return true;
         }
         function listCacheGet(key) {
-          var data = this.__data__, index6 = assocIndexOf(data, key);
-          return index6 < 0 ? undefined2 : data[index6][1];
+          var data = this.__data__, index7 = assocIndexOf(data, key);
+          return index7 < 0 ? undefined2 : data[index7][1];
         }
         function listCacheHas(key) {
           return assocIndexOf(this.__data__, key) > -1;
         }
         function listCacheSet(key, value) {
-          var data = this.__data__, index6 = assocIndexOf(data, key);
-          if (index6 < 0) {
+          var data = this.__data__, index7 = assocIndexOf(data, key);
+          if (index7 < 0) {
             ++this.size;
             data.push([key, value]);
           } else {
-            data[index6][1] = value;
+            data[index7][1] = value;
           }
           return this;
         }
@@ -990,10 +990,10 @@ var require_lodash = __commonJS({
         ListCache.prototype.has = listCacheHas;
         ListCache.prototype.set = listCacheSet;
         function MapCache(entries) {
-          var index6 = -1, length = entries == null ? 0 : entries.length;
+          var index7 = -1, length = entries == null ? 0 : entries.length;
           this.clear();
-          while (++index6 < length) {
-            var entry = entries[index6];
+          while (++index7 < length) {
+            var entry = entries[index7];
             this.set(entry[0], entry[1]);
           }
         }
@@ -1028,10 +1028,10 @@ var require_lodash = __commonJS({
         MapCache.prototype.has = mapCacheHas;
         MapCache.prototype.set = mapCacheSet;
         function SetCache(values2) {
-          var index6 = -1, length = values2 == null ? 0 : values2.length;
+          var index7 = -1, length = values2 == null ? 0 : values2.length;
           this.__data__ = new MapCache();
-          while (++index6 < length) {
-            this.add(values2[index6]);
+          while (++index7 < length) {
+            this.add(values2[index7]);
           }
         }
         function setCacheAdd(value) {
@@ -1150,9 +1150,9 @@ var require_lodash = __commonJS({
           }
         }
         function baseAt(object, paths) {
-          var index6 = -1, length = paths.length, result2 = Array2(length), skip = object == null;
-          while (++index6 < length) {
-            result2[index6] = skip ? undefined2 : get3(object, paths[index6]);
+          var index7 = -1, length = paths.length, result2 = Array2(length), skip = object == null;
+          while (++index7 < length) {
+            result2[index7] = skip ? undefined2 : get3(object, paths[index7]);
           }
           return result2;
         }
@@ -1256,7 +1256,7 @@ var require_lodash = __commonJS({
           }, wait);
         }
         function baseDifference(array2, values2, iteratee2, comparator) {
-          var index6 = -1, includes2 = arrayIncludes, isCommon = true, length = array2.length, result2 = [], valuesLength = values2.length;
+          var index7 = -1, includes2 = arrayIncludes, isCommon = true, length = array2.length, result2 = [], valuesLength = values2.length;
           if (!length) {
             return result2;
           }
@@ -1272,8 +1272,8 @@ var require_lodash = __commonJS({
             values2 = new SetCache(values2);
           }
           outer:
-            while (++index6 < length) {
-              var value = array2[index6], computed = iteratee2 == null ? value : iteratee2(value);
+            while (++index7 < length) {
+              var value = array2[index7], computed = iteratee2 == null ? value : iteratee2(value);
               value = comparator || value !== 0 ? value : 0;
               if (isCommon && computed === computed) {
                 var valuesIndex = valuesLength;
@@ -1293,16 +1293,16 @@ var require_lodash = __commonJS({
         var baseEachRight = createBaseEach(baseForOwnRight, true);
         function baseEvery(collection, predicate) {
           var result2 = true;
-          baseEach(collection, function(value, index6, collection2) {
-            result2 = !!predicate(value, index6, collection2);
+          baseEach(collection, function(value, index7, collection2) {
+            result2 = !!predicate(value, index7, collection2);
             return result2;
           });
           return result2;
         }
         function baseExtremum(array2, iteratee2, comparator) {
-          var index6 = -1, length = array2.length;
-          while (++index6 < length) {
-            var value = array2[index6], current = iteratee2(value);
+          var index7 = -1, length = array2.length;
+          while (++index7 < length) {
+            var value = array2[index7], current = iteratee2(value);
             if (current != null && (computed === undefined2 ? current === current && !isSymbol(current) : comparator(current, computed))) {
               var computed = current, result2 = value;
             }
@@ -1327,19 +1327,19 @@ var require_lodash = __commonJS({
         }
         function baseFilter(collection, predicate) {
           var result2 = [];
-          baseEach(collection, function(value, index6, collection2) {
-            if (predicate(value, index6, collection2)) {
+          baseEach(collection, function(value, index7, collection2) {
+            if (predicate(value, index7, collection2)) {
               result2.push(value);
             }
           });
           return result2;
         }
         function baseFlatten(array2, depth, predicate, isStrict, result2) {
-          var index6 = -1, length = array2.length;
+          var index7 = -1, length = array2.length;
           predicate || (predicate = isFlattenable);
           result2 || (result2 = []);
-          while (++index6 < length) {
-            var value = array2[index6];
+          while (++index7 < length) {
+            var value = array2[index7];
             if (depth > 0 && predicate(value)) {
               if (depth > 1) {
                 baseFlatten(value, depth - 1, predicate, isStrict, result2);
@@ -1367,11 +1367,11 @@ var require_lodash = __commonJS({
         }
         function baseGet(object, path) {
           path = castPath(path, object);
-          var index6 = 0, length = path.length;
-          while (object != null && index6 < length) {
-            object = object[toKey(path[index6++])];
+          var index7 = 0, length = path.length;
+          while (object != null && index7 < length) {
+            object = object[toKey(path[index7++])];
           }
-          return index6 && index6 == length ? object : undefined2;
+          return index7 && index7 == length ? object : undefined2;
         }
         function baseGetAllKeys(object, keysFunc, symbolsFunc) {
           var result2 = keysFunc(object);
@@ -1406,10 +1406,10 @@ var require_lodash = __commonJS({
             caches[othIndex] = !comparator && (iteratee2 || length >= 120 && array2.length >= 120) ? new SetCache(othIndex && array2) : undefined2;
           }
           array2 = arrays[0];
-          var index6 = -1, seen = caches[0];
+          var index7 = -1, seen = caches[0];
           outer:
-            while (++index6 < length && result2.length < maxLength) {
-              var value = array2[index6], computed = iteratee2 ? iteratee2(value) : value;
+            while (++index7 < length && result2.length < maxLength) {
+              var value = array2[index7], computed = iteratee2 ? iteratee2(value) : value;
               value = comparator || value !== 0 ? value : 0;
               if (!(seen ? cacheHas(seen, computed) : includes2(result2, computed, comparator))) {
                 othIndex = othLength;
@@ -1491,19 +1491,19 @@ var require_lodash = __commonJS({
           return isObjectLike(value) && getTag(value) == mapTag;
         }
         function baseIsMatch(object, source, matchData, customizer) {
-          var index6 = matchData.length, length = index6, noCustomizer = !customizer;
+          var index7 = matchData.length, length = index7, noCustomizer = !customizer;
           if (object == null) {
             return !length;
           }
           object = Object2(object);
-          while (index6--) {
-            var data = matchData[index6];
+          while (index7--) {
+            var data = matchData[index7];
             if (noCustomizer && data[2] ? data[1] !== object[data[0]] : !(data[0] in object)) {
               return false;
             }
           }
-          while (++index6 < length) {
-            data = matchData[index6];
+          while (++index7 < length) {
+            data = matchData[index7];
             var key = data[0], objValue = object[key], srcValue = data[1];
             if (noCustomizer && data[2]) {
               if (objValue === undefined2 && !(key in object)) {
@@ -1577,9 +1577,9 @@ var require_lodash = __commonJS({
           return value < other;
         }
         function baseMap(collection, iteratee2) {
-          var index6 = -1, result2 = isArrayLike(collection) ? Array2(collection.length) : [];
+          var index7 = -1, result2 = isArrayLike(collection) ? Array2(collection.length) : [];
           baseEach(collection, function(value, key, collection2) {
-            result2[++index6] = iteratee2(value, key, collection2);
+            result2[++index7] = iteratee2(value, key, collection2);
           });
           return result2;
         }
@@ -1682,13 +1682,13 @@ var require_lodash = __commonJS({
           } else {
             iteratees = [identity3];
           }
-          var index6 = -1;
+          var index7 = -1;
           iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
           var result2 = baseMap(collection, function(value, key, collection2) {
             var criteria = arrayMap(iteratees, function(iteratee2) {
               return iteratee2(value);
             });
-            return { "criteria": criteria, "index": ++index6, "value": value };
+            return { "criteria": criteria, "index": ++index7, "value": value };
           });
           return baseSortBy(result2, function(object, other) {
             return compareMultiple(object, other, orders);
@@ -1700,9 +1700,9 @@ var require_lodash = __commonJS({
           });
         }
         function basePickBy(object, paths, predicate) {
-          var index6 = -1, length = paths.length, result2 = {};
-          while (++index6 < length) {
-            var path = paths[index6], value = baseGet(object, path);
+          var index7 = -1, length = paths.length, result2 = {};
+          while (++index7 < length) {
+            var path = paths[index7], value = baseGet(object, path);
             if (predicate(value, path)) {
               baseSet(result2, castPath(path, object), value);
             }
@@ -1715,15 +1715,15 @@ var require_lodash = __commonJS({
           };
         }
         function basePullAll(array2, values2, iteratee2, comparator) {
-          var indexOf2 = comparator ? baseIndexOfWith : baseIndexOf, index6 = -1, length = values2.length, seen = array2;
+          var indexOf2 = comparator ? baseIndexOfWith : baseIndexOf, index7 = -1, length = values2.length, seen = array2;
           if (array2 === values2) {
             values2 = copyArray(values2);
           }
           if (iteratee2) {
             seen = arrayMap(array2, baseUnary(iteratee2));
           }
-          while (++index6 < length) {
-            var fromIndex = 0, value = values2[index6], computed = iteratee2 ? iteratee2(value) : value;
+          while (++index7 < length) {
+            var fromIndex = 0, value = values2[index7], computed = iteratee2 ? iteratee2(value) : value;
             while ((fromIndex = indexOf2(seen, computed, fromIndex, comparator)) > -1) {
               if (seen !== array2) {
                 splice.call(seen, fromIndex, 1);
@@ -1736,13 +1736,13 @@ var require_lodash = __commonJS({
         function basePullAt(array2, indexes) {
           var length = array2 ? indexes.length : 0, lastIndex = length - 1;
           while (length--) {
-            var index6 = indexes[length];
-            if (length == lastIndex || index6 !== previous) {
-              var previous = index6;
-              if (isIndex(index6)) {
-                splice.call(array2, index6, 1);
+            var index7 = indexes[length];
+            if (length == lastIndex || index7 !== previous) {
+              var previous = index7;
+              if (isIndex(index7)) {
+                splice.call(array2, index7, 1);
               } else {
-                baseUnset(array2, index6);
+                baseUnset(array2, index7);
               }
             }
           }
@@ -1752,9 +1752,9 @@ var require_lodash = __commonJS({
           return lower2 + nativeFloor(nativeRandom() * (upper - lower2 + 1));
         }
         function baseRange(start2, end, step, fromRight) {
-          var index6 = -1, length = nativeMax(nativeCeil((end - start2) / (step || 1)), 0), result2 = Array2(length);
+          var index7 = -1, length = nativeMax(nativeCeil((end - start2) / (step || 1)), 0), result2 = Array2(length);
           while (length--) {
-            result2[fromRight ? length : ++index6] = start2;
+            result2[fromRight ? length : ++index7] = start2;
             start2 += step;
           }
           return result2;
@@ -1790,17 +1790,17 @@ var require_lodash = __commonJS({
             return object;
           }
           path = castPath(path, object);
-          var index6 = -1, length = path.length, lastIndex = length - 1, nested = object;
-          while (nested != null && ++index6 < length) {
-            var key = toKey(path[index6]), newValue = value;
+          var index7 = -1, length = path.length, lastIndex = length - 1, nested = object;
+          while (nested != null && ++index7 < length) {
+            var key = toKey(path[index7]), newValue = value;
             if (key === "__proto__" || key === "constructor" || key === "prototype") {
               return object;
             }
-            if (index6 != lastIndex) {
+            if (index7 != lastIndex) {
               var objValue = nested[key];
               newValue = customizer ? customizer(objValue, key, nested) : undefined2;
               if (newValue === undefined2) {
-                newValue = isObject(objValue) ? objValue : isIndex(path[index6 + 1]) ? [] : {};
+                newValue = isObject(objValue) ? objValue : isIndex(path[index7 + 1]) ? [] : {};
               }
             }
             assignValue(nested, key, newValue);
@@ -1824,7 +1824,7 @@ var require_lodash = __commonJS({
           return shuffleSelf(values(collection));
         }
         function baseSlice(array2, start2, end) {
-          var index6 = -1, length = array2.length;
+          var index7 = -1, length = array2.length;
           if (start2 < 0) {
             start2 = -start2 > length ? 0 : length + start2;
           }
@@ -1835,15 +1835,15 @@ var require_lodash = __commonJS({
           length = start2 > end ? 0 : end - start2 >>> 0;
           start2 >>>= 0;
           var result2 = Array2(length);
-          while (++index6 < length) {
-            result2[index6] = array2[index6 + start2];
+          while (++index7 < length) {
+            result2[index7] = array2[index7 + start2];
           }
           return result2;
         }
         function baseSome(collection, predicate) {
           var result2;
-          baseEach(collection, function(value, index6, collection2) {
-            result2 = predicate(value, index6, collection2);
+          baseEach(collection, function(value, index7, collection2) {
+            result2 = predicate(value, index7, collection2);
             return !result2;
           });
           return !!result2;
@@ -1894,10 +1894,10 @@ var require_lodash = __commonJS({
           return nativeMin(high, MAX_ARRAY_INDEX);
         }
         function baseSortedUniq(array2, iteratee2) {
-          var index6 = -1, length = array2.length, resIndex = 0, result2 = [];
-          while (++index6 < length) {
-            var value = array2[index6], computed = iteratee2 ? iteratee2(value) : value;
-            if (!index6 || !eq(computed, seen)) {
+          var index7 = -1, length = array2.length, resIndex = 0, result2 = [];
+          while (++index7 < length) {
+            var value = array2[index7], computed = iteratee2 ? iteratee2(value) : value;
+            if (!index7 || !eq(computed, seen)) {
               var seen = computed;
               result2[resIndex++] = value === 0 ? 0 : value;
             }
@@ -1927,7 +1927,7 @@ var require_lodash = __commonJS({
           return result2 == "0" && 1 / value == -INFINITY ? "-0" : result2;
         }
         function baseUniq(array2, iteratee2, comparator) {
-          var index6 = -1, includes2 = arrayIncludes, length = array2.length, isCommon = true, result2 = [], seen = result2;
+          var index7 = -1, includes2 = arrayIncludes, length = array2.length, isCommon = true, result2 = [], seen = result2;
           if (comparator) {
             isCommon = false;
             includes2 = arrayIncludesWith;
@@ -1943,8 +1943,8 @@ var require_lodash = __commonJS({
             seen = iteratee2 ? [] : result2;
           }
           outer:
-            while (++index6 < length) {
-              var value = array2[index6], computed = iteratee2 ? iteratee2(value) : value;
+            while (++index7 < length) {
+              var value = array2[index7], computed = iteratee2 ? iteratee2(value) : value;
               value = comparator || value !== 0 ? value : 0;
               if (isCommon && computed === computed) {
                 var seenIndex = seen.length;
@@ -1968,16 +1968,16 @@ var require_lodash = __commonJS({
         }
         function baseUnset(object, path) {
           path = castPath(path, object);
-          var index6 = -1, length = path.length;
+          var index7 = -1, length = path.length;
           if (!length) {
             return true;
           }
-          while (++index6 < length) {
-            var key = toKey(path[index6]);
+          while (++index7 < length) {
+            var key = toKey(path[index7]);
             if (key === "__proto__" && !hasOwnProperty.call(object, "__proto__")) {
               return false;
             }
-            if ((key === "constructor" || key === "prototype") && index6 < length - 1) {
+            if ((key === "constructor" || key === "prototype") && index7 < length - 1) {
               return false;
             }
           }
@@ -1988,10 +1988,10 @@ var require_lodash = __commonJS({
           return baseSet(object, path, updater(baseGet(object, path)), customizer);
         }
         function baseWhile(array2, predicate, isDrop, fromRight) {
-          var length = array2.length, index6 = fromRight ? length : -1;
-          while ((fromRight ? index6-- : ++index6 < length) && predicate(array2[index6], index6, array2)) {
+          var length = array2.length, index7 = fromRight ? length : -1;
+          while ((fromRight ? index7-- : ++index7 < length) && predicate(array2[index7], index7, array2)) {
           }
-          return isDrop ? baseSlice(array2, fromRight ? 0 : index6, fromRight ? index6 + 1 : length) : baseSlice(array2, fromRight ? index6 + 1 : 0, fromRight ? length : index6);
+          return isDrop ? baseSlice(array2, fromRight ? 0 : index7, fromRight ? index7 + 1 : length) : baseSlice(array2, fromRight ? index7 + 1 : 0, fromRight ? length : index7);
         }
         function baseWrapperValue(value, actions) {
           var result2 = value;
@@ -2007,22 +2007,22 @@ var require_lodash = __commonJS({
           if (length < 2) {
             return length ? baseUniq(arrays[0]) : [];
           }
-          var index6 = -1, result2 = Array2(length);
-          while (++index6 < length) {
-            var array2 = arrays[index6], othIndex = -1;
+          var index7 = -1, result2 = Array2(length);
+          while (++index7 < length) {
+            var array2 = arrays[index7], othIndex = -1;
             while (++othIndex < length) {
-              if (othIndex != index6) {
-                result2[index6] = baseDifference(result2[index6] || array2, arrays[othIndex], iteratee2, comparator);
+              if (othIndex != index7) {
+                result2[index7] = baseDifference(result2[index7] || array2, arrays[othIndex], iteratee2, comparator);
               }
             }
           }
           return baseUniq(baseFlatten(result2, 1), iteratee2, comparator);
         }
         function baseZipObject(props, values2, assignFunc) {
-          var index6 = -1, length = props.length, valsLength = values2.length, result2 = {};
-          while (++index6 < length) {
-            var value = index6 < valsLength ? values2[index6] : undefined2;
-            assignFunc(result2, props[index6], value);
+          var index7 = -1, length = props.length, valsLength = values2.length, result2 = {};
+          while (++index7 < length) {
+            var value = index7 < valsLength ? values2[index7] : undefined2;
+            assignFunc(result2, props[index7], value);
           }
           return result2;
         }
@@ -2090,14 +2090,14 @@ var require_lodash = __commonJS({
           return 0;
         }
         function compareMultiple(object, other, orders) {
-          var index6 = -1, objCriteria = object.criteria, othCriteria = other.criteria, length = objCriteria.length, ordersLength = orders.length;
-          while (++index6 < length) {
-            var result2 = compareAscending(objCriteria[index6], othCriteria[index6]);
+          var index7 = -1, objCriteria = object.criteria, othCriteria = other.criteria, length = objCriteria.length, ordersLength = orders.length;
+          while (++index7 < length) {
+            var result2 = compareAscending(objCriteria[index7], othCriteria[index7]);
             if (result2) {
-              if (index6 >= ordersLength) {
+              if (index7 >= ordersLength) {
                 return result2;
               }
-              var order = orders[index6];
+              var order = orders[index7];
               return result2 * (order == "desc" ? -1 : 1);
             }
           }
@@ -2135,19 +2135,19 @@ var require_lodash = __commonJS({
           return result2;
         }
         function copyArray(source, array2) {
-          var index6 = -1, length = source.length;
+          var index7 = -1, length = source.length;
           array2 || (array2 = Array2(length));
-          while (++index6 < length) {
-            array2[index6] = source[index6];
+          while (++index7 < length) {
+            array2[index7] = source[index7];
           }
           return array2;
         }
         function copyObject(source, props, object, customizer) {
           var isNew = !object;
           object || (object = {});
-          var index6 = -1, length = props.length;
-          while (++index6 < length) {
-            var key = props[index6];
+          var index7 = -1, length = props.length;
+          while (++index7 < length) {
+            var key = props[index7];
             var newValue = customizer ? customizer(object[key], source[key], key, object, source) : undefined2;
             if (newValue === undefined2) {
               newValue = source[key];
@@ -2174,17 +2174,17 @@ var require_lodash = __commonJS({
         }
         function createAssigner(assigner) {
           return baseRest(function(object, sources) {
-            var index6 = -1, length = sources.length, customizer = length > 1 ? sources[length - 1] : undefined2, guard = length > 2 ? sources[2] : undefined2;
+            var index7 = -1, length = sources.length, customizer = length > 1 ? sources[length - 1] : undefined2, guard = length > 2 ? sources[2] : undefined2;
             customizer = assigner.length > 3 && typeof customizer == "function" ? (length--, customizer) : undefined2;
             if (guard && isIterateeCall(sources[0], sources[1], guard)) {
               customizer = length < 3 ? undefined2 : customizer;
               length = 1;
             }
             object = Object2(object);
-            while (++index6 < length) {
-              var source = sources[index6];
+            while (++index7 < length) {
+              var source = sources[index7];
               if (source) {
-                assigner(object, source, index6, customizer);
+                assigner(object, source, index7, customizer);
               }
             }
             return object;
@@ -2198,9 +2198,9 @@ var require_lodash = __commonJS({
             if (!isArrayLike(collection)) {
               return eachFunc(collection, iteratee2);
             }
-            var length = collection.length, index6 = fromRight ? length : -1, iterable = Object2(collection);
-            while (fromRight ? index6-- : ++index6 < length) {
-              if (iteratee2(iterable[index6], index6, iterable) === false) {
+            var length = collection.length, index7 = fromRight ? length : -1, iterable = Object2(collection);
+            while (fromRight ? index7-- : ++index7 < length) {
+              if (iteratee2(iterable[index7], index7, iterable) === false) {
                 break;
               }
             }
@@ -2209,9 +2209,9 @@ var require_lodash = __commonJS({
         }
         function createBaseFor(fromRight) {
           return function(object, iteratee2, keysFunc) {
-            var index6 = -1, iterable = Object2(object), props = keysFunc(object), length = props.length;
+            var index7 = -1, iterable = Object2(object), props = keysFunc(object), length = props.length;
             while (length--) {
-              var key = props[fromRight ? length : ++index6];
+              var key = props[fromRight ? length : ++index7];
               if (iteratee2(iterable[key], key, iterable) === false) {
                 break;
               }
@@ -2269,9 +2269,9 @@ var require_lodash = __commonJS({
         function createCurry(func, bitmask, arity) {
           var Ctor = createCtor(func);
           function wrapper() {
-            var length = arguments.length, args = Array2(length), index6 = length, placeholder = getHolder(wrapper);
-            while (index6--) {
-              args[index6] = arguments[index6];
+            var length = arguments.length, args = Array2(length), index7 = length, placeholder = getHolder(wrapper);
+            while (index7--) {
+              args[index7] = arguments[index7];
             }
             var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
             length -= holders.length;
@@ -2304,18 +2304,18 @@ var require_lodash = __commonJS({
                 return iteratee2(iterable[key], key, iterable);
               };
             }
-            var index6 = findIndexFunc(collection, predicate, fromIndex);
-            return index6 > -1 ? iterable[iteratee2 ? collection[index6] : index6] : undefined2;
+            var index7 = findIndexFunc(collection, predicate, fromIndex);
+            return index7 > -1 ? iterable[iteratee2 ? collection[index7] : index7] : undefined2;
           };
         }
         function createFlow(fromRight) {
           return flatRest(function(funcs) {
-            var length = funcs.length, index6 = length, prereq = LodashWrapper.prototype.thru;
+            var length = funcs.length, index7 = length, prereq = LodashWrapper.prototype.thru;
             if (fromRight) {
               funcs.reverse();
             }
-            while (index6--) {
-              var func = funcs[index6];
+            while (index7--) {
+              var func = funcs[index7];
               if (typeof func != "function") {
                 throw new TypeError2(FUNC_ERROR_TEXT);
               }
@@ -2323,9 +2323,9 @@ var require_lodash = __commonJS({
                 var wrapper = new LodashWrapper([], true);
               }
             }
-            index6 = wrapper ? index6 : length;
-            while (++index6 < length) {
-              func = funcs[index6];
+            index7 = wrapper ? index7 : length;
+            while (++index7 < length) {
+              func = funcs[index7];
               var funcName = getFuncName(func), data = funcName == "wrapper" ? getData(func) : undefined2;
               if (data && isLaziable(data[0]) && data[1] == (WRAP_ARY_FLAG | WRAP_CURRY_FLAG | WRAP_PARTIAL_FLAG | WRAP_REARG_FLAG) && !data[4].length && data[9] == 1) {
                 wrapper = wrapper[getFuncName(data[0])].apply(wrapper, data[3]);
@@ -2338,9 +2338,9 @@ var require_lodash = __commonJS({
               if (wrapper && args.length == 1 && isArray(value)) {
                 return wrapper.plant(value).value();
               }
-              var index7 = 0, result2 = length ? funcs[index7].apply(this, args) : value;
-              while (++index7 < length) {
-                result2 = funcs[index7].call(this, result2);
+              var index8 = 0, result2 = length ? funcs[index8].apply(this, args) : value;
+              while (++index8 < length) {
+                result2 = funcs[index8].call(this, result2);
               }
               return result2;
             };
@@ -2349,9 +2349,9 @@ var require_lodash = __commonJS({
         function createHybrid(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary2, arity) {
           var isAry = bitmask & WRAP_ARY_FLAG, isBind = bitmask & WRAP_BIND_FLAG, isBindKey = bitmask & WRAP_BIND_KEY_FLAG, isCurried = bitmask & (WRAP_CURRY_FLAG | WRAP_CURRY_RIGHT_FLAG), isFlip = bitmask & WRAP_FLIP_FLAG, Ctor = isBindKey ? undefined2 : createCtor(func);
           function wrapper() {
-            var length = arguments.length, args = Array2(length), index6 = length;
-            while (index6--) {
-              args[index6] = arguments[index6];
+            var length = arguments.length, args = Array2(length), index7 = length;
+            while (index7--) {
+              args[index7] = arguments[index7];
             }
             if (isCurried) {
               var placeholder = getHolder(wrapper), holdersCount = countHolders(args, placeholder);
@@ -2619,13 +2619,13 @@ var require_lodash = __commonJS({
           if (arrStacked && othStacked) {
             return arrStacked == other && othStacked == array2;
           }
-          var index6 = -1, result2 = true, seen = bitmask & COMPARE_UNORDERED_FLAG ? new SetCache() : undefined2;
+          var index7 = -1, result2 = true, seen = bitmask & COMPARE_UNORDERED_FLAG ? new SetCache() : undefined2;
           stack.set(array2, other);
           stack.set(other, array2);
-          while (++index6 < arrLength) {
-            var arrValue = array2[index6], othValue = other[index6];
+          while (++index7 < arrLength) {
+            var arrValue = array2[index7], othValue = other[index7];
             if (customizer) {
-              var compared = isPartial ? customizer(othValue, arrValue, index6, other, array2, stack) : customizer(arrValue, othValue, index6, array2, other, stack);
+              var compared = isPartial ? customizer(othValue, arrValue, index7, other, array2, stack) : customizer(arrValue, othValue, index7, array2, other, stack);
             }
             if (compared !== undefined2) {
               if (compared) {
@@ -2703,9 +2703,9 @@ var require_lodash = __commonJS({
           if (objLength != othLength && !isPartial) {
             return false;
           }
-          var index6 = objLength;
-          while (index6--) {
-            var key = objProps[index6];
+          var index7 = objLength;
+          while (index7--) {
+            var key = objProps[index7];
             if (!(isPartial ? key in other : hasOwnProperty.call(other, key))) {
               return false;
             }
@@ -2719,8 +2719,8 @@ var require_lodash = __commonJS({
           stack.set(object, other);
           stack.set(other, object);
           var skipCtor = isPartial;
-          while (++index6 < objLength) {
-            key = objProps[index6];
+          while (++index7 < objLength) {
+            key = objProps[index7];
             var objValue = object[key], othValue = other[key];
             if (customizer) {
               var compared = isPartial ? customizer(othValue, objValue, key, other, object, stack) : customizer(objValue, othValue, key, object, other, stack);
@@ -2844,9 +2844,9 @@ var require_lodash = __commonJS({
           };
         }
         function getView(start2, end, transforms) {
-          var index6 = -1, length = transforms.length;
-          while (++index6 < length) {
-            var data = transforms[index6], size2 = data.size;
+          var index7 = -1, length = transforms.length;
+          while (++index7 < length) {
+            var data = transforms[index7], size2 = data.size;
             switch (data.type) {
               case "drop":
                 start2 += size2;
@@ -2870,15 +2870,15 @@ var require_lodash = __commonJS({
         }
         function hasPath(object, path, hasFunc) {
           path = castPath(path, object);
-          var index6 = -1, length = path.length, result2 = false;
-          while (++index6 < length) {
-            var key = toKey(path[index6]);
+          var index7 = -1, length = path.length, result2 = false;
+          while (++index7 < length) {
+            var key = toKey(path[index7]);
             if (!(result2 = object != null && hasFunc(object, key))) {
               break;
             }
             object = object[key];
           }
-          if (result2 || ++index6 != length) {
+          if (result2 || ++index7 != length) {
             return result2;
           }
           length = object == null ? 0 : object.length;
@@ -2946,13 +2946,13 @@ var require_lodash = __commonJS({
           length = length == null ? MAX_SAFE_INTEGER : length;
           return !!length && (type == "number" || type != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
         }
-        function isIterateeCall(value, index6, object) {
+        function isIterateeCall(value, index7, object) {
           if (!isObject(object)) {
             return false;
           }
-          var type = typeof index6;
-          if (type == "number" ? isArrayLike(object) && isIndex(index6, object.length) : type == "string" && index6 in object) {
-            return eq(object[index6], value);
+          var type = typeof index7;
+          if (type == "number" ? isArrayLike(object) && isIndex(index7, object.length) : type == "string" && index7 in object) {
+            return eq(object[index7], value);
           }
           return false;
         }
@@ -3061,14 +3061,14 @@ var require_lodash = __commonJS({
         function overRest(func, start2, transform3) {
           start2 = nativeMax(start2 === undefined2 ? func.length - 1 : start2, 0);
           return function() {
-            var args = arguments, index6 = -1, length = nativeMax(args.length - start2, 0), array2 = Array2(length);
-            while (++index6 < length) {
-              array2[index6] = args[start2 + index6];
+            var args = arguments, index7 = -1, length = nativeMax(args.length - start2, 0), array2 = Array2(length);
+            while (++index7 < length) {
+              array2[index7] = args[start2 + index7];
             }
-            index6 = -1;
+            index7 = -1;
             var otherArgs = Array2(start2 + 1);
-            while (++index6 < start2) {
-              otherArgs[index6] = args[index6];
+            while (++index7 < start2) {
+              otherArgs[index7] = args[index7];
             }
             otherArgs[start2] = transform3(array2);
             return apply(func, this, otherArgs);
@@ -3080,8 +3080,8 @@ var require_lodash = __commonJS({
         function reorder(array2, indexes) {
           var arrLength = array2.length, length = nativeMin(indexes.length, arrLength), oldArray = copyArray(array2);
           while (length--) {
-            var index6 = indexes[length];
-            array2[length] = isIndex(index6, arrLength) ? oldArray[index6] : undefined2;
+            var index7 = indexes[length];
+            array2[length] = isIndex(index7, arrLength) ? oldArray[index7] : undefined2;
           }
           return array2;
         }
@@ -3119,12 +3119,12 @@ var require_lodash = __commonJS({
           };
         }
         function shuffleSelf(array2, size2) {
-          var index6 = -1, length = array2.length, lastIndex = length - 1;
+          var index7 = -1, length = array2.length, lastIndex = length - 1;
           size2 = size2 === undefined2 ? length : size2;
-          while (++index6 < size2) {
-            var rand = baseRandom(index6, lastIndex), value = array2[rand];
-            array2[rand] = array2[index6];
-            array2[index6] = value;
+          while (++index7 < size2) {
+            var rand = baseRandom(index7, lastIndex), value = array2[rand];
+            array2[rand] = array2[index7];
+            array2[index7] = value;
           }
           array2.length = size2;
           return array2;
@@ -3188,16 +3188,16 @@ var require_lodash = __commonJS({
           if (!length || size2 < 1) {
             return [];
           }
-          var index6 = 0, resIndex = 0, result2 = Array2(nativeCeil(length / size2));
-          while (index6 < length) {
-            result2[resIndex++] = baseSlice(array2, index6, index6 += size2);
+          var index7 = 0, resIndex = 0, result2 = Array2(nativeCeil(length / size2));
+          while (index7 < length) {
+            result2[resIndex++] = baseSlice(array2, index7, index7 += size2);
           }
           return result2;
         }
         function compact(array2) {
-          var index6 = -1, length = array2 == null ? 0 : array2.length, resIndex = 0, result2 = [];
-          while (++index6 < length) {
-            var value = array2[index6];
+          var index7 = -1, length = array2 == null ? 0 : array2.length, resIndex = 0, result2 = [];
+          while (++index7 < length) {
+            var value = array2[index7];
             if (value) {
               result2[resIndex++] = value;
             }
@@ -3209,9 +3209,9 @@ var require_lodash = __commonJS({
           if (!length) {
             return [];
           }
-          var args = Array2(length - 1), array2 = arguments[0], index6 = length;
-          while (index6--) {
-            args[index6 - 1] = arguments[index6];
+          var args = Array2(length - 1), array2 = arguments[0], index7 = length;
+          while (index7--) {
+            args[index7 - 1] = arguments[index7];
           }
           return arrayPush(isArray(array2) ? copyArray(array2) : [array2], baseFlatten(args, 1));
         }
@@ -3271,23 +3271,23 @@ var require_lodash = __commonJS({
           if (!length) {
             return -1;
           }
-          var index6 = fromIndex == null ? 0 : toInteger(fromIndex);
-          if (index6 < 0) {
-            index6 = nativeMax(length + index6, 0);
+          var index7 = fromIndex == null ? 0 : toInteger(fromIndex);
+          if (index7 < 0) {
+            index7 = nativeMax(length + index7, 0);
           }
-          return baseFindIndex(array2, getIteratee(predicate, 3), index6);
+          return baseFindIndex(array2, getIteratee(predicate, 3), index7);
         }
         function findLastIndex(array2, predicate, fromIndex) {
           var length = array2 == null ? 0 : array2.length;
           if (!length) {
             return -1;
           }
-          var index6 = length - 1;
+          var index7 = length - 1;
           if (fromIndex !== undefined2) {
-            index6 = toInteger(fromIndex);
-            index6 = fromIndex < 0 ? nativeMax(length + index6, 0) : nativeMin(index6, length - 1);
+            index7 = toInteger(fromIndex);
+            index7 = fromIndex < 0 ? nativeMax(length + index7, 0) : nativeMin(index7, length - 1);
           }
-          return baseFindIndex(array2, getIteratee(predicate, 3), index6, true);
+          return baseFindIndex(array2, getIteratee(predicate, 3), index7, true);
         }
         function flatten(array2) {
           var length = array2 == null ? 0 : array2.length;
@@ -3306,9 +3306,9 @@ var require_lodash = __commonJS({
           return baseFlatten(array2, depth);
         }
         function fromPairs(pairs) {
-          var index6 = -1, length = pairs == null ? 0 : pairs.length, result2 = {};
-          while (++index6 < length) {
-            var pair = pairs[index6];
+          var index7 = -1, length = pairs == null ? 0 : pairs.length, result2 = {};
+          while (++index7 < length) {
+            var pair = pairs[index7];
             baseAssignValue(result2, pair[0], pair[1]);
           }
           return result2;
@@ -3321,11 +3321,11 @@ var require_lodash = __commonJS({
           if (!length) {
             return -1;
           }
-          var index6 = fromIndex == null ? 0 : toInteger(fromIndex);
-          if (index6 < 0) {
-            index6 = nativeMax(length + index6, 0);
+          var index7 = fromIndex == null ? 0 : toInteger(fromIndex);
+          if (index7 < 0) {
+            index7 = nativeMax(length + index7, 0);
           }
-          return baseIndexOf(array2, value, index6);
+          return baseIndexOf(array2, value, index7);
         }
         function initial(array2) {
           var length = array2 == null ? 0 : array2.length;
@@ -3364,12 +3364,12 @@ var require_lodash = __commonJS({
           if (!length) {
             return -1;
           }
-          var index6 = length;
+          var index7 = length;
           if (fromIndex !== undefined2) {
-            index6 = toInteger(fromIndex);
-            index6 = index6 < 0 ? nativeMax(length + index6, 0) : nativeMin(index6, length - 1);
+            index7 = toInteger(fromIndex);
+            index7 = index7 < 0 ? nativeMax(length + index7, 0) : nativeMin(index7, length - 1);
           }
-          return value === value ? strictLastIndexOf(array2, value, index6) : baseFindIndex(array2, baseIsNaN, index6, true);
+          return value === value ? strictLastIndexOf(array2, value, index7) : baseFindIndex(array2, baseIsNaN, index7, true);
         }
         function nth(array2, n2) {
           return array2 && array2.length ? baseNth(array2, toInteger(n2)) : undefined2;
@@ -3386,8 +3386,8 @@ var require_lodash = __commonJS({
         }
         var pullAt = flatRest(function(array2, indexes) {
           var length = array2 == null ? 0 : array2.length, result2 = baseAt(array2, indexes);
-          basePullAt(array2, arrayMap(indexes, function(index6) {
-            return isIndex(index6, length) ? +index6 : index6;
+          basePullAt(array2, arrayMap(indexes, function(index7) {
+            return isIndex(index7, length) ? +index7 : index7;
           }).sort(compareAscending));
           return result2;
         });
@@ -3396,13 +3396,13 @@ var require_lodash = __commonJS({
           if (!(array2 && array2.length)) {
             return result2;
           }
-          var index6 = -1, indexes = [], length = array2.length;
+          var index7 = -1, indexes = [], length = array2.length;
           predicate = getIteratee(predicate, 3);
-          while (++index6 < length) {
-            var value = array2[index6];
-            if (predicate(value, index6, array2)) {
+          while (++index7 < length) {
+            var value = array2[index7];
+            if (predicate(value, index7, array2)) {
               result2.push(value);
-              indexes.push(index6);
+              indexes.push(index7);
             }
           }
           basePullAt(array2, indexes);
@@ -3434,9 +3434,9 @@ var require_lodash = __commonJS({
         function sortedIndexOf(array2, value) {
           var length = array2 == null ? 0 : array2.length;
           if (length) {
-            var index6 = baseSortedIndex(array2, value);
-            if (index6 < length && eq(array2[index6], value)) {
-              return index6;
+            var index7 = baseSortedIndex(array2, value);
+            if (index7 < length && eq(array2[index7], value)) {
+              return index7;
             }
           }
           return -1;
@@ -3450,9 +3450,9 @@ var require_lodash = __commonJS({
         function sortedLastIndexOf(array2, value) {
           var length = array2 == null ? 0 : array2.length;
           if (length) {
-            var index6 = baseSortedIndex(array2, value, true) - 1;
-            if (eq(array2[index6], value)) {
-              return index6;
+            var index7 = baseSortedIndex(array2, value, true) - 1;
+            if (eq(array2[index7], value)) {
+              return index7;
             }
           }
           return -1;
@@ -3525,8 +3525,8 @@ var require_lodash = __commonJS({
               return true;
             }
           });
-          return baseTimes(length, function(index6) {
-            return arrayMap(array2, baseProperty(index6));
+          return baseTimes(length, function(index7) {
+            return arrayMap(array2, baseProperty(index7));
           });
         }
         function unzipWith(array2, iteratee2) {
@@ -3674,7 +3674,7 @@ var require_lodash = __commonJS({
           var func = isArray(collection) ? arrayFilter : baseFilter;
           return func(collection, getIteratee(predicate, 3));
         }
-        var find3 = createFind(findIndex);
+        var find4 = createFind(findIndex);
         var findLast = createFind(findLastIndex);
         function flatMap(collection, iteratee2) {
           return baseFlatten(map(collection, iteratee2), 1);
@@ -3711,9 +3711,9 @@ var require_lodash = __commonJS({
           return isString(collection) ? fromIndex <= length && collection.indexOf(value, fromIndex) > -1 : !!length && baseIndexOf(collection, value, fromIndex) > -1;
         }
         var invokeMap = baseRest(function(collection, path, args) {
-          var index6 = -1, isFunc = typeof path == "function", result2 = isArrayLike(collection) ? Array2(collection.length) : [];
+          var index7 = -1, isFunc = typeof path == "function", result2 = isArrayLike(collection) ? Array2(collection.length) : [];
           baseEach(collection, function(value) {
-            result2[++index6] = isFunc ? apply(path, value, args) : baseInvoke(value, path, args);
+            result2[++index7] = isFunc ? apply(path, value, args) : baseInvoke(value, path, args);
           });
           return result2;
         });
@@ -3999,9 +3999,9 @@ var require_lodash = __commonJS({
           transforms = transforms.length == 1 && isArray(transforms[0]) ? arrayMap(transforms[0], baseUnary(getIteratee())) : arrayMap(baseFlatten(transforms, 1), baseUnary(getIteratee()));
           var funcsLength = transforms.length;
           return baseRest(function(args) {
-            var index6 = -1, length = nativeMin(args.length, funcsLength);
-            while (++index6 < length) {
-              args[index6] = transforms[index6].call(this, args[index6]);
+            var index7 = -1, length = nativeMin(args.length, funcsLength);
+            while (++index7 < length) {
+              args[index7] = transforms[index7].call(this, args[index7]);
             }
             return apply(func, this, args);
           });
@@ -4316,14 +4316,14 @@ var require_lodash = __commonJS({
         }
         var defaults = baseRest(function(object, sources) {
           object = Object2(object);
-          var index6 = -1;
+          var index7 = -1;
           var length = sources.length;
           var guard = length > 2 ? sources[2] : undefined2;
           if (guard && isIterateeCall(sources[0], sources[1], guard)) {
             length = 1;
           }
-          while (++index6 < length) {
-            var source = sources[index6];
+          while (++index7 < length) {
+            var source = sources[index7];
             var props = keysIn(source);
             var propsIndex = -1;
             var propsLength = props.length;
@@ -4461,15 +4461,15 @@ var require_lodash = __commonJS({
         }
         function result(object, path, defaultValue) {
           path = castPath(path, object);
-          var index6 = -1, length = path.length;
+          var index7 = -1, length = path.length;
           if (!length) {
             length = 1;
             object = undefined2;
           }
-          while (++index6 < length) {
-            var value = object == null ? undefined2 : object[toKey(path[index6])];
+          while (++index7 < length) {
+            var value = object == null ? undefined2 : object[toKey(path[index7])];
             if (value === undefined2) {
-              index6 = length;
+              index7 = length;
               value = defaultValue;
             }
             object = isFunction(value) ? value.call(object) : value;
@@ -4498,8 +4498,8 @@ var require_lodash = __commonJS({
               accumulator = {};
             }
           }
-          (isArrLike ? arrayEach : baseForOwn)(object, function(value, index6, object2) {
-            return iteratee2(accumulator, value, index6, object2);
+          (isArrLike ? arrayEach : baseForOwn)(object, function(value, index7, object2) {
+            return iteratee2(accumulator, value, index7, object2);
           });
           return accumulator;
         }
@@ -4581,9 +4581,9 @@ var require_lodash = __commonJS({
           }
           return baseRandom(lower2, upper);
         }
-        var camelCase = createCompounder(function(result2, word, index6) {
+        var camelCase = createCompounder(function(result2, word, index7) {
           word = word.toLowerCase();
-          return result2 + (index6 ? capitalize(word) : word);
+          return result2 + (index7 ? capitalize(word) : word);
         });
         function capitalize(string) {
           return upperFirst(toString2(string).toLowerCase());
@@ -4609,11 +4609,11 @@ var require_lodash = __commonJS({
           string = toString2(string);
           return string && reHasRegExpChar.test(string) ? string.replace(reRegExpChar, "\\$&") : string;
         }
-        var kebabCase = createCompounder(function(result2, word, index6) {
-          return result2 + (index6 ? "-" : "") + word.toLowerCase();
+        var kebabCase = createCompounder(function(result2, word, index7) {
+          return result2 + (index7 ? "-" : "") + word.toLowerCase();
         });
-        var lowerCase = createCompounder(function(result2, word, index6) {
-          return result2 + (index6 ? " " : "") + word.toLowerCase();
+        var lowerCase = createCompounder(function(result2, word, index7) {
+          return result2 + (index7 ? " " : "") + word.toLowerCase();
         });
         var lowerFirst = createCaseFirst("toLowerCase");
         function pad(string, length, chars) {
@@ -4658,8 +4658,8 @@ var require_lodash = __commonJS({
           var args = arguments, string = toString2(args[0]);
           return args.length < 3 ? string : string.replace(args[1], args[2]);
         }
-        var snakeCase = createCompounder(function(result2, word, index6) {
-          return result2 + (index6 ? "_" : "") + word.toLowerCase();
+        var snakeCase = createCompounder(function(result2, word, index7) {
+          return result2 + (index7 ? "_" : "") + word.toLowerCase();
         });
         function split(string, separator, limit) {
           if (limit && typeof limit != "number" && isIterateeCall(string, separator, limit)) {
@@ -4678,8 +4678,8 @@ var require_lodash = __commonJS({
           }
           return string.split(separator, limit);
         }
-        var startCase = createCompounder(function(result2, word, index6) {
-          return result2 + (index6 ? " " : "") + upperFirst(word);
+        var startCase = createCompounder(function(result2, word, index7) {
+          return result2 + (index7 ? " " : "") + upperFirst(word);
         });
         function startsWith(string, target, position) {
           string = toString2(string);
@@ -4700,7 +4700,7 @@ var require_lodash = __commonJS({
               throw new Error2(INVALID_TEMPL_IMPORTS_ERROR_TEXT);
             }
           });
-          var isEscaping, isEvaluating, index6 = 0, interpolate = options.interpolate || reNoMatch, source = "__p += '";
+          var isEscaping, isEvaluating, index7 = 0, interpolate = options.interpolate || reNoMatch, source = "__p += '";
           var reDelimiters = RegExp2(
             (options.escape || reNoMatch).source + "|" + interpolate.source + "|" + (interpolate === reInterpolate ? reEsTemplate : reNoMatch).source + "|" + (options.evaluate || reNoMatch).source + "|$",
             "g"
@@ -4708,7 +4708,7 @@ var require_lodash = __commonJS({
           var sourceURL = "//# sourceURL=" + (hasOwnProperty.call(options, "sourceURL") ? (options.sourceURL + "").replace(/\s/g, " ") : "lodash.templateSources[" + ++templateCounter + "]") + "\n";
           string.replace(reDelimiters, function(match, escapeValue, interpolateValue, esTemplateValue, evaluateValue, offset) {
             interpolateValue || (interpolateValue = esTemplateValue);
-            source += string.slice(index6, offset).replace(reUnescapedString, escapeStringChar);
+            source += string.slice(index7, offset).replace(reUnescapedString, escapeStringChar);
             if (escapeValue) {
               isEscaping = true;
               source += "' +\n__e(" + escapeValue + ") +\n'";
@@ -4720,7 +4720,7 @@ var require_lodash = __commonJS({
             if (interpolateValue) {
               source += "' +\n((__t = (" + interpolateValue + ")) == null ? '' : __t) +\n'";
             }
-            index6 = offset + match.length;
+            index7 = offset + match.length;
             return match;
           });
           source += "';\n";
@@ -4820,9 +4820,9 @@ var require_lodash = __commonJS({
               result2 = result2.slice(0, newEnd === undefined2 ? end : newEnd);
             }
           } else if (string.indexOf(baseToString(separator), end) != end) {
-            var index6 = result2.lastIndexOf(separator);
-            if (index6 > -1) {
-              result2 = result2.slice(0, index6);
+            var index7 = result2.lastIndexOf(separator);
+            if (index7 > -1) {
+              result2 = result2.slice(0, index7);
             }
           }
           return result2 + omission;
@@ -4831,8 +4831,8 @@ var require_lodash = __commonJS({
           string = toString2(string);
           return string && reHasEscapedHtml.test(string) ? string.replace(reEscapedHtml, unescapeHtmlChar) : string;
         }
-        var upperCase = createCompounder(function(result2, word, index6) {
-          return result2 + (index6 ? " " : "") + word.toUpperCase();
+        var upperCase = createCompounder(function(result2, word, index7) {
+          return result2 + (index7 ? " " : "") + word.toUpperCase();
         });
         var upperFirst = createCaseFirst("toUpperCase");
         function words(string, pattern, guard) {
@@ -4866,9 +4866,9 @@ var require_lodash = __commonJS({
             return [toIteratee(pair[0]), pair[1]];
           });
           return baseRest(function(args) {
-            var index6 = -1;
-            while (++index6 < length) {
-              var pair = pairs[index6];
+            var index7 = -1;
+            while (++index7 < length) {
+              var pair = pairs[index7];
               if (apply(pair[0], this, args)) {
                 return apply(pair[1], this, args);
               }
@@ -4984,12 +4984,12 @@ var require_lodash = __commonJS({
           if (n2 < 1 || n2 > MAX_SAFE_INTEGER) {
             return [];
           }
-          var index6 = MAX_ARRAY_LENGTH, length = nativeMin(n2, MAX_ARRAY_LENGTH);
+          var index7 = MAX_ARRAY_LENGTH, length = nativeMin(n2, MAX_ARRAY_LENGTH);
           iteratee2 = getIteratee(iteratee2);
           n2 -= MAX_ARRAY_LENGTH;
           var result2 = baseTimes(length, iteratee2);
-          while (++index6 < n2) {
-            iteratee2(index6);
+          while (++index7 < n2) {
+            iteratee2(index7);
           }
           return result2;
         }
@@ -5215,7 +5215,7 @@ var require_lodash = __commonJS({
         lodash.escape = escape;
         lodash.escapeRegExp = escapeRegExp;
         lodash.every = every;
-        lodash.find = find3;
+        lodash.find = find4;
         lodash.findIndex = findIndex;
         lodash.findKey = findKey;
         lodash.findLast = findLast;
@@ -5361,10 +5361,10 @@ var require_lodash = __commonJS({
         arrayEach(["bind", "bindKey", "curry", "curryRight", "partial", "partialRight"], function(methodName) {
           lodash[methodName].placeholder = lodash;
         });
-        arrayEach(["drop", "take"], function(methodName, index6) {
+        arrayEach(["drop", "take"], function(methodName, index7) {
           LazyWrapper.prototype[methodName] = function(n2) {
             n2 = n2 === undefined2 ? 1 : nativeMax(toInteger(n2), 0);
-            var result2 = this.__filtered__ && !index6 ? new LazyWrapper(this) : this.clone();
+            var result2 = this.__filtered__ && !index7 ? new LazyWrapper(this) : this.clone();
             if (result2.__filtered__) {
               result2.__takeCount__ = nativeMin(n2, result2.__takeCount__);
             } else {
@@ -5379,8 +5379,8 @@ var require_lodash = __commonJS({
             return this.reverse()[methodName](n2).reverse();
           };
         });
-        arrayEach(["filter", "map", "takeWhile"], function(methodName, index6) {
-          var type = index6 + 1, isFilter = type == LAZY_FILTER_FLAG || type == LAZY_WHILE_FLAG;
+        arrayEach(["filter", "map", "takeWhile"], function(methodName, index7) {
+          var type = index7 + 1, isFilter = type == LAZY_FILTER_FLAG || type == LAZY_WHILE_FLAG;
           LazyWrapper.prototype[methodName] = function(iteratee2) {
             var result2 = this.clone();
             result2.__iteratees__.push({
@@ -5391,14 +5391,14 @@ var require_lodash = __commonJS({
             return result2;
           };
         });
-        arrayEach(["head", "last"], function(methodName, index6) {
-          var takeName = "take" + (index6 ? "Right" : "");
+        arrayEach(["head", "last"], function(methodName, index7) {
+          var takeName = "take" + (index7 ? "Right" : "");
           LazyWrapper.prototype[methodName] = function() {
             return this[takeName](1).value()[0];
           };
         });
-        arrayEach(["initial", "tail"], function(methodName, index6) {
-          var dropName = "drop" + (index6 ? "" : "Right");
+        arrayEach(["initial", "tail"], function(methodName, index7) {
+          var dropName = "drop" + (index7 ? "" : "Right");
           LazyWrapper.prototype[methodName] = function() {
             return this.__filtered__ ? new LazyWrapper(this) : this[dropName](1);
           };
@@ -5578,10 +5578,10 @@ var require_trimmedEndIndex = __commonJS({
   "node_modules/lodash/_trimmedEndIndex.js"(exports, module2) {
     var reWhitespace = /\s/;
     function trimmedEndIndex(string) {
-      var index6 = string.length;
-      while (index6-- && reWhitespace.test(string.charAt(index6))) {
+      var index7 = string.length;
+      while (index7-- && reWhitespace.test(string.charAt(index7))) {
       }
-      return index6;
+      return index7;
     }
     module2.exports = trimmedEndIndex;
   }
@@ -5828,30 +5828,37 @@ var import_obsidian3 = require("obsidian");
 
 // src/types.ts
 var DEFAULT_SETTINGS = {
-  similarityThreshold: 0.75,
-  maxNeighborsDepth: 2,
-  maxNodesLimit: 150,
+  candidateLimit: 80,
+  visibleNodeLimit: 60,
+  focusSimilarityThreshold: 0.42,
+  clusterSimilarityThreshold: 0.52,
+  maxSemanticEdgesPerNode: 4,
+  maxCrossClusterEdgesPerPair: 1,
+  minimumClusterSize: 2,
+  maximumClusterCount: 12,
+  clusterSpacing: 180,
+  hullPadding: 14,
+  hullOpacity: 0.07,
+  clusterColors: [
+    "#58B77B",
+    // Soft Emerald Green
+    "#E3B529",
+    // Golden Yellow
+    "#5889E8",
+    // Royal Blue
+    "#DE6372",
+    // Coral Pink
+    "#D86DC0",
+    // Soft Orchid Purple
+    "#36C5F0",
+    // Sky Blue
+    "#ECB22E"
+    // Amber
+  ],
   showSemanticLinks: true,
   showWikiLinks: true,
   showBacklinks: true,
   showSharedTags: true,
-  clusterHullsOpacity: 0.15,
-  clusterColors: [
-    "#2ecc71",
-    // Green
-    "#f1c40f",
-    // Yellow
-    "#3498db",
-    // Blue
-    "#ff6b9d",
-    // Pink
-    "#e056fd",
-    // Purple
-    "#1abc9c",
-    // Teal
-    "#e67e22"
-    // Orange
-  ],
   licenseKey: "",
   isLicensed: false
 };
@@ -5920,8 +5927,8 @@ function select_default(select) {
 }
 
 // node_modules/d3-selection/src/array.js
-function array(x3) {
-  return x3 == null ? [] : Array.isArray(x3) ? x3 : Array.from(x3);
+function array(x5) {
+  return x5 == null ? [] : Array.isArray(x5) ? x5 : Array.from(x5);
 }
 
 // node_modules/d3-selection/src/selectorAll.js
@@ -6043,9 +6050,9 @@ EnterNode.prototype = {
 };
 
 // node_modules/d3-selection/src/constant.js
-function constant_default(x3) {
+function constant_default(x5) {
   return function() {
-    return x3;
+    return x5;
   };
 }
 
@@ -6847,7 +6854,7 @@ function yesdrag(view, noclick) {
 }
 
 // node_modules/d3-drag/src/constant.js
-var constant_default2 = (x3) => () => x3;
+var constant_default2 = (x5) => () => x5;
 
 // node_modules/d3-drag/src/event.js
 function DragEvent(type, {
@@ -6856,8 +6863,8 @@ function DragEvent(type, {
   target,
   identifier,
   active,
-  x: x3,
-  y: y3,
+  x: x5,
+  y: y5,
   dx,
   dy,
   dispatch: dispatch2
@@ -6869,8 +6876,8 @@ function DragEvent(type, {
     target: { value: target, enumerable: true, configurable: true },
     identifier: { value: identifier, enumerable: true, configurable: true },
     active: { value: active, enumerable: true, configurable: true },
-    x: { value: x3, enumerable: true, configurable: true },
-    y: { value: y3, enumerable: true, configurable: true },
+    x: { value: x5, enumerable: true, configurable: true },
+    y: { value: y5, enumerable: true, configurable: true },
     dx: { value: dx, enumerable: true, configurable: true },
     dy: { value: dy, enumerable: true, configurable: true },
     _: { value: dispatch2 }
@@ -7415,7 +7422,7 @@ function basisClosed_default(values) {
 }
 
 // node_modules/d3-interpolate/src/constant.js
-var constant_default3 = (x3) => () => x3;
+var constant_default3 = (x5) => () => x5;
 
 // node_modules/d3-interpolate/src/color.js
 function linear(a3, d2) {
@@ -7423,14 +7430,14 @@ function linear(a3, d2) {
     return a3 + t3 * d2;
   };
 }
-function exponential(a3, b2, y3) {
-  return a3 = Math.pow(a3, y3), b2 = Math.pow(b2, y3) - a3, y3 = 1 / y3, function(t3) {
-    return Math.pow(a3 + t3 * b2, y3);
+function exponential(a3, b2, y5) {
+  return a3 = Math.pow(a3, y5), b2 = Math.pow(b2, y5) - a3, y5 = 1 / y5, function(t3) {
+    return Math.pow(a3 + t3 * b2, y5);
   };
 }
-function gamma(y3) {
-  return (y3 = +y3) === 1 ? nogamma : function(a3, b2) {
-    return b2 - a3 ? exponential(a3, b2, y3) : constant_default3(isNaN(a3) ? b2 : a3);
+function gamma(y5) {
+  return (y5 = +y5) === 1 ? nogamma : function(a3, b2) {
+    return b2 - a3 ? exponential(a3, b2, y5) : constant_default3(isNaN(a3) ? b2 : a3);
   };
 }
 function nogamma(a3, b2) {
@@ -7439,8 +7446,8 @@ function nogamma(a3, b2) {
 }
 
 // node_modules/d3-interpolate/src/rgb.js
-var rgb_default = function rgbGamma(y3) {
-  var color2 = gamma(y3);
+var rgb_default = function rgbGamma(y5) {
+  var color2 = gamma(y5);
   function rgb2(start2, end) {
     var r2 = color2((start2 = rgb(start2)).r, (end = rgb(end)).r), g2 = color2(start2.g, end.g), b2 = color2(start2.b, end.b), opacity = nogamma(start2.opacity, end.opacity);
     return function(t3) {
@@ -7642,14 +7649,14 @@ var interpolateTransformSvg = interpolateTransform(parseSvg, ", ", ")", ")");
 
 // node_modules/d3-interpolate/src/zoom.js
 var epsilon2 = 1e-12;
-function cosh(x3) {
-  return ((x3 = Math.exp(x3)) + 1 / x3) / 2;
+function cosh(x5) {
+  return ((x5 = Math.exp(x5)) + 1 / x5) / 2;
 }
-function sinh(x3) {
-  return ((x3 = Math.exp(x3)) - 1 / x3) / 2;
+function sinh(x5) {
+  return ((x5 = Math.exp(x5)) - 1 / x5) / 2;
 }
-function tanh(x3) {
-  return ((x3 = Math.exp(2 * x3)) - 1) / (x3 + 1);
+function tanh(x5) {
+  return ((x5 = Math.exp(2 * x5)) - 1) / (x5 + 1);
 }
 var zoom_default = function zoomRho(rho, rho2, rho4) {
   function zoom2(p0, p1) {
@@ -7819,7 +7826,7 @@ var STARTED = 3;
 var RUNNING = 4;
 var ENDING = 5;
 var ENDED = 6;
-function schedule_default(node, name, id2, index6, group, timing) {
+function schedule_default(node, name, id2, index7, group, timing) {
   var schedules = node.__transition;
   if (!schedules)
     node.__transition = {};
@@ -7827,7 +7834,7 @@ function schedule_default(node, name, id2, index6, group, timing) {
     return;
   create(node, id2, {
     name,
-    index: index6,
+    index: index7,
     // For context during callback.
     group,
     // For context during callback.
@@ -8548,7 +8555,7 @@ selection_default.prototype.interrupt = interrupt_default2;
 selection_default.prototype.transition = transition_default2;
 
 // node_modules/d3-zoom/src/constant.js
-var constant_default4 = (x3) => () => x3;
+var constant_default4 = (x5) => () => x5;
 
 // node_modules/d3-zoom/src/event.js
 function ZoomEvent(type, {
@@ -8567,42 +8574,42 @@ function ZoomEvent(type, {
 }
 
 // node_modules/d3-zoom/src/transform.js
-function Transform(k2, x3, y3) {
+function Transform(k2, x5, y5) {
   this.k = k2;
-  this.x = x3;
-  this.y = y3;
+  this.x = x5;
+  this.y = y5;
 }
 Transform.prototype = {
   constructor: Transform,
   scale: function(k2) {
     return k2 === 1 ? this : new Transform(this.k * k2, this.x, this.y);
   },
-  translate: function(x3, y3) {
-    return x3 === 0 & y3 === 0 ? this : new Transform(this.k, this.x + this.k * x3, this.y + this.k * y3);
+  translate: function(x5, y5) {
+    return x5 === 0 & y5 === 0 ? this : new Transform(this.k, this.x + this.k * x5, this.y + this.k * y5);
   },
   apply: function(point) {
     return [point[0] * this.k + this.x, point[1] * this.k + this.y];
   },
-  applyX: function(x3) {
-    return x3 * this.k + this.x;
+  applyX: function(x5) {
+    return x5 * this.k + this.x;
   },
-  applyY: function(y3) {
-    return y3 * this.k + this.y;
+  applyY: function(y5) {
+    return y5 * this.k + this.y;
   },
   invert: function(location) {
     return [(location[0] - this.x) / this.k, (location[1] - this.y) / this.k];
   },
-  invertX: function(x3) {
-    return (x3 - this.x) / this.k;
+  invertX: function(x5) {
+    return (x5 - this.x) / this.k;
   },
-  invertY: function(y3) {
-    return (y3 - this.y) / this.k;
+  invertY: function(y5) {
+    return (y5 - this.y) / this.k;
   },
-  rescaleX: function(x3) {
-    return x3.copy().domain(x3.range().map(this.invertX, this).map(x3.invert, x3));
+  rescaleX: function(x5) {
+    return x5.copy().domain(x5.range().map(this.invertX, this).map(x5.invert, x5));
   },
-  rescaleY: function(y3) {
-    return y3.copy().domain(y3.range().map(this.invertY, this).map(y3.invert, y3));
+  rescaleY: function(y5) {
+    return y5.copy().domain(y5.range().map(this.invertY, this).map(y5.invert, y5));
   },
   toString: function() {
     return "translate(" + this.x + "," + this.y + ") scale(" + this.k + ")";
@@ -8686,20 +8693,20 @@ function zoom_default2() {
       return constrain(translate(scale(t0, k1), p0, p1), e2, translateExtent);
     }, p2, event);
   };
-  zoom2.translateBy = function(selection2, x3, y3, event) {
+  zoom2.translateBy = function(selection2, x5, y5, event) {
     zoom2.transform(selection2, function() {
       return constrain(this.__zoom.translate(
-        typeof x3 === "function" ? x3.apply(this, arguments) : x3,
-        typeof y3 === "function" ? y3.apply(this, arguments) : y3
+        typeof x5 === "function" ? x5.apply(this, arguments) : x5,
+        typeof y5 === "function" ? y5.apply(this, arguments) : y5
       ), extent.apply(this, arguments), translateExtent);
     }, null, event);
   };
-  zoom2.translateTo = function(selection2, x3, y3, p2, event) {
+  zoom2.translateTo = function(selection2, x5, y5, p2, event) {
     zoom2.transform(selection2, function() {
       var e2 = extent.apply(this, arguments), t3 = this.__zoom, p0 = p2 == null ? centroid(e2) : typeof p2 === "function" ? p2.apply(this, arguments) : p2;
       return constrain(identity2.translate(p0[0], p0[1]).scale(t3.k).translate(
-        typeof x3 === "function" ? -x3.apply(this, arguments) : -x3,
-        typeof y3 === "function" ? -y3.apply(this, arguments) : -y3
+        typeof x5 === "function" ? -x5.apply(this, arguments) : -x5,
+        typeof y5 === "function" ? -y5.apply(this, arguments) : -y5
       ), e2, translateExtent);
     }, p2, event);
   };
@@ -8708,8 +8715,8 @@ function zoom_default2() {
     return k2 === transform2.k ? transform2 : new Transform(k2, transform2.x, transform2.y);
   }
   function translate(transform2, p0, p1) {
-    var x3 = p0[0] - p1[0] * transform2.k, y3 = p0[1] - p1[1] * transform2.k;
-    return x3 === transform2.x && y3 === transform2.y ? transform2 : new Transform(transform2.k, x3, y3);
+    var x5 = p0[0] - p1[0] * transform2.k, y5 = p0[1] - p1[1] * transform2.k;
+    return x5 === transform2.x && y5 === transform2.y ? transform2 : new Transform(transform2.k, x5, y5);
   }
   function centroid(extent2) {
     return [(+extent2[0][0] + +extent2[1][0]) / 2, (+extent2[0][1] + +extent2[1][1]) / 2];
@@ -9024,9 +9031,9 @@ function max(values, valueof) {
       }
     }
   } else {
-    let index6 = -1;
+    let index7 = -1;
     for (let value of values) {
-      if ((value = valueof(value, ++index6, values)) != null && (max3 < value || max3 === void 0 && value >= value)) {
+      if ((value = valueof(value, ++index7, values)) != null && (max3 < value || max3 === void 0 && value >= value)) {
         max3 = value;
       }
     }
@@ -9044,9 +9051,9 @@ function min(values, valueof) {
       }
     }
   } else {
-    let index6 = -1;
+    let index7 = -1;
     for (let value of values) {
-      if ((value = valueof(value, ++index6, values)) != null && (min3 > value || min3 === void 0 && value >= value)) {
+      if ((value = valueof(value, ++index7, values)) != null && (min3 > value || min3 === void 0 && value >= value)) {
         min3 = value;
       }
     }
@@ -9064,9 +9071,9 @@ function sum(values, valueof) {
       }
     }
   } else {
-    let index6 = -1;
+    let index7 = -1;
     for (let value of values) {
-      if (value = +valueof(value, ++index6, values)) {
+      if (value = +valueof(value, ++index7, values)) {
         sum2 += value;
       }
     }
@@ -11274,10 +11281,10 @@ function H() {
   }
 }
 function L(n2, l2, u2, t3, i2, r2, o2, e2, f2, c3, a3) {
-  var s2, h2, p2, v2, y3, _2, g2, m3 = t3 && t3.__k || w, b2 = l2.length;
+  var s2, h2, p2, v2, y5, _2, g2, m3 = t3 && t3.__k || w, b2 = l2.length;
   for (f2 = T(u2, l2, m3, f2, b2), s2 = 0; s2 < b2; s2++)
-    null != (p2 = u2.__k[s2]) && (h2 = -1 != p2.__i && m3[p2.__i] || d, p2.__i = s2, _2 = q(n2, p2, h2, i2, r2, o2, e2, f2, c3, a3), v2 = p2.__e, p2.ref && h2.ref != p2.ref && (h2.ref && J(h2.ref, null, p2), a3.push(p2.ref, p2.__c || v2, p2)), null == y3 && null != v2 && (y3 = v2), (g2 = !!(4 & p2.__u)) || h2.__k === p2.__k ? (f2 = j(p2, f2, n2, g2), g2 && h2.__e && (h2.__e = null)) : "function" == typeof p2.type && void 0 !== _2 ? f2 = _2 : v2 && (f2 = v2.nextSibling), p2.__u &= -7);
-  return u2.__e = y3, f2;
+    null != (p2 = u2.__k[s2]) && (h2 = -1 != p2.__i && m3[p2.__i] || d, p2.__i = s2, _2 = q(n2, p2, h2, i2, r2, o2, e2, f2, c3, a3), v2 = p2.__e, p2.ref && h2.ref != p2.ref && (h2.ref && J(h2.ref, null, p2), a3.push(p2.ref, p2.__c || v2, p2)), null == y5 && null != v2 && (y5 = v2), (g2 = !!(4 & p2.__u)) || h2.__k === p2.__k ? (f2 = j(p2, f2, n2, g2), g2 && h2.__e && (h2.__e = null)) : "function" == typeof p2.type && void 0 !== _2 ? f2 = _2 : v2 && (f2 = v2.nextSibling), p2.__u &= -7);
+  return u2.__e = y5, f2;
 }
 function T(n2, l2, u2, t3, i2) {
   var r2, o2, e2, f2, c3, a3 = u2.length, s2 = a3, h2 = 0;
@@ -11356,7 +11363,7 @@ function V(n2) {
   };
 }
 function q(n2, u2, t3, i2, r2, o2, e2, f2, c3, a3) {
-  var s2, h2, p2, v2, y3, d2, _2, k2, x3, M, $2, I2, P2, A2, H2, T2, j2 = u2.type;
+  var s2, h2, p2, v2, y5, d2, _2, k2, x5, M, $2, I2, P2, A2, H2, T2, j2 = u2.type;
   if (void 0 !== u2.constructor)
     return null;
   128 & t3.__u && (c3 = !!(32 & t3.__u), o2 = [f2 = u2.__e = t3.__e]), (s2 = l.__b) && s2(u2);
@@ -11364,26 +11371,26 @@ function q(n2, u2, t3, i2, r2, o2, e2, f2, c3, a3) {
     if ("function" == typeof j2) {
       h2 = e2.length;
       try {
-        if (x3 = u2.props, M = j2.prototype && j2.prototype.render, $2 = (s2 = j2.contextType) && i2[s2.__c], I2 = s2 ? $2 ? $2.props.value : s2.__ : i2, t3.__c ? k2 = (p2 = u2.__c = t3.__c).__ = p2.__E : (M ? u2.__c = p2 = new j2(x3, I2) : (u2.__c = p2 = new C(x3, I2), p2.constructor = j2, p2.render = Q), $2 && $2.sub(p2), p2.state || (p2.state = {}), p2.__n = i2, v2 = p2.__d = true, p2.__h = [], p2._sb = []), M && null == p2.__s && (p2.__s = p2.state), M && null != j2.getDerivedStateFromProps && (p2.__s == p2.state && (p2.__s = m({}, p2.__s)), m(p2.__s, j2.getDerivedStateFromProps(x3, p2.__s))), y3 = p2.props, d2 = p2.state, p2.__v = u2, v2)
+        if (x5 = u2.props, M = j2.prototype && j2.prototype.render, $2 = (s2 = j2.contextType) && i2[s2.__c], I2 = s2 ? $2 ? $2.props.value : s2.__ : i2, t3.__c ? k2 = (p2 = u2.__c = t3.__c).__ = p2.__E : (M ? u2.__c = p2 = new j2(x5, I2) : (u2.__c = p2 = new C(x5, I2), p2.constructor = j2, p2.render = Q), $2 && $2.sub(p2), p2.state || (p2.state = {}), p2.__n = i2, v2 = p2.__d = true, p2.__h = [], p2._sb = []), M && null == p2.__s && (p2.__s = p2.state), M && null != j2.getDerivedStateFromProps && (p2.__s == p2.state && (p2.__s = m({}, p2.__s)), m(p2.__s, j2.getDerivedStateFromProps(x5, p2.__s))), y5 = p2.props, d2 = p2.state, p2.__v = u2, v2)
           M && null == j2.getDerivedStateFromProps && null != p2.componentWillMount && p2.componentWillMount(), M && null != p2.componentDidMount && p2.__h.push(p2.componentDidMount);
         else {
-          if (M && null == j2.getDerivedStateFromProps && x3 !== y3 && null != p2.componentWillReceiveProps && p2.componentWillReceiveProps(x3, I2), u2.__v == t3.__v || !p2.__e && null != p2.shouldComponentUpdate && false === p2.shouldComponentUpdate(x3, p2.__s, I2)) {
-            u2.__v != t3.__v && (p2.props = x3, p2.state = p2.__s, p2.__d = false), u2.__e = t3.__e, u2.__k = t3.__k, u2.__k.some(function(n3) {
+          if (M && null == j2.getDerivedStateFromProps && x5 !== y5 && null != p2.componentWillReceiveProps && p2.componentWillReceiveProps(x5, I2), u2.__v == t3.__v || !p2.__e && null != p2.shouldComponentUpdate && false === p2.shouldComponentUpdate(x5, p2.__s, I2)) {
+            u2.__v != t3.__v && (p2.props = x5, p2.state = p2.__s, p2.__d = false), u2.__e = t3.__e, u2.__k = t3.__k, u2.__k.some(function(n3) {
               n3 && (n3.__ = u2);
             }), w.push.apply(p2.__h, p2._sb), p2._sb = [], p2.__h.length && e2.push(p2);
             break n;
           }
-          null != p2.componentWillUpdate && p2.componentWillUpdate(x3, p2.__s, I2), M && null != p2.componentDidUpdate && p2.__h.push(function() {
-            p2.componentDidUpdate(y3, d2, _2);
+          null != p2.componentWillUpdate && p2.componentWillUpdate(x5, p2.__s, I2), M && null != p2.componentDidUpdate && p2.__h.push(function() {
+            p2.componentDidUpdate(y5, d2, _2);
           });
         }
-        if (p2.context = I2, p2.props = x3, p2.__P = n2, p2.__e = false, P2 = l.__r, A2 = 0, M)
+        if (p2.context = I2, p2.props = x5, p2.__P = n2, p2.__e = false, P2 = l.__r, A2 = 0, M)
           p2.state = p2.__s, p2.__d = false, P2 && P2(u2), s2 = p2.render(p2.props, p2.state, p2.context), w.push.apply(p2.__h, p2._sb), p2._sb = [];
         else
           do {
             p2.__d = false, P2 && P2(u2), s2 = p2.render(p2.props, p2.state, p2.context), p2.state = p2.__s;
           } while (p2.__d && ++A2 < 25);
-        p2.state = p2.__s, null != p2.getChildContext && (i2 = m(m({}, i2), p2.getChildContext())), M && !v2 && null != p2.getSnapshotBeforeUpdate && (_2 = p2.getSnapshotBeforeUpdate(y3, d2)), H2 = null != s2 && s2.type === S && null == s2.key ? E(s2.props.children) : s2, f2 = L(n2, g(H2) ? H2 : [H2], u2, t3, i2, r2, o2, e2, f2, c3, a3), p2.base = u2.__e, u2.__u &= -161, p2.__h.length && e2.push(p2), k2 && (p2.__E = p2.__ = null);
+        p2.state = p2.__s, null != p2.getChildContext && (i2 = m(m({}, i2), p2.getChildContext())), M && !v2 && null != p2.getSnapshotBeforeUpdate && (_2 = p2.getSnapshotBeforeUpdate(y5, d2)), H2 = null != s2 && s2.type === S && null == s2.key ? E(s2.props.children) : s2, f2 = L(n2, g(H2) ? H2 : [H2], u2, t3, i2, r2, o2, e2, f2, c3, a3), p2.base = u2.__e, u2.__u &= -161, p2.__h.length && e2.push(p2), k2 && (p2.__E = p2.__ = null);
       } catch (n3) {
         if (e2.length = h2, u2.__v = null, c3 || null != o2) {
           if (n3.then) {
@@ -11421,35 +11428,35 @@ function E(n2) {
   return "object" != typeof n2 || null == n2 || n2.__b > 0 ? n2 : g(n2) ? n2.map(E) : void 0 !== n2.constructor ? null : m({}, n2);
 }
 function G(u2, t3, i2, r2, o2, e2, f2, c3, a3) {
-  var s2, h2, p2, v2, y3, w2, _2, m3 = i2.props || d, k2 = t3.props, x3 = t3.type;
-  if ("svg" == x3 ? o2 = "http://www.w3.org/2000/svg" : "math" == x3 ? o2 = "http://www.w3.org/1998/Math/MathML" : o2 || (o2 = "http://www.w3.org/1999/xhtml"), null != e2) {
+  var s2, h2, p2, v2, y5, w2, _2, m3 = i2.props || d, k2 = t3.props, x5 = t3.type;
+  if ("svg" == x5 ? o2 = "http://www.w3.org/2000/svg" : "math" == x5 ? o2 = "http://www.w3.org/1998/Math/MathML" : o2 || (o2 = "http://www.w3.org/1999/xhtml"), null != e2) {
     for (s2 = 0; s2 < e2.length; s2++)
-      if ((y3 = e2[s2]) && "setAttribute" in y3 == !!x3 && (x3 ? y3.localName == x3 : 3 == y3.nodeType)) {
-        u2 = y3, e2[s2] = null;
+      if ((y5 = e2[s2]) && "setAttribute" in y5 == !!x5 && (x5 ? y5.localName == x5 : 3 == y5.nodeType)) {
+        u2 = y5, e2[s2] = null;
         break;
       }
   }
   if (null == u2) {
-    if (null == x3)
+    if (null == x5)
       return document.createTextNode(k2);
-    u2 = document.createElementNS(o2, x3, k2.is && k2), c3 && (l.__m && l.__m(t3, e2), c3 = false), e2 = null;
+    u2 = document.createElementNS(o2, x5, k2.is && k2), c3 && (l.__m && l.__m(t3, e2), c3 = false), e2 = null;
   }
-  if (null == x3)
+  if (null == x5)
     m3 === k2 || c3 && u2.data == k2 || (u2.data = k2);
   else {
-    if (e2 = "textarea" == x3 && null != k2.defaultValue ? null : e2 && n.call(u2.childNodes), !c3 && null != e2)
+    if (e2 = "textarea" == x5 && null != k2.defaultValue ? null : e2 && n.call(u2.childNodes), !c3 && null != e2)
       for (m3 = {}, s2 = 0; s2 < u2.attributes.length; s2++)
-        m3[(y3 = u2.attributes[s2]).name] = y3.value;
+        m3[(y5 = u2.attributes[s2]).name] = y5.value;
     for (s2 in m3)
-      y3 = m3[s2], "dangerouslySetInnerHTML" == s2 ? p2 = y3 : "children" == s2 || s2 in k2 || "value" == s2 && "defaultValue" in k2 || "checked" == s2 && "defaultChecked" in k2 || N(u2, s2, null, y3, o2);
+      y5 = m3[s2], "dangerouslySetInnerHTML" == s2 ? p2 = y5 : "children" == s2 || s2 in k2 || "value" == s2 && "defaultValue" in k2 || "checked" == s2 && "defaultChecked" in k2 || N(u2, s2, null, y5, o2);
     for (s2 in k2)
-      y3 = k2[s2], "children" == s2 ? v2 = y3 : "dangerouslySetInnerHTML" == s2 ? h2 = y3 : "value" == s2 ? w2 = y3 : "checked" == s2 ? _2 = y3 : c3 && "function" != typeof y3 || m3[s2] === y3 || N(u2, s2, y3, m3[s2], o2);
+      y5 = k2[s2], "children" == s2 ? v2 = y5 : "dangerouslySetInnerHTML" == s2 ? h2 = y5 : "value" == s2 ? w2 = y5 : "checked" == s2 ? _2 = y5 : c3 && "function" != typeof y5 || m3[s2] === y5 || N(u2, s2, y5, m3[s2], o2);
     if (h2)
       c3 || p2 && (h2.__html == p2.__html || h2.__html == u2.innerHTML) || (u2.innerHTML = h2.__html), t3.__k = [];
-    else if (p2 && (u2.innerHTML = ""), L("template" == t3.type ? u2.content : u2, g(v2) ? v2 : [v2], t3, i2, r2, "foreignObject" == x3 ? "http://www.w3.org/1999/xhtml" : o2, e2, f2, e2 ? e2[0] : i2.__k && $(i2, 0), c3, a3), null != e2)
+    else if (p2 && (u2.innerHTML = ""), L("template" == t3.type ? u2.content : u2, g(v2) ? v2 : [v2], t3, i2, r2, "foreignObject" == x5 ? "http://www.w3.org/1999/xhtml" : o2, e2, f2, e2 ? e2[0] : i2.__k && $(i2, 0), c3, a3), null != e2)
       for (s2 = e2.length; s2--; )
         b(e2[s2]);
-    c3 && "textarea" != x3 || (s2 = "value", "progress" == x3 && null == w2 ? u2.removeAttribute("value") : null != w2 && (w2 !== u2[s2] || "progress" == x3 && !w2 || "option" == x3 && w2 != m3[s2]) && N(u2, s2, w2, m3[s2], o2), s2 = "checked", null != _2 && _2 != u2[s2] && N(u2, s2, _2, m3[s2], o2));
+    c3 && "textarea" != x5 || (s2 = "value", "progress" == x5 && null == w2 ? u2.removeAttribute("value") : null != w2 && (w2 !== u2[s2] || "progress" == x5 && !w2 || "option" == x5 && w2 != m3[s2]) && N(u2, s2, w2, m3[s2], o2), s2 = "checked", null != _2 && _2 != u2[s2] && N(u2, s2, _2, m3[s2], o2));
   }
   return u2;
 }
@@ -11731,12 +11738,12 @@ var index3 = index({
 });
 
 // node_modules/d3-force-3d/src/center.js
-function center_default(x3, y3, z3) {
+function center_default(x5, y5, z3) {
   var nodes, strength = 1;
-  if (x3 == null)
-    x3 = 0;
-  if (y3 == null)
-    y3 = 0;
+  if (x5 == null)
+    x5 = 0;
+  if (y5 == null)
+    y5 = 0;
   if (z3 == null)
     z3 = 0;
   function force() {
@@ -11744,7 +11751,7 @@ function center_default(x3, y3, z3) {
     for (i2 = 0; i2 < n2; ++i2) {
       node = nodes[i2], sx += node.x || 0, sy += node.y || 0, sz += node.z || 0;
     }
-    for (sx = (sx / n2 - x3) * strength, sy = (sy / n2 - y3) * strength, sz = (sz / n2 - z3) * strength, i2 = 0; i2 < n2; ++i2) {
+    for (sx = (sx / n2 - x5) * strength, sy = (sy / n2 - y5) * strength, sz = (sz / n2 - z3) * strength, i2 = 0; i2 < n2; ++i2) {
       node = nodes[i2];
       if (sx) {
         node.x -= sx;
@@ -11761,10 +11768,10 @@ function center_default(x3, y3, z3) {
     nodes = _2;
   };
   force.x = function(_2) {
-    return arguments.length ? (x3 = +_2, force) : x3;
+    return arguments.length ? (x5 = +_2, force) : x5;
   };
   force.y = function(_2) {
-    return arguments.length ? (y3 = +_2, force) : y3;
+    return arguments.length ? (y5 = +_2, force) : y5;
   };
   force.z = function(_2) {
     return arguments.length ? (z3 = +_2, force) : z3;
@@ -11777,17 +11784,17 @@ function center_default(x3, y3, z3) {
 
 // node_modules/d3-binarytree/src/add.js
 function add_default(d2) {
-  const x3 = +this._x.call(null, d2);
-  return add2(this.cover(x3), x3, d2);
+  const x5 = +this._x.call(null, d2);
+  return add2(this.cover(x5), x5, d2);
 }
-function add2(tree, x3, d2) {
-  if (isNaN(x3))
+function add2(tree, x5, d2) {
+  if (isNaN(x5))
     return tree;
   var parent, node = tree._root, leaf = { data: d2 }, x0 = tree._x0, x1 = tree._x1, xm, xp, right, i2, j2;
   if (!node)
     return tree._root = leaf, tree;
   while (node.length) {
-    if (right = x3 >= (xm = (x0 + x1) / 2))
+    if (right = x5 >= (xm = (x0 + x1) / 2))
       x0 = xm;
     else
       x1 = xm;
@@ -11795,11 +11802,11 @@ function add2(tree, x3, d2) {
       return parent[i2] = leaf, tree;
   }
   xp = +tree._x.call(null, node.data);
-  if (x3 === xp)
+  if (x5 === xp)
     return leaf.next = node, parent ? parent[i2] = leaf : tree._root = leaf, tree;
   do {
     parent = parent ? parent[i2] = new Array(2) : tree._root = new Array(2);
-    if (right = x3 >= (xm = (x0 + x1) / 2))
+    if (right = x5 >= (xm = (x0 + x1) / 2))
       x0 = xm;
     else
       x1 = xm;
@@ -11812,14 +11819,14 @@ function addAll(data) {
   const n2 = data.length;
   const xz = new Float64Array(n2);
   let x0 = Infinity, x1 = -Infinity;
-  for (let i2 = 0, x3; i2 < n2; ++i2) {
-    if (isNaN(x3 = +this._x.call(null, data[i2])))
+  for (let i2 = 0, x5; i2 < n2; ++i2) {
+    if (isNaN(x5 = +this._x.call(null, data[i2])))
       continue;
-    xz[i2] = x3;
-    if (x3 < x0)
-      x0 = x3;
-    if (x3 > x1)
-      x1 = x3;
+    xz[i2] = x5;
+    if (x5 < x0)
+      x0 = x5;
+    if (x5 > x1)
+      x1 = x5;
   }
   if (x0 > x1)
     return this;
@@ -11831,16 +11838,16 @@ function addAll(data) {
 }
 
 // node_modules/d3-binarytree/src/cover.js
-function cover_default(x3) {
-  if (isNaN(x3 = +x3))
+function cover_default(x5) {
+  if (isNaN(x5 = +x5))
     return this;
   var x0 = this._x0, x1 = this._x1;
   if (isNaN(x0)) {
-    x1 = (x0 = Math.floor(x3)) + 1;
+    x1 = (x0 = Math.floor(x5)) + 1;
   } else {
     var z3 = x1 - x0 || 1, node = this._root, parent, i2;
-    while (x0 > x3 || x3 >= x1) {
-      i2 = +(x3 < x0);
+    while (x0 > x5 || x5 >= x1) {
+      i2 = +(x5 < x0);
       parent = new Array(2), parent[i2] = node, node = parent, z3 *= 2;
       switch (i2) {
         case 0:
@@ -11884,15 +11891,15 @@ function half_default(node, x0, x1) {
 }
 
 // node_modules/d3-binarytree/src/find.js
-function find_default(x3, radius) {
+function find_default(x5, radius) {
   var data, x0 = this._x0, x1, x22, x32 = this._x1, halves = [], node = this._root, q2, i2;
   if (node)
     halves.push(new half_default(node, x0, x32));
   if (radius == null)
     radius = Infinity;
   else {
-    x0 = x3 - radius;
-    x32 = x3 + radius;
+    x0 = x5 - radius;
+    x32 = x5 + radius;
   }
   while (q2 = halves.pop()) {
     if (!(node = q2.node) || (x1 = q2.x0) > x32 || (x22 = q2.x1) < x0)
@@ -11903,17 +11910,17 @@ function find_default(x3, radius) {
         new half_default(node[1], xm, x22),
         new half_default(node[0], x1, xm)
       );
-      if (i2 = +(x3 >= xm)) {
+      if (i2 = +(x5 >= xm)) {
         q2 = halves[halves.length - 1];
         halves[halves.length - 1] = halves[halves.length - 1 - i2];
         halves[halves.length - 1 - i2] = q2;
       }
     } else {
-      var d2 = Math.abs(x3 - +this._x.call(null, node.data));
+      var d2 = Math.abs(x5 - +this._x.call(null, node.data));
       if (d2 < radius) {
         radius = d2;
-        x0 = x3 - d2;
-        x32 = x3 + d2;
+        x0 = x5 - d2;
+        x32 = x5 + d2;
         data = node.data;
       }
     }
@@ -11923,14 +11930,14 @@ function find_default(x3, radius) {
 
 // node_modules/d3-binarytree/src/remove.js
 function remove_default3(d2) {
-  if (isNaN(x3 = +this._x.call(null, d2)))
+  if (isNaN(x5 = +this._x.call(null, d2)))
     return this;
-  var parent, node = this._root, retainer, previous, next, x0 = this._x0, x1 = this._x1, x3, xm, right, i2, j2;
+  var parent, node = this._root, retainer, previous, next, x0 = this._x0, x1 = this._x1, x5, xm, right, i2, j2;
   if (!node)
     return this;
   if (node.length)
     while (true) {
-      if (right = x3 >= (xm = (x0 + x1) / 2))
+      if (right = x5 >= (xm = (x0 + x1) / 2))
         x0 = xm;
       else
         x1 = xm;
@@ -12030,12 +12037,12 @@ function x_default(_2) {
 }
 
 // node_modules/d3-binarytree/src/binarytree.js
-function binarytree(nodes, x3) {
-  var tree = new Binarytree(x3 == null ? defaultX : x3, NaN, NaN);
+function binarytree(nodes, x5) {
+  var tree = new Binarytree(x5 == null ? defaultX : x5, NaN, NaN);
   return nodes == null ? tree : tree.addAll(nodes);
 }
-function Binarytree(x3, x0, x1) {
-  this._x = x3;
+function Binarytree(x5, x0, x1) {
+  this._x = x5;
   this._x0 = x0;
   this._x1 = x1;
   this._root = void 0;
@@ -12082,21 +12089,21 @@ treeProto.x = x_default;
 
 // node_modules/d3-quadtree/src/add.js
 function add_default2(d2) {
-  const x3 = +this._x.call(null, d2), y3 = +this._y.call(null, d2);
-  return add3(this.cover(x3, y3), x3, y3, d2);
+  const x5 = +this._x.call(null, d2), y5 = +this._y.call(null, d2);
+  return add3(this.cover(x5, y5), x5, y5, d2);
 }
-function add3(tree, x3, y3, d2) {
-  if (isNaN(x3) || isNaN(y3))
+function add3(tree, x5, y5, d2) {
+  if (isNaN(x5) || isNaN(y5))
     return tree;
   var parent, node = tree._root, leaf = { data: d2 }, x0 = tree._x0, y0 = tree._y0, x1 = tree._x1, y1 = tree._y1, xm, ym, xp, yp, right, bottom, i2, j2;
   if (!node)
     return tree._root = leaf, tree;
   while (node.length) {
-    if (right = x3 >= (xm = (x0 + x1) / 2))
+    if (right = x5 >= (xm = (x0 + x1) / 2))
       x0 = xm;
     else
       x1 = xm;
-    if (bottom = y3 >= (ym = (y0 + y1) / 2))
+    if (bottom = y5 >= (ym = (y0 + y1) / 2))
       y0 = ym;
     else
       y1 = ym;
@@ -12105,15 +12112,15 @@ function add3(tree, x3, y3, d2) {
   }
   xp = +tree._x.call(null, node.data);
   yp = +tree._y.call(null, node.data);
-  if (x3 === xp && y3 === yp)
+  if (x5 === xp && y5 === yp)
     return leaf.next = node, parent ? parent[i2] = leaf : tree._root = leaf, tree;
   do {
     parent = parent ? parent[i2] = new Array(4) : tree._root = new Array(4);
-    if (right = x3 >= (xm = (x0 + x1) / 2))
+    if (right = x5 >= (xm = (x0 + x1) / 2))
       x0 = xm;
     else
       x1 = xm;
-    if (bottom = y3 >= (ym = (y0 + y1) / 2))
+    if (bottom = y5 >= (ym = (y0 + y1) / 2))
       y0 = ym;
     else
       y1 = ym;
@@ -12121,20 +12128,20 @@ function add3(tree, x3, y3, d2) {
   return parent[j2] = node, parent[i2] = leaf, tree;
 }
 function addAll2(data) {
-  var d2, i2, n2 = data.length, x3, y3, xz = new Array(n2), yz = new Array(n2), x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  var d2, i2, n2 = data.length, x5, y5, xz = new Array(n2), yz = new Array(n2), x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
   for (i2 = 0; i2 < n2; ++i2) {
-    if (isNaN(x3 = +this._x.call(null, d2 = data[i2])) || isNaN(y3 = +this._y.call(null, d2)))
+    if (isNaN(x5 = +this._x.call(null, d2 = data[i2])) || isNaN(y5 = +this._y.call(null, d2)))
       continue;
-    xz[i2] = x3;
-    yz[i2] = y3;
-    if (x3 < x0)
-      x0 = x3;
-    if (x3 > x1)
-      x1 = x3;
-    if (y3 < y0)
-      y0 = y3;
-    if (y3 > y1)
-      y1 = y3;
+    xz[i2] = x5;
+    yz[i2] = y5;
+    if (x5 < x0)
+      x0 = x5;
+    if (x5 > x1)
+      x1 = x5;
+    if (y5 < y0)
+      y0 = y5;
+    if (y5 > y1)
+      y1 = y5;
   }
   if (x0 > x1 || y0 > y1)
     return this;
@@ -12146,17 +12153,17 @@ function addAll2(data) {
 }
 
 // node_modules/d3-quadtree/src/cover.js
-function cover_default2(x3, y3) {
-  if (isNaN(x3 = +x3) || isNaN(y3 = +y3))
+function cover_default2(x5, y5) {
+  if (isNaN(x5 = +x5) || isNaN(y5 = +y5))
     return this;
   var x0 = this._x0, y0 = this._y0, x1 = this._x1, y1 = this._y1;
   if (isNaN(x0)) {
-    x1 = (x0 = Math.floor(x3)) + 1;
-    y1 = (y0 = Math.floor(y3)) + 1;
+    x1 = (x0 = Math.floor(x5)) + 1;
+    y1 = (y0 = Math.floor(y5)) + 1;
   } else {
     var z3 = x1 - x0 || 1, node = this._root, parent, i2;
-    while (x0 > x3 || x3 >= x1 || y0 > y3 || y3 >= y1) {
-      i2 = (y3 < y0) << 1 | x3 < x0;
+    while (x0 > x5 || x5 >= x1 || y0 > y5 || y5 >= y1) {
+      i2 = (y5 < y0) << 1 | x5 < x0;
       parent = new Array(4), parent[i2] = node, node = parent, z3 *= 2;
       switch (i2) {
         case 0:
@@ -12210,15 +12217,15 @@ function quad_default(node, x0, y0, x1, y1) {
 }
 
 // node_modules/d3-quadtree/src/find.js
-function find_default2(x3, y3, radius) {
+function find_default2(x5, y5, radius) {
   var data, x0 = this._x0, y0 = this._y0, x1, y1, x22, y22, x32 = this._x1, y32 = this._y1, quads = [], node = this._root, q2, i2;
   if (node)
     quads.push(new quad_default(node, x0, y0, x32, y32));
   if (radius == null)
     radius = Infinity;
   else {
-    x0 = x3 - radius, y0 = y3 - radius;
-    x32 = x3 + radius, y32 = y3 + radius;
+    x0 = x5 - radius, y0 = y5 - radius;
+    x32 = x5 + radius, y32 = y5 + radius;
     radius *= radius;
   }
   while (q2 = quads.pop()) {
@@ -12232,17 +12239,17 @@ function find_default2(x3, y3, radius) {
         new quad_default(node[1], xm, y1, x22, ym),
         new quad_default(node[0], x1, y1, xm, ym)
       );
-      if (i2 = (y3 >= ym) << 1 | x3 >= xm) {
+      if (i2 = (y5 >= ym) << 1 | x5 >= xm) {
         q2 = quads[quads.length - 1];
         quads[quads.length - 1] = quads[quads.length - 1 - i2];
         quads[quads.length - 1 - i2] = q2;
       }
     } else {
-      var dx = x3 - +this._x.call(null, node.data), dy = y3 - +this._y.call(null, node.data), d2 = dx * dx + dy * dy;
+      var dx = x5 - +this._x.call(null, node.data), dy = y5 - +this._y.call(null, node.data), d2 = dx * dx + dy * dy;
       if (d2 < radius) {
         var d3 = Math.sqrt(radius = d2);
-        x0 = x3 - d3, y0 = y3 - d3;
-        x32 = x3 + d3, y32 = y3 + d3;
+        x0 = x5 - d3, y0 = y5 - d3;
+        x32 = x5 + d3, y32 = y5 + d3;
         data = node.data;
       }
     }
@@ -12252,18 +12259,18 @@ function find_default2(x3, y3, radius) {
 
 // node_modules/d3-quadtree/src/remove.js
 function remove_default4(d2) {
-  if (isNaN(x3 = +this._x.call(null, d2)) || isNaN(y3 = +this._y.call(null, d2)))
+  if (isNaN(x5 = +this._x.call(null, d2)) || isNaN(y5 = +this._y.call(null, d2)))
     return this;
-  var parent, node = this._root, retainer, previous, next, x0 = this._x0, y0 = this._y0, x1 = this._x1, y1 = this._y1, x3, y3, xm, ym, right, bottom, i2, j2;
+  var parent, node = this._root, retainer, previous, next, x0 = this._x0, y0 = this._y0, x1 = this._x1, y1 = this._y1, x5, y5, xm, ym, right, bottom, i2, j2;
   if (!node)
     return this;
   if (node.length)
     while (true) {
-      if (right = x3 >= (xm = (x0 + x1) / 2))
+      if (right = x5 >= (xm = (x0 + x1) / 2))
         x0 = xm;
       else
         x1 = xm;
-      if (bottom = y3 >= (ym = (y0 + y1) / 2))
+      if (bottom = y5 >= (ym = (y0 + y1) / 2))
         y0 = ym;
       else
         y1 = ym;
@@ -12379,13 +12386,13 @@ function y_default(_2) {
 }
 
 // node_modules/d3-quadtree/src/quadtree.js
-function quadtree(nodes, x3, y3) {
-  var tree = new Quadtree(x3 == null ? defaultX2 : x3, y3 == null ? defaultY : y3, NaN, NaN, NaN, NaN);
+function quadtree(nodes, x5, y5) {
+  var tree = new Quadtree(x5 == null ? defaultX2 : x5, y5 == null ? defaultY : y5, NaN, NaN, NaN, NaN);
   return nodes == null ? tree : tree.addAll(nodes);
 }
-function Quadtree(x3, y3, x0, y0, x1, y1) {
-  this._x = x3;
-  this._y = y3;
+function Quadtree(x5, y5, x0, y0, x1, y1) {
+  this._x = x5;
+  this._y = y5;
   this._x0 = x0;
   this._y0 = y0;
   this._x1 = x1;
@@ -12435,21 +12442,21 @@ treeProto2.y = y_default;
 
 // node_modules/d3-octree/src/add.js
 function add_default3(d2) {
-  const x3 = +this._x.call(null, d2), y3 = +this._y.call(null, d2), z3 = +this._z.call(null, d2);
-  return add4(this.cover(x3, y3, z3), x3, y3, z3, d2);
+  const x5 = +this._x.call(null, d2), y5 = +this._y.call(null, d2), z3 = +this._z.call(null, d2);
+  return add4(this.cover(x5, y5, z3), x5, y5, z3, d2);
 }
-function add4(tree, x3, y3, z3, d2) {
-  if (isNaN(x3) || isNaN(y3) || isNaN(z3))
+function add4(tree, x5, y5, z3, d2) {
+  if (isNaN(x5) || isNaN(y5) || isNaN(z3))
     return tree;
   var parent, node = tree._root, leaf = { data: d2 }, x0 = tree._x0, y0 = tree._y0, z0 = tree._z0, x1 = tree._x1, y1 = tree._y1, z1 = tree._z1, xm, ym, zm, xp, yp, zp, right, bottom, deep, i2, j2;
   if (!node)
     return tree._root = leaf, tree;
   while (node.length) {
-    if (right = x3 >= (xm = (x0 + x1) / 2))
+    if (right = x5 >= (xm = (x0 + x1) / 2))
       x0 = xm;
     else
       x1 = xm;
-    if (bottom = y3 >= (ym = (y0 + y1) / 2))
+    if (bottom = y5 >= (ym = (y0 + y1) / 2))
       y0 = ym;
     else
       y1 = ym;
@@ -12463,15 +12470,15 @@ function add4(tree, x3, y3, z3, d2) {
   xp = +tree._x.call(null, node.data);
   yp = +tree._y.call(null, node.data);
   zp = +tree._z.call(null, node.data);
-  if (x3 === xp && y3 === yp && z3 === zp)
+  if (x5 === xp && y5 === yp && z3 === zp)
     return leaf.next = node, parent ? parent[i2] = leaf : tree._root = leaf, tree;
   do {
     parent = parent ? parent[i2] = new Array(8) : tree._root = new Array(8);
-    if (right = x3 >= (xm = (x0 + x1) / 2))
+    if (right = x5 >= (xm = (x0 + x1) / 2))
       x0 = xm;
     else
       x1 = xm;
-    if (bottom = y3 >= (ym = (y0 + y1) / 2))
+    if (bottom = y5 >= (ym = (y0 + y1) / 2))
       y0 = ym;
     else
       y1 = ym;
@@ -12490,20 +12497,20 @@ function addAll3(data) {
   const yz = new Float64Array(n2);
   const zz = new Float64Array(n2);
   let x0 = Infinity, y0 = Infinity, z0 = Infinity, x1 = -Infinity, y1 = -Infinity, z1 = -Infinity;
-  for (let i2 = 0, d2, x3, y3, z3; i2 < n2; ++i2) {
-    if (isNaN(x3 = +this._x.call(null, d2 = data[i2])) || isNaN(y3 = +this._y.call(null, d2)) || isNaN(z3 = +this._z.call(null, d2)))
+  for (let i2 = 0, d2, x5, y5, z3; i2 < n2; ++i2) {
+    if (isNaN(x5 = +this._x.call(null, d2 = data[i2])) || isNaN(y5 = +this._y.call(null, d2)) || isNaN(z3 = +this._z.call(null, d2)))
       continue;
-    xz[i2] = x3;
-    yz[i2] = y3;
+    xz[i2] = x5;
+    yz[i2] = y5;
     zz[i2] = z3;
-    if (x3 < x0)
-      x0 = x3;
-    if (x3 > x1)
-      x1 = x3;
-    if (y3 < y0)
-      y0 = y3;
-    if (y3 > y1)
-      y1 = y3;
+    if (x5 < x0)
+      x0 = x5;
+    if (x5 > x1)
+      x1 = x5;
+    if (y5 < y0)
+      y0 = y5;
+    if (y5 > y1)
+      y1 = y5;
     if (z3 < z0)
       z0 = z3;
     if (z3 > z1)
@@ -12519,18 +12526,18 @@ function addAll3(data) {
 }
 
 // node_modules/d3-octree/src/cover.js
-function cover_default3(x3, y3, z3) {
-  if (isNaN(x3 = +x3) || isNaN(y3 = +y3) || isNaN(z3 = +z3))
+function cover_default3(x5, y5, z3) {
+  if (isNaN(x5 = +x5) || isNaN(y5 = +y5) || isNaN(z3 = +z3))
     return this;
   var x0 = this._x0, y0 = this._y0, z0 = this._z0, x1 = this._x1, y1 = this._y1, z1 = this._z1;
   if (isNaN(x0)) {
-    x1 = (x0 = Math.floor(x3)) + 1;
-    y1 = (y0 = Math.floor(y3)) + 1;
+    x1 = (x0 = Math.floor(x5)) + 1;
+    y1 = (y0 = Math.floor(y5)) + 1;
     z1 = (z0 = Math.floor(z3)) + 1;
   } else {
     var t3 = x1 - x0 || 1, node = this._root, parent, i2;
-    while (x0 > x3 || x3 >= x1 || y0 > y3 || y3 >= y1 || z0 > z3 || z3 >= z1) {
-      i2 = (z3 < z0) << 2 | (y3 < y0) << 1 | x3 < x0;
+    while (x0 > x5 || x5 >= x1 || y0 > y5 || y5 >= y1 || z0 > z3 || z3 >= z1) {
+      i2 = (z3 < z0) << 2 | (y5 < y0) << 1 | x5 < x0;
       parent = new Array(8), parent[i2] = node, node = parent, t3 *= 2;
       switch (i2) {
         case 0:
@@ -12600,15 +12607,15 @@ function octant_default(node, x0, y0, z0, x1, y1, z1) {
 }
 
 // node_modules/d3-octree/src/find.js
-function find_default3(x3, y3, z3, radius) {
+function find_default3(x5, y5, z3, radius) {
   var data, x0 = this._x0, y0 = this._y0, z0 = this._z0, x1, y1, z1, x22, y22, z22, x32 = this._x1, y32 = this._y1, z32 = this._z1, octs = [], node = this._root, q2, i2;
   if (node)
     octs.push(new octant_default(node, x0, y0, z0, x32, y32, z32));
   if (radius == null)
     radius = Infinity;
   else {
-    x0 = x3 - radius, y0 = y3 - radius, z0 = z3 - radius;
-    x32 = x3 + radius, y32 = y3 + radius, z32 = z3 + radius;
+    x0 = x5 - radius, y0 = y5 - radius, z0 = z3 - radius;
+    x32 = x5 + radius, y32 = y5 + radius, z32 = z3 + radius;
     radius *= radius;
   }
   while (q2 = octs.pop()) {
@@ -12626,17 +12633,17 @@ function find_default3(x3, y3, z3, radius) {
         new octant_default(node[1], xm, y1, z1, x22, ym, zm),
         new octant_default(node[0], x1, y1, z1, xm, ym, zm)
       );
-      if (i2 = (z3 >= zm) << 2 | (y3 >= ym) << 1 | x3 >= xm) {
+      if (i2 = (z3 >= zm) << 2 | (y5 >= ym) << 1 | x5 >= xm) {
         q2 = octs[octs.length - 1];
         octs[octs.length - 1] = octs[octs.length - 1 - i2];
         octs[octs.length - 1 - i2] = q2;
       }
     } else {
-      var dx = x3 - +this._x.call(null, node.data), dy = y3 - +this._y.call(null, node.data), dz = z3 - +this._z.call(null, node.data), d2 = dx * dx + dy * dy + dz * dz;
+      var dx = x5 - +this._x.call(null, node.data), dy = y5 - +this._y.call(null, node.data), dz = z3 - +this._z.call(null, node.data), d2 = dx * dx + dy * dy + dz * dz;
       if (d2 < radius) {
         var d3 = Math.sqrt(radius = d2);
-        x0 = x3 - d3, y0 = y3 - d3, z0 = z3 - d3;
-        x32 = x3 + d3, y32 = y3 + d3, z32 = z3 + d3;
+        x0 = x5 - d3, y0 = y5 - d3, z0 = z3 - d3;
+        x32 = x5 + d3, y32 = y5 + d3, z32 = z3 + d3;
         data = node.data;
       }
     }
@@ -12646,19 +12653,19 @@ function find_default3(x3, y3, z3, radius) {
 
 // node_modules/d3-octree/src/findAll.js
 var distance = (x1, y1, z1, x22, y22, z22) => Math.sqrt((x1 - x22) ** 2 + (y1 - y22) ** 2 + (z1 - z22) ** 2);
-function findAllWithinRadius(x3, y3, z3, radius) {
+function findAllWithinRadius(x5, y5, z3, radius) {
   const result = [];
-  const xMin = x3 - radius;
-  const yMin = y3 - radius;
+  const xMin = x5 - radius;
+  const yMin = y5 - radius;
   const zMin = z3 - radius;
-  const xMax = x3 + radius;
-  const yMax = y3 + radius;
+  const xMax = x5 + radius;
+  const yMax = y5 + radius;
   const zMax = z3 + radius;
   this.visit((node, x1, y1, z1, x22, y22, z22) => {
     if (!node.length) {
       do {
         const d2 = node.data;
-        if (distance(x3, y3, z3, this._x(d2), this._y(d2), this._z(d2)) <= radius) {
+        if (distance(x5, y5, z3, this._x(d2), this._y(d2), this._z(d2)) <= radius) {
           result.push(d2);
         }
       } while (node = node.next);
@@ -12670,18 +12677,18 @@ function findAllWithinRadius(x3, y3, z3, radius) {
 
 // node_modules/d3-octree/src/remove.js
 function remove_default5(d2) {
-  if (isNaN(x3 = +this._x.call(null, d2)) || isNaN(y3 = +this._y.call(null, d2)) || isNaN(z3 = +this._z.call(null, d2)))
+  if (isNaN(x5 = +this._x.call(null, d2)) || isNaN(y5 = +this._y.call(null, d2)) || isNaN(z3 = +this._z.call(null, d2)))
     return this;
-  var parent, node = this._root, retainer, previous, next, x0 = this._x0, y0 = this._y0, z0 = this._z0, x1 = this._x1, y1 = this._y1, z1 = this._z1, x3, y3, z3, xm, ym, zm, right, bottom, deep, i2, j2;
+  var parent, node = this._root, retainer, previous, next, x0 = this._x0, y0 = this._y0, z0 = this._z0, x1 = this._x1, y1 = this._y1, z1 = this._z1, x5, y5, z3, xm, ym, zm, right, bottom, deep, i2, j2;
   if (!node)
     return this;
   if (node.length)
     while (true) {
-      if (right = x3 >= (xm = (x0 + x1) / 2))
+      if (right = x5 >= (xm = (x0 + x1) / 2))
         x0 = xm;
       else
         x1 = xm;
-      if (bottom = y3 >= (ym = (y0 + y1) / 2))
+      if (bottom = y5 >= (ym = (y0 + y1) / 2))
         y0 = ym;
       else
         y1 = ym;
@@ -12825,13 +12832,13 @@ function z_default(_2) {
 }
 
 // node_modules/d3-octree/src/octree.js
-function octree(nodes, x3, y3, z3) {
-  var tree = new Octree(x3 == null ? defaultX3 : x3, y3 == null ? defaultY2 : y3, z3 == null ? defaultZ : z3, NaN, NaN, NaN, NaN, NaN, NaN);
+function octree(nodes, x5, y5, z3) {
+  var tree = new Octree(x5 == null ? defaultX3 : x5, y5 == null ? defaultY2 : y5, z3 == null ? defaultZ : z3, NaN, NaN, NaN, NaN, NaN, NaN);
   return nodes == null ? tree : tree.addAll(nodes);
 }
-function Octree(x3, y3, z3, x0, y0, z0, x1, y1, z1) {
-  this._x = x3;
-  this._y = y3;
+function Octree(x5, y5, z3, x0, y0, z0, x1, y1, z1) {
+  this._x = x5;
+  this._y = y5;
   this._z = z3;
   this._x0 = x0;
   this._y0 = y0;
@@ -12885,9 +12892,9 @@ treeProto3.y = y_default2;
 treeProto3.z = z_default;
 
 // node_modules/d3-force-3d/src/constant.js
-function constant_default5(x3) {
+function constant_default5(x5) {
   return function() {
-    return x3;
+    return x5;
   };
 }
 
@@ -12915,28 +12922,28 @@ function link_default(links) {
   }
   function force(alpha) {
     for (var k2 = 0, n2 = links.length; k2 < iterations; ++k2) {
-      for (var i2 = 0, link, source, target, x3 = 0, y3 = 0, z3 = 0, l2, b2; i2 < n2; ++i2) {
+      for (var i2 = 0, link, source, target, x5 = 0, y5 = 0, z3 = 0, l2, b2; i2 < n2; ++i2) {
         link = links[i2], source = link.source, target = link.target;
-        x3 = target.x + target.vx - source.x - source.vx || jiggle_default(random);
+        x5 = target.x + target.vx - source.x - source.vx || jiggle_default(random);
         if (nDim > 1) {
-          y3 = target.y + target.vy - source.y - source.vy || jiggle_default(random);
+          y5 = target.y + target.vy - source.y - source.vy || jiggle_default(random);
         }
         if (nDim > 2) {
           z3 = target.z + target.vz - source.z - source.vz || jiggle_default(random);
         }
-        l2 = Math.sqrt(x3 * x3 + y3 * y3 + z3 * z3);
+        l2 = Math.sqrt(x5 * x5 + y5 * y5 + z3 * z3);
         l2 = (l2 - distances[i2]) / l2 * alpha * strengths[i2];
-        x3 *= l2, y3 *= l2, z3 *= l2;
-        target.vx -= x3 * (b2 = bias[i2]);
+        x5 *= l2, y5 *= l2, z3 *= l2;
+        target.vx -= x5 * (b2 = bias[i2]);
         if (nDim > 1) {
-          target.vy -= y3 * b2;
+          target.vy -= y5 * b2;
         }
         if (nDim > 2) {
           target.vz -= z3 * b2;
         }
-        source.vx += x3 * (b2 = 1 - b2);
+        source.vx += x5 * (b2 = 1 - b2);
         if (nDim > 1) {
-          source.vy += y3 * b2;
+          source.vy += y5 * b2;
         }
         if (nDim > 2) {
           source.vz += z3 * b2;
@@ -13144,13 +13151,13 @@ function simulation_default(nodes, numDimensions) {
     },
     find: function() {
       var args = Array.prototype.slice.call(arguments);
-      var x3 = args.shift() || 0, y3 = (nDim > 1 ? args.shift() : null) || 0, z3 = (nDim > 2 ? args.shift() : null) || 0, radius = args.shift() || Infinity;
+      var x5 = args.shift() || 0, y5 = (nDim > 1 ? args.shift() : null) || 0, z3 = (nDim > 2 ? args.shift() : null) || 0, radius = args.shift() || Infinity;
       var i2 = 0, n2 = nodes.length, dx, dy, dz, d2, node, closest;
       radius *= radius;
       for (i2 = 0; i2 < n2; ++i2) {
         node = nodes[i2];
-        dx = x3 - node.x;
-        dy = y3 - (node.y || 0);
+        dx = x5 - node.x;
+        dy = y5 - (node.y || 0);
         dz = z3 - (node.z || 0);
         d2 = dx * dx + dy * dy + dz * dz;
         if (d2 < radius)
@@ -13181,18 +13188,18 @@ function manyBody_default() {
       node2 = nodes[i2], strengths[node2.index] = +strength(node2, i2, nodes);
   }
   function accumulate(treeNode) {
-    var strength2 = 0, q2, c3, weight = 0, x3, y3, z3, i2;
+    var strength2 = 0, q2, c3, weight = 0, x5, y5, z3, i2;
     var numChildren = treeNode.length;
     if (numChildren) {
-      for (x3 = y3 = z3 = i2 = 0; i2 < numChildren; ++i2) {
+      for (x5 = y5 = z3 = i2 = 0; i2 < numChildren; ++i2) {
         if ((q2 = treeNode[i2]) && (c3 = Math.abs(q2.value))) {
-          strength2 += q2.value, weight += c3, x3 += c3 * (q2.x || 0), y3 += c3 * (q2.y || 0), z3 += c3 * (q2.z || 0);
+          strength2 += q2.value, weight += c3, x5 += c3 * (q2.x || 0), y5 += c3 * (q2.y || 0), z3 += c3 * (q2.z || 0);
         }
       }
       strength2 *= Math.sqrt(4 / numChildren);
-      treeNode.x = x3 / weight;
+      treeNode.x = x5 / weight;
       if (nDim > 1) {
-        treeNode.y = y3 / weight;
+        treeNode.y = y5 / weight;
       }
       if (nDim > 2) {
         treeNode.z = z3 / weight;
@@ -13216,20 +13223,20 @@ function manyBody_default() {
     if (!treeNode.value)
       return true;
     var x22 = [arg1, arg2, arg3][nDim - 1];
-    var x3 = treeNode.x - node.x, y3 = nDim > 1 ? treeNode.y - node.y : 0, z3 = nDim > 2 ? treeNode.z - node.z : 0, w2 = x22 - x1, l2 = x3 * x3 + y3 * y3 + z3 * z3;
+    var x5 = treeNode.x - node.x, y5 = nDim > 1 ? treeNode.y - node.y : 0, z3 = nDim > 2 ? treeNode.z - node.z : 0, w2 = x22 - x1, l2 = x5 * x5 + y5 * y5 + z3 * z3;
     if (w2 * w2 / theta2 < l2) {
       if (l2 < distanceMax2) {
-        if (x3 === 0)
-          x3 = jiggle_default(random), l2 += x3 * x3;
-        if (nDim > 1 && y3 === 0)
-          y3 = jiggle_default(random), l2 += y3 * y3;
+        if (x5 === 0)
+          x5 = jiggle_default(random), l2 += x5 * x5;
+        if (nDim > 1 && y5 === 0)
+          y5 = jiggle_default(random), l2 += y5 * y5;
         if (nDim > 2 && z3 === 0)
           z3 = jiggle_default(random), l2 += z3 * z3;
         if (l2 < distanceMin2)
           l2 = Math.sqrt(distanceMin2 * l2);
-        node.vx += x3 * treeNode.value * alpha / l2;
+        node.vx += x5 * treeNode.value * alpha / l2;
         if (nDim > 1) {
-          node.vy += y3 * treeNode.value * alpha / l2;
+          node.vy += y5 * treeNode.value * alpha / l2;
         }
         if (nDim > 2) {
           node.vz += z3 * treeNode.value * alpha / l2;
@@ -13239,10 +13246,10 @@ function manyBody_default() {
     } else if (treeNode.length || l2 >= distanceMax2)
       return;
     if (treeNode.data !== node || treeNode.next) {
-      if (x3 === 0)
-        x3 = jiggle_default(random), l2 += x3 * x3;
-      if (nDim > 1 && y3 === 0)
-        y3 = jiggle_default(random), l2 += y3 * y3;
+      if (x5 === 0)
+        x5 = jiggle_default(random), l2 += x5 * x5;
+      if (nDim > 1 && y5 === 0)
+        y5 = jiggle_default(random), l2 += y5 * y5;
       if (nDim > 2 && z3 === 0)
         z3 = jiggle_default(random), l2 += z3 * z3;
       if (l2 < distanceMin2)
@@ -13251,9 +13258,9 @@ function manyBody_default() {
     do
       if (treeNode.data !== node) {
         w2 = strengths[treeNode.data.index] * alpha / l2;
-        node.vx += x3 * w2;
+        node.vx += x5 * w2;
         if (nDim > 1) {
-          node.vy += y3 * w2;
+          node.vy += y5 * w2;
         }
         if (nDim > 2) {
           node.vz += z3 * w2;
@@ -13283,19 +13290,19 @@ function manyBody_default() {
 }
 
 // node_modules/d3-force-3d/src/radial.js
-function radial_default(radius, x3, y3, z3) {
+function radial_default(radius, x5, y5, z3) {
   var nodes, nDim, strength = constant_default5(0.1), strengths, radiuses;
   if (typeof radius !== "function")
     radius = constant_default5(+radius);
-  if (x3 == null)
-    x3 = 0;
-  if (y3 == null)
-    y3 = 0;
+  if (x5 == null)
+    x5 = 0;
+  if (y5 == null)
+    y5 = 0;
   if (z3 == null)
     z3 = 0;
   function force(alpha) {
     for (var i2 = 0, n2 = nodes.length; i2 < n2; ++i2) {
-      var node = nodes[i2], dx = node.x - x3 || 1e-6, dy = (node.y || 0) - y3 || 1e-6, dz = (node.z || 0) - z3 || 1e-6, r2 = Math.sqrt(dx * dx + dy * dy + dz * dz), k2 = (radiuses[i2] - r2) * strengths[i2] * alpha / r2;
+      var node = nodes[i2], dx = node.x - x5 || 1e-6, dy = (node.y || 0) - y5 || 1e-6, dz = (node.z || 0) - z3 || 1e-6, r2 = Math.sqrt(dx * dx + dy * dy + dz * dz), k2 = (radiuses[i2] - r2) * strengths[i2] * alpha / r2;
       node.vx += dx * k2;
       if (nDim > 1) {
         node.vy += dy * k2;
@@ -13328,10 +13335,10 @@ function radial_default(radius, x3, y3, z3) {
     return arguments.length ? (radius = typeof _2 === "function" ? _2 : constant_default5(+_2), initialize(), force) : radius;
   };
   force.x = function(_2) {
-    return arguments.length ? (x3 = +_2, force) : x3;
+    return arguments.length ? (x5 = +_2, force) : x5;
   };
   force.y = function(_2) {
-    return arguments.length ? (y3 = +_2, force) : y3;
+    return arguments.length ? (y5 = +_2, force) : y5;
   };
   force.z = function(_2) {
     return arguments.length ? (z3 = +_2, force) : z3;
@@ -13630,16 +13637,16 @@ var utils = {
     const top = pow(1 - t3, n2), bottom = pow(t3, n2) + top;
     return top / bottom;
   },
-  lli8: function(x1, y1, x22, y22, x3, y3, x4, y4) {
-    const nx = (x1 * y22 - y1 * x22) * (x3 - x4) - (x1 - x22) * (x3 * y4 - y3 * x4), ny = (x1 * y22 - y1 * x22) * (y3 - y4) - (y1 - y22) * (x3 * y4 - y3 * x4), d2 = (x1 - x22) * (y3 - y4) - (y1 - y22) * (x3 - x4);
+  lli8: function(x1, y1, x22, y22, x32, y32, x42, y42) {
+    const nx = (x1 * y22 - y1 * x22) * (x32 - x42) - (x1 - x22) * (x32 * y42 - y32 * x42), ny = (x1 * y22 - y1 * x22) * (y32 - y42) - (y1 - y22) * (x32 * y42 - y32 * x42), d2 = (x1 - x22) * (y32 - y42) - (y1 - y22) * (x32 - x42);
     if (d2 == 0) {
       return false;
     }
     return { x: nx / d2, y: ny / d2 };
   },
   lli4: function(p1, p2, p3, p4) {
-    const x1 = p1.x, y1 = p1.y, x22 = p2.x, y22 = p2.y, x3 = p3.x, y3 = p3.y, x4 = p4.x, y4 = p4.y;
-    return utils.lli8(x1, y1, x22, y22, x3, y3, x4, y4);
+    const x1 = p1.x, y1 = p1.y, x22 = p2.x, y22 = p2.y, x32 = p3.x, y32 = p3.y, x42 = p4.x, y42 = p4.y;
+    return utils.lli8(x1, y1, x22, y22, x32, y32, x42, y42);
   },
   lli: function(v1, v2) {
     return utils.lli4(v1, v1.c, v2, v2.c);
@@ -13783,13 +13790,13 @@ var utils = {
     b2 /= d2;
     c3 /= d2;
     const p2 = (3 * b2 - a3 * a3) / 3, p3 = p2 / 3, q2 = (2 * a3 * a3 * a3 - 9 * a3 * b2 + 27 * c3) / 27, q22 = q2 / 2, discriminant = q22 * q22 + p3 * p3 * p3;
-    let u1, v1, x1, x22, x3;
+    let u1, v1, x1, x22, x32;
     if (discriminant < 0) {
       const mp3 = -p2 / 3, mp33 = mp3 * mp3 * mp3, r2 = sqrt(mp33), t3 = -q2 / (2 * r2), cosphi = t3 < -1 ? -1 : t3 > 1 ? 1 : t3, phi = acos(cosphi), crtr = crt(r2), t1 = 2 * crtr;
       x1 = t1 * cos(phi / 3) - a3 / 3;
       x22 = t1 * cos((phi + tau) / 3) - a3 / 3;
-      x3 = t1 * cos((phi + 2 * tau) / 3) - a3 / 3;
-      return [x1, x22, x3].filter(reduce);
+      x32 = t1 * cos((phi + 2 * tau) / 3) - a3 / 3;
+      return [x1, x22, x32].filter(reduce);
     } else if (discriminant === 0) {
       u1 = q22 < 0 ? crt(-q22) : -crt(q22);
       x1 = 2 * u1 - a3 / 3;
@@ -14134,7 +14141,7 @@ var Bezier = class _Bezier {
   toSVG() {
     if (this._3d)
       return false;
-    const p2 = this.points, x3 = p2[0].x, y3 = p2[0].y, s2 = ["M", x3, y3, this.order === 2 ? "Q" : "C"];
+    const p2 = this.points, x5 = p2[0].x, y5 = p2[0].y, s2 = ["M", x5, y5, this.order === 2 ? "Q" : "C"];
     for (let i2 = 1, last = p2.length; i2 < last; i2++) {
       s2.push(p2[i2].x);
       s2.push(p2[i2].y);
@@ -14964,24 +14971,24 @@ function initRange(domain, range) {
 // node_modules/d3-scale/src/ordinal.js
 var implicit = Symbol("implicit");
 function ordinal() {
-  var index6 = new InternMap(), domain = [], range = [], unknown = implicit;
+  var index7 = new InternMap(), domain = [], range = [], unknown = implicit;
   function scale(d2) {
-    let i2 = index6.get(d2);
+    let i2 = index7.get(d2);
     if (i2 === void 0) {
       if (unknown !== implicit)
         return unknown;
-      index6.set(d2, i2 = domain.push(d2) - 1);
+      index7.set(d2, i2 = domain.push(d2) - 1);
     }
     return range[i2 % range.length];
   }
   scale.domain = function(_2) {
     if (!arguments.length)
       return domain.slice();
-    domain = [], index6 = new InternMap();
+    domain = [], index7 = new InternMap();
     for (const value of _2) {
-      if (index6.has(value))
+      if (index7.has(value))
         continue;
-      index6.set(value, domain.push(value) - 1);
+      index7.set(value, domain.push(value) - 1);
     }
     return scale;
   };
@@ -16112,28 +16119,28 @@ var forceGraph = index({
     stopAnimation: "pauseAnimation"
   },
   methods: _objectSpread22({
-    graph2ScreenCoords: function graph2ScreenCoords(state, x3, y3) {
+    graph2ScreenCoords: function graph2ScreenCoords(state, x5, y5) {
       var t3 = transform(state.canvas);
       return {
-        x: x3 * t3.k + t3.x,
-        y: y3 * t3.k + t3.y
+        x: x5 * t3.k + t3.x,
+        y: y5 * t3.k + t3.y
       };
     },
-    screen2GraphCoords: function screen2GraphCoords(state, x3, y3) {
+    screen2GraphCoords: function screen2GraphCoords(state, x5, y5) {
       var t3 = transform(state.canvas);
       return {
-        x: (x3 - t3.x) / t3.k,
-        y: (y3 - t3.y) / t3.k
+        x: (x5 - t3.x) / t3.k,
+        y: (y5 - t3.y) / t3.k
       };
     },
-    centerAt: function centerAt(state, x3, y3, transitionDuration) {
+    centerAt: function centerAt(state, x5, y5, transitionDuration) {
       if (!state.canvas)
         return null;
-      if (x3 !== void 0 || y3 !== void 0) {
-        var finalPos = Object.assign({}, x3 !== void 0 ? {
-          x: x3
-        } : {}, y3 !== void 0 ? {
-          y: y3
+      if (x5 !== void 0 || y5 !== void 0) {
+        var finalPos = Object.assign({}, x5 !== void 0 ? {
+          x: x5
+        } : {}, y5 !== void 0 ? {
+          y: y5
         } : {});
         if (!transitionDuration) {
           setCenter(finalPos);
@@ -16153,8 +16160,8 @@ var forceGraph = index({
         };
       }
       function setCenter(_ref5) {
-        var x4 = _ref5.x, y4 = _ref5.y;
-        state.zoom.translateTo(state.zoom.__baseElem, x4 === void 0 ? getCenter().x : x4, y4 === void 0 ? getCenter().y : y4);
+        var x6 = _ref5.x, y6 = _ref5.y;
+        state.zoom.translateTo(state.zoom.__baseElem, x6 === void 0 ? getCenter().x : x6, y6 === void 0 ? getCenter().y : y6);
         state.needsRedraw = true;
       }
     },
@@ -16497,25 +16504,363 @@ var forceGraph = index({
   }
 });
 
+// node_modules/d3-force/src/constant.js
+function constant_default6(x5) {
+  return function() {
+    return x5;
+  };
+}
+
+// node_modules/d3-force/src/jiggle.js
+function jiggle_default2(random) {
+  return (random() - 0.5) * 1e-6;
+}
+
+// node_modules/d3-force/src/collide.js
+function x3(d2) {
+  return d2.x + d2.vx;
+}
+function y3(d2) {
+  return d2.y + d2.vy;
+}
+function collide_default(radius) {
+  var nodes, radii, random, strength = 1, iterations = 1;
+  if (typeof radius !== "function")
+    radius = constant_default6(radius == null ? 1 : +radius);
+  function force() {
+    var i2, n2 = nodes.length, tree, node, xi, yi, ri, ri2;
+    for (var k2 = 0; k2 < iterations; ++k2) {
+      tree = quadtree(nodes, x3, y3).visitAfter(prepare);
+      for (i2 = 0; i2 < n2; ++i2) {
+        node = nodes[i2];
+        ri = radii[node.index], ri2 = ri * ri;
+        xi = node.x + node.vx;
+        yi = node.y + node.vy;
+        tree.visit(apply);
+      }
+    }
+    function apply(quad, x0, y0, x1, y1) {
+      var data = quad.data, rj = quad.r, r2 = ri + rj;
+      if (data) {
+        if (data.index > node.index) {
+          var x5 = xi - data.x - data.vx, y5 = yi - data.y - data.vy, l2 = x5 * x5 + y5 * y5;
+          if (l2 < r2 * r2) {
+            if (x5 === 0)
+              x5 = jiggle_default2(random), l2 += x5 * x5;
+            if (y5 === 0)
+              y5 = jiggle_default2(random), l2 += y5 * y5;
+            l2 = (r2 - (l2 = Math.sqrt(l2))) / l2 * strength;
+            node.vx += (x5 *= l2) * (r2 = (rj *= rj) / (ri2 + rj));
+            node.vy += (y5 *= l2) * r2;
+            data.vx -= x5 * (r2 = 1 - r2);
+            data.vy -= y5 * r2;
+          }
+        }
+        return;
+      }
+      return x0 > xi + r2 || x1 < xi - r2 || y0 > yi + r2 || y1 < yi - r2;
+    }
+  }
+  function prepare(quad) {
+    if (quad.data)
+      return quad.r = radii[quad.data.index];
+    for (var i2 = quad.r = 0; i2 < 4; ++i2) {
+      if (quad[i2] && quad[i2].r > quad.r) {
+        quad.r = quad[i2].r;
+      }
+    }
+  }
+  function initialize() {
+    if (!nodes)
+      return;
+    var i2, n2 = nodes.length, node;
+    radii = new Array(n2);
+    for (i2 = 0; i2 < n2; ++i2)
+      node = nodes[i2], radii[node.index] = +radius(node, i2, nodes);
+  }
+  force.initialize = function(_nodes, _random) {
+    nodes = _nodes;
+    random = _random;
+    initialize();
+  };
+  force.iterations = function(_2) {
+    return arguments.length ? (iterations = +_2, force) : iterations;
+  };
+  force.strength = function(_2) {
+    return arguments.length ? (strength = +_2, force) : strength;
+  };
+  force.radius = function(_2) {
+    return arguments.length ? (radius = typeof _2 === "function" ? _2 : constant_default6(+_2), initialize(), force) : radius;
+  };
+  return force;
+}
+
+// node_modules/d3-force/src/link.js
+function index6(d2) {
+  return d2.index;
+}
+function find3(nodeById, nodeId) {
+  var node = nodeById.get(nodeId);
+  if (!node)
+    throw new Error("node not found: " + nodeId);
+  return node;
+}
+function link_default2(links) {
+  var id2 = index6, strength = defaultStrength, strengths, distance2 = constant_default6(30), distances, nodes, count, bias, random, iterations = 1;
+  if (links == null)
+    links = [];
+  function defaultStrength(link) {
+    return 1 / Math.min(count[link.source.index], count[link.target.index]);
+  }
+  function force(alpha) {
+    for (var k2 = 0, n2 = links.length; k2 < iterations; ++k2) {
+      for (var i2 = 0, link, source, target, x5, y5, l2, b2; i2 < n2; ++i2) {
+        link = links[i2], source = link.source, target = link.target;
+        x5 = target.x + target.vx - source.x - source.vx || jiggle_default2(random);
+        y5 = target.y + target.vy - source.y - source.vy || jiggle_default2(random);
+        l2 = Math.sqrt(x5 * x5 + y5 * y5);
+        l2 = (l2 - distances[i2]) / l2 * alpha * strengths[i2];
+        x5 *= l2, y5 *= l2;
+        target.vx -= x5 * (b2 = bias[i2]);
+        target.vy -= y5 * b2;
+        source.vx += x5 * (b2 = 1 - b2);
+        source.vy += y5 * b2;
+      }
+    }
+  }
+  function initialize() {
+    if (!nodes)
+      return;
+    var i2, n2 = nodes.length, m3 = links.length, nodeById = new Map(nodes.map((d2, i3) => [id2(d2, i3, nodes), d2])), link;
+    for (i2 = 0, count = new Array(n2); i2 < m3; ++i2) {
+      link = links[i2], link.index = i2;
+      if (typeof link.source !== "object")
+        link.source = find3(nodeById, link.source);
+      if (typeof link.target !== "object")
+        link.target = find3(nodeById, link.target);
+      count[link.source.index] = (count[link.source.index] || 0) + 1;
+      count[link.target.index] = (count[link.target.index] || 0) + 1;
+    }
+    for (i2 = 0, bias = new Array(m3); i2 < m3; ++i2) {
+      link = links[i2], bias[i2] = count[link.source.index] / (count[link.source.index] + count[link.target.index]);
+    }
+    strengths = new Array(m3), initializeStrength();
+    distances = new Array(m3), initializeDistance();
+  }
+  function initializeStrength() {
+    if (!nodes)
+      return;
+    for (var i2 = 0, n2 = links.length; i2 < n2; ++i2) {
+      strengths[i2] = +strength(links[i2], i2, links);
+    }
+  }
+  function initializeDistance() {
+    if (!nodes)
+      return;
+    for (var i2 = 0, n2 = links.length; i2 < n2; ++i2) {
+      distances[i2] = +distance2(links[i2], i2, links);
+    }
+  }
+  force.initialize = function(_nodes, _random) {
+    nodes = _nodes;
+    random = _random;
+    initialize();
+  };
+  force.links = function(_2) {
+    return arguments.length ? (links = _2, initialize(), force) : links;
+  };
+  force.id = function(_2) {
+    return arguments.length ? (id2 = _2, force) : id2;
+  };
+  force.iterations = function(_2) {
+    return arguments.length ? (iterations = +_2, force) : iterations;
+  };
+  force.strength = function(_2) {
+    return arguments.length ? (strength = typeof _2 === "function" ? _2 : constant_default6(+_2), initializeStrength(), force) : strength;
+  };
+  force.distance = function(_2) {
+    return arguments.length ? (distance2 = typeof _2 === "function" ? _2 : constant_default6(+_2), initializeDistance(), force) : distance2;
+  };
+  return force;
+}
+
+// node_modules/d3-force/src/simulation.js
+function x4(d2) {
+  return d2.x;
+}
+function y4(d2) {
+  return d2.y;
+}
+var initialAngle = Math.PI * (3 - Math.sqrt(5));
+
+// node_modules/d3-force/src/manyBody.js
+function manyBody_default2() {
+  var nodes, node, random, alpha, strength = constant_default6(-30), strengths, distanceMin2 = 1, distanceMax2 = Infinity, theta2 = 0.81;
+  function force(_2) {
+    var i2, n2 = nodes.length, tree = quadtree(nodes, x4, y4).visitAfter(accumulate);
+    for (alpha = _2, i2 = 0; i2 < n2; ++i2)
+      node = nodes[i2], tree.visit(apply);
+  }
+  function initialize() {
+    if (!nodes)
+      return;
+    var i2, n2 = nodes.length, node2;
+    strengths = new Array(n2);
+    for (i2 = 0; i2 < n2; ++i2)
+      node2 = nodes[i2], strengths[node2.index] = +strength(node2, i2, nodes);
+  }
+  function accumulate(quad) {
+    var strength2 = 0, q2, c3, weight = 0, x5, y5, i2;
+    if (quad.length) {
+      for (x5 = y5 = i2 = 0; i2 < 4; ++i2) {
+        if ((q2 = quad[i2]) && (c3 = Math.abs(q2.value))) {
+          strength2 += q2.value, weight += c3, x5 += c3 * q2.x, y5 += c3 * q2.y;
+        }
+      }
+      quad.x = x5 / weight;
+      quad.y = y5 / weight;
+    } else {
+      q2 = quad;
+      q2.x = q2.data.x;
+      q2.y = q2.data.y;
+      do
+        strength2 += strengths[q2.data.index];
+      while (q2 = q2.next);
+    }
+    quad.value = strength2;
+  }
+  function apply(quad, x1, _2, x22) {
+    if (!quad.value)
+      return true;
+    var x5 = quad.x - node.x, y5 = quad.y - node.y, w2 = x22 - x1, l2 = x5 * x5 + y5 * y5;
+    if (w2 * w2 / theta2 < l2) {
+      if (l2 < distanceMax2) {
+        if (x5 === 0)
+          x5 = jiggle_default2(random), l2 += x5 * x5;
+        if (y5 === 0)
+          y5 = jiggle_default2(random), l2 += y5 * y5;
+        if (l2 < distanceMin2)
+          l2 = Math.sqrt(distanceMin2 * l2);
+        node.vx += x5 * quad.value * alpha / l2;
+        node.vy += y5 * quad.value * alpha / l2;
+      }
+      return true;
+    } else if (quad.length || l2 >= distanceMax2)
+      return;
+    if (quad.data !== node || quad.next) {
+      if (x5 === 0)
+        x5 = jiggle_default2(random), l2 += x5 * x5;
+      if (y5 === 0)
+        y5 = jiggle_default2(random), l2 += y5 * y5;
+      if (l2 < distanceMin2)
+        l2 = Math.sqrt(distanceMin2 * l2);
+    }
+    do
+      if (quad.data !== node) {
+        w2 = strengths[quad.data.index] * alpha / l2;
+        node.vx += x5 * w2;
+        node.vy += y5 * w2;
+      }
+    while (quad = quad.next);
+  }
+  force.initialize = function(_nodes, _random) {
+    nodes = _nodes;
+    random = _random;
+    initialize();
+  };
+  force.strength = function(_2) {
+    return arguments.length ? (strength = typeof _2 === "function" ? _2 : constant_default6(+_2), initialize(), force) : strength;
+  };
+  force.distanceMin = function(_2) {
+    return arguments.length ? (distanceMin2 = _2 * _2, force) : Math.sqrt(distanceMin2);
+  };
+  force.distanceMax = function(_2) {
+    return arguments.length ? (distanceMax2 = _2 * _2, force) : Math.sqrt(distanceMax2);
+  };
+  force.theta = function(_2) {
+    return arguments.length ? (theta2 = _2 * _2, force) : Math.sqrt(theta2);
+  };
+  return force;
+}
+
+// node_modules/d3-force/src/x.js
+function x_default4(x5) {
+  var strength = constant_default6(0.1), nodes, strengths, xz;
+  if (typeof x5 !== "function")
+    x5 = constant_default6(x5 == null ? 0 : +x5);
+  function force(alpha) {
+    for (var i2 = 0, n2 = nodes.length, node; i2 < n2; ++i2) {
+      node = nodes[i2], node.vx += (xz[i2] - node.x) * strengths[i2] * alpha;
+    }
+  }
+  function initialize() {
+    if (!nodes)
+      return;
+    var i2, n2 = nodes.length;
+    strengths = new Array(n2);
+    xz = new Array(n2);
+    for (i2 = 0; i2 < n2; ++i2) {
+      strengths[i2] = isNaN(xz[i2] = +x5(nodes[i2], i2, nodes)) ? 0 : +strength(nodes[i2], i2, nodes);
+    }
+  }
+  force.initialize = function(_2) {
+    nodes = _2;
+    initialize();
+  };
+  force.strength = function(_2) {
+    return arguments.length ? (strength = typeof _2 === "function" ? _2 : constant_default6(+_2), initialize(), force) : strength;
+  };
+  force.x = function(_2) {
+    return arguments.length ? (x5 = typeof _2 === "function" ? _2 : constant_default6(+_2), initialize(), force) : x5;
+  };
+  return force;
+}
+
+// node_modules/d3-force/src/y.js
+function y_default3(y5) {
+  var strength = constant_default6(0.1), nodes, strengths, yz;
+  if (typeof y5 !== "function")
+    y5 = constant_default6(y5 == null ? 0 : +y5);
+  function force(alpha) {
+    for (var i2 = 0, n2 = nodes.length, node; i2 < n2; ++i2) {
+      node = nodes[i2], node.vy += (yz[i2] - node.y) * strengths[i2] * alpha;
+    }
+  }
+  function initialize() {
+    if (!nodes)
+      return;
+    var i2, n2 = nodes.length;
+    strengths = new Array(n2);
+    yz = new Array(n2);
+    for (i2 = 0; i2 < n2; ++i2) {
+      strengths[i2] = isNaN(yz[i2] = +y5(nodes[i2], i2, nodes)) ? 0 : +strength(nodes[i2], i2, nodes);
+    }
+  }
+  force.initialize = function(_2) {
+    nodes = _2;
+    initialize();
+  };
+  force.strength = function(_2) {
+    return arguments.length ? (strength = typeof _2 === "function" ? _2 : constant_default6(+_2), initialize(), force) : strength;
+  };
+  force.y = function(_2) {
+    return arguments.length ? (y5 = typeof _2 === "function" ? _2 : constant_default6(+_2), initialize(), force) : y5;
+  };
+  return force;
+}
+
 // src/bridge/smartConnectionsBridge.ts
 var SmartConnectionsBridge = class {
   app;
   constructor(app) {
     this.app = app;
   }
-  /**
-   * Checks if Smart Connections plugin is installed and enabled in Obsidian.
-   */
   isSmartConnectionsAvailable() {
     const plugins = this.app.plugins;
     if (!plugins)
       return false;
-    const sc = plugins.getPlugin("smart-connections");
-    return !!sc;
+    return !!plugins.getPlugin("smart-connections");
   }
-  /**
-   * Gets the instance of Smart Connections plugin if loaded.
-   */
   getPluginInstance() {
     const plugins = this.app.plugins;
     if (!plugins)
@@ -16523,25 +16868,25 @@ var SmartConnectionsBridge = class {
     return plugins.getPlugin("smart-connections") || null;
   }
   /**
-   * Fetch semantically similar files for a given active note path.
+   * Fetch similar notes for a target note path up to topK candidates.
    */
-  async getSemanticNeighbors(filePath, topK = 10, threshold = 0.7) {
+  async getSimilarSources(filePath, topK = 80) {
     const sc = this.getPluginInstance();
     if (!sc)
       return [];
     try {
       const env = sc.smart_env || sc.env;
       if (env && env.smart_sources) {
-        const sourceKey = filePath;
-        const source = env.smart_sources.get ? env.smart_sources.get(sourceKey) : env.smart_sources[sourceKey];
+        const source = env.smart_sources.get ? env.smart_sources.get(filePath) : env.smart_sources[filePath];
         if (source && typeof source.find_similar === "function") {
           const results = await source.find_similar(topK);
           if (Array.isArray(results)) {
             return results.map((r2) => ({
               path: r2.item?.path || r2.path || r2.key || "",
               score: r2.score || r2.similarity || 0,
-              title: r2.item?.name || r2.name || (r2.path ? r2.path.split("/").pop()?.replace(".md", "") : "")
-            })).filter((n2) => n2.path && n2.score >= threshold && n2.path !== filePath);
+              title: r2.item?.name || r2.name || (r2.path ? r2.path.split("/").pop()?.replace(".md", "") : ""),
+              vec: r2.item?.vec || r2.vec || void 0
+            })).filter((n2) => n2.path && n2.path !== filePath);
           }
         }
       }
@@ -16550,13 +16895,43 @@ var SmartConnectionsBridge = class {
         return (results || []).map((r2) => ({
           path: r2.path || "",
           score: r2.score || 0,
-          title: r2.title || r2.path?.split("/").pop()?.replace(".md", "") || ""
-        })).filter((n2) => n2.path && n2.score >= threshold && n2.path !== filePath);
+          title: r2.title || r2.path?.split("/").pop()?.replace(".md", "") || "",
+          vec: r2.vec || void 0
+        })).filter((n2) => n2.path && n2.path !== filePath);
       }
     } catch (err) {
-      console.warn("[SmartGraph] Error fetching semantic neighbors from Smart Connections:", err);
+      console.warn("[SmartGraph] Error in getSimilarSources:", err);
     }
     return [];
+  }
+  /**
+   * Compute pairwise similarity score between two files.
+   */
+  async getPairwiseSimilarity(fileA, fileB) {
+    if (fileA.vec && fileB.vec && fileA.vec.length === fileB.vec.length) {
+      return this.cosineSimilarity(fileA.vec, fileB.vec);
+    }
+    if (fileA.path === fileB.path)
+      return 1;
+    const pathA = fileA.path.split("/");
+    const pathB = fileB.path.split("/");
+    if (pathA.length > 1 && pathB.length > 1 && pathA[0] === pathB[0]) {
+      return 0.55;
+    }
+    return 0;
+  }
+  cosineSimilarity(vecA, vecB) {
+    let dot = 0;
+    let normA = 0;
+    let normB = 0;
+    for (let i2 = 0; i2 < vecA.length; i2++) {
+      dot += vecA[i2] * vecB[i2];
+      normA += vecA[i2] * vecA[i2];
+      normB += vecB[i2] * vecB[i2];
+    }
+    if (normA === 0 || normB === 0)
+      return 0;
+    return dot / (Math.sqrt(normA) * Math.sqrt(normB));
   }
 };
 
@@ -16569,102 +16944,104 @@ var GraphDataEngine = class {
     this.bridge = bridge;
   }
   /**
-   * Build complete graph data centered around target note file.
+   * Build multi-cluster candidate graph around focus note file.
    */
   async buildGraphData(centerFile, settings) {
     const nodes = [];
     const edges = [];
-    const nodeMap = /* @__PURE__ */ new Map();
+    const candidateMap = /* @__PURE__ */ new Map();
     if (!centerFile) {
-      const files = this.app.vault.getMarkdownFiles().slice(0, settings.maxNodesLimit);
-      files.forEach((file) => {
-        const node = {
+      const files = this.app.vault.getMarkdownFiles().slice(0, settings.visibleNodeLimit);
+      files.forEach((file, idx) => {
+        nodes.push({
           id: file.path,
           title: file.basename,
           path: file.path,
-          cluster: "cluster-0",
-          size: 6,
-          color: "#ffffff",
+          clusterId: `cluster-${idx % 5}`,
+          cluster: `cluster-${idx % 5}`,
+          size: 4,
+          color: settings.clusterColors[idx % settings.clusterColors.length],
           type: "note",
-          depth: 1
-        };
-        nodes.push(node);
-        nodeMap.set(file.path, node);
+          depth: 1,
+          similarity: 0.5,
+          isFocus: idx === 0,
+          isRepresentative: false
+        });
       });
       return { nodes, edges };
     }
-    const rootNode = {
-      id: centerFile.path,
-      title: centerFile.basename,
-      path: centerFile.path,
-      cluster: "cluster-root",
-      size: 14,
-      color: "#ffffff",
-      type: "root",
-      depth: 0,
-      score: 1
-    };
-    nodes.push(rootNode);
-    nodeMap.set(centerFile.path, rootNode);
-    if (settings.showSemanticLinks && this.bridge.isSmartConnectionsAvailable()) {
-      const neighbors = await this.bridge.getSemanticNeighbors(
-        centerFile.path,
-        settings.maxNodesLimit,
-        settings.similarityThreshold
+    const focusPath = centerFile.path;
+    candidateMap.set(focusPath, {
+      path: focusPath,
+      score: 1,
+      title: centerFile.basename
+    });
+    if (this.bridge.isSmartConnectionsAvailable()) {
+      const candidates = await this.bridge.getSimilarSources(
+        focusPath,
+        settings.candidateLimit
       );
-      neighbors.forEach((nbr) => {
-        if (!nodeMap.has(nbr.path)) {
-          const node = {
-            id: nbr.path,
-            title: nbr.title || nbr.path.split("/").pop()?.replace(".md", "") || nbr.path,
-            path: nbr.path,
-            cluster: "cluster-0",
-            size: Math.max(4, Math.round(nbr.score * 10)),
-            color: "#3498db",
-            type: "note",
-            depth: 1,
-            score: nbr.score
-          };
-          nodes.push(node);
-          nodeMap.set(nbr.path, node);
+      candidates.forEach((cand) => {
+        if (cand.score >= settings.focusSimilarityThreshold && !candidateMap.has(cand.path)) {
+          candidateMap.set(cand.path, cand);
         }
-        edges.push({
-          source: centerFile.path,
-          target: nbr.path,
-          type: "semantic",
-          weight: nbr.score,
-          dashed: false,
-          opacity: Math.max(0.2, nbr.score)
-        });
       });
     }
     const cache = this.app.metadataCache.getFileCache(centerFile);
     if (cache && cache.links && settings.showWikiLinks) {
       cache.links.forEach((link) => {
-        const destFile = this.app.metadataCache.getFirstLinkpathDest(link.link, centerFile.path);
-        if (destFile && !nodeMap.has(destFile.path)) {
-          const node = {
-            id: destFile.path,
-            title: destFile.basename,
+        const destFile = this.app.metadataCache.getFirstLinkpathDest(link.link, focusPath);
+        if (destFile && !candidateMap.has(destFile.path)) {
+          candidateMap.set(destFile.path, {
             path: destFile.path,
-            cluster: "cluster-0",
-            size: 6,
-            color: "#2ecc71",
-            type: "note",
-            depth: 1
-          };
-          nodes.push(node);
-          nodeMap.set(destFile.path, node);
-          edges.push({
-            source: centerFile.path,
-            target: destFile.path,
-            type: "wiki-link",
-            weight: 0.8,
-            dashed: true,
-            opacity: 0.6
+            score: 0.75,
+            title: destFile.basename
           });
         }
       });
+    }
+    const candidateList = Array.from(candidateMap.values()).slice(0, settings.visibleNodeLimit);
+    candidateList.forEach((cand) => {
+      const isFocus = cand.path === focusPath;
+      const node = {
+        id: cand.path,
+        title: cand.title || cand.path.split("/").pop()?.replace(".md", "") || cand.path,
+        path: cand.path,
+        clusterId: "cluster-0",
+        cluster: "cluster-0",
+        size: isFocus ? 10 : 4,
+        color: "#ffffff",
+        type: isFocus ? "cluster-center" : "note",
+        depth: isFocus ? 0 : 1,
+        similarity: cand.score,
+        isFocus,
+        isRepresentative: false
+      };
+      nodes.push(node);
+    });
+    const edgeCountMap = /* @__PURE__ */ new Map();
+    for (let i2 = 0; i2 < candidateList.length; i2++) {
+      for (let j2 = i2 + 1; j2 < candidateList.length; j2++) {
+        const candA = candidateList[i2];
+        const candB = candidateList[j2];
+        const score = await this.bridge.getPairwiseSimilarity(candA, candB);
+        if (score >= settings.clusterSimilarityThreshold || candA.path === focusPath || candB.path === focusPath) {
+          const countA = edgeCountMap.get(candA.path) || 0;
+          const countB = edgeCountMap.get(candB.path) || 0;
+          if (countA < settings.maxSemanticEdgesPerNode && countB < settings.maxSemanticEdgesPerNode) {
+            edgeCountMap.set(candA.path, countA + 1);
+            edgeCountMap.set(candB.path, countB + 1);
+            edges.push({
+              source: candA.path,
+              target: candB.path,
+              type: "semantic",
+              weight: score || 0.6,
+              dashed: false,
+              opacity: Math.max(0.15, score)
+            });
+          }
+        }
+      }
     }
     return { nodes, edges };
   }
@@ -16673,63 +17050,98 @@ var GraphDataEngine = class {
 // src/engine/communityDetector.ts
 var CommunityDetector = class {
   /**
-   * Run Louvain community detection or partition algorithm on nodes and edges.
+   * Run community partition algorithm, select representatives, and map colors.
    */
-  detectCommunities(nodes, edges, colorPalette) {
+  detectCommunities(nodes, edges, colorPalette, minimumClusterSize = 2) {
     if (nodes.length === 0) {
       return { nodes: [], clusters: /* @__PURE__ */ new Map() };
     }
     const nodeMap = /* @__PURE__ */ new Map();
     nodes.forEach((n2) => nodeMap.set(n2.id, n2));
-    const nodeIds = nodes.map((n2) => n2.id);
-    const matrix = {};
-    nodeIds.forEach((id2) => matrix[id2] = {});
+    const adjMap = /* @__PURE__ */ new Map();
+    nodes.forEach((n2) => adjMap.set(n2.id, /* @__PURE__ */ new Map()));
     edges.forEach((edge) => {
       const srcId = typeof edge.source === "object" ? edge.source.id : edge.source;
       const tgtId = typeof edge.target === "object" ? edge.target.id : edge.target;
-      if (matrix[srcId] && matrix[tgtId]) {
-        matrix[srcId][tgtId] = (matrix[srcId][tgtId] || 0) + edge.weight;
-        matrix[tgtId][srcId] = (matrix[tgtId][srcId] || 0) + edge.weight;
+      if (adjMap.has(srcId) && adjMap.has(tgtId)) {
+        adjMap.get(srcId).set(tgtId, (adjMap.get(srcId).get(tgtId) || 0) + edge.weight);
+        adjMap.get(tgtId).set(srcId, (adjMap.get(tgtId).get(srcId) || 0) + edge.weight);
       }
     });
+    const visited = /* @__PURE__ */ new Set();
     const communityAssignments = /* @__PURE__ */ new Map();
     let clusterIndex = 0;
-    const visited = /* @__PURE__ */ new Set();
-    nodeIds.forEach((startId) => {
-      if (visited.has(startId))
+    const sortedNodes = [...nodes].sort((a3, b2) => (b2.isFocus ? 1 : 0) - (a3.isFocus ? 1 : 0));
+    sortedNodes.forEach((startNode) => {
+      if (visited.has(startNode.id))
         return;
-      const clusterId = `cluster-${clusterIndex % colorPalette.length}`;
+      const clusterId = `cluster-${clusterIndex}`;
       clusterIndex++;
-      const queue = [startId];
-      visited.add(startId);
+      const queue = [startNode.id];
+      visited.add(startNode.id);
       while (queue.length > 0) {
-        const current = queue.shift();
-        communityAssignments.set(current, clusterId);
-        const neighbors = matrix[current] ? Object.keys(matrix[current]) : [];
-        neighbors.forEach((nbr) => {
-          if (!visited.has(nbr)) {
-            visited.add(nbr);
-            queue.push(nbr);
-          }
-        });
+        const currId = queue.shift();
+        communityAssignments.set(currId, clusterId);
+        const neighbors = adjMap.get(currId);
+        if (neighbors) {
+          neighbors.forEach((weight, nbrId) => {
+            if (!visited.has(nbrId) && weight >= 0.3) {
+              visited.add(nbrId);
+              queue.push(nbrId);
+            }
+          });
+        }
       }
     });
-    const clusters = /* @__PURE__ */ new Map();
+    const tempClusters = /* @__PURE__ */ new Map();
     nodes.forEach((node) => {
       const cId = communityAssignments.get(node.id) || "cluster-0";
-      const cIdx = parseInt(cId.split("-")[1] || "0", 10);
-      const color2 = colorPalette[cIdx % colorPalette.length];
-      node.cluster = cId;
-      node.color = color2;
-      if (!clusters.has(cId)) {
-        clusters.set(cId, {
-          id: cId,
-          name: `Cluster ${cIdx + 1}`,
-          color: color2,
-          nodes: []
-        });
-      }
-      clusters.get(cId).nodes.push(node);
+      if (!tempClusters.has(cId))
+        tempClusters.set(cId, []);
+      tempClusters.get(cId).push(node);
+    });
+    const clusters = /* @__PURE__ */ new Map();
+    let finalClusterIndex = 0;
+    tempClusters.forEach((cNodes, cId) => {
+      const color2 = colorPalette[finalClusterIndex % colorPalette.length];
+      finalClusterIndex++;
+      const internalEdges = edges.filter((e2) => {
+        const s2 = typeof e2.source === "object" ? e2.source.id : e2.source;
+        const t3 = typeof e2.target === "object" ? e2.target.id : e2.target;
+        return cNodes.some((n2) => n2.id === s2) && cNodes.some((n2) => n2.id === t3);
+      });
+      let representativeNode = cNodes[0];
+      let maxScore = -1;
+      cNodes.forEach((node) => {
+        const degree = internalEdges.filter(
+          (e2) => (typeof e2.source === "object" ? e2.source.id : e2.source) === node.id || (typeof e2.target === "object" ? e2.target.id : e2.target) === node.id
+        ).length;
+        const score = degree * 0.6 + (node.similarity || 0) * 0.4 + (node.isFocus ? 1 : 0);
+        if (score > maxScore) {
+          maxScore = score;
+          representativeNode = node;
+        }
+      });
+      cNodes.forEach((node) => {
+        node.clusterId = cId;
+        node.cluster = cId;
+        node.color = color2;
+        node.isRepresentative = node.id === representativeNode.id && !node.isFocus;
+        node.type = node.isFocus || node.isRepresentative ? "cluster-center" : "note";
+        if (node.isFocus)
+          node.size = 10;
+        else if (node.isRepresentative)
+          node.size = 8;
+        else
+          node.size = 4;
+      });
+      clusters.set(cId, {
+        id: cId,
+        name: representativeNode ? representativeNode.title : `Cluster ${cId}`,
+        color: color2,
+        nodes: cNodes,
+        representativeId: representativeNode ? representativeNode.id : void 0
+      });
     });
     return { nodes, clusters };
   }
@@ -16775,55 +17187,76 @@ function hull_default(points) {
 // src/views/hullRenderer.ts
 var HullRenderer = class {
   /**
-   * Render convex hulls / polygons around node clusters on the Canvas 2D context.
+   * Render convex hulls / polygons per cluster on Canvas 2D context.
    */
-  drawHulls(ctx, clusters, globalOpacity = 0.15, padding = 25) {
+  drawHulls(ctx, clusters, globalOpacity = 0.07, padding = 18) {
     clusters.forEach((cluster) => {
       const nodes = cluster.nodes.filter((n2) => n2.x !== void 0 && n2.y !== void 0);
-      if (nodes.length < 3)
+      if (nodes.length === 0)
         return;
-      const points = nodes.map((n2) => [n2.x, n2.y]);
-      const hull = hull_default(points);
-      if (!hull || hull.length < 3)
-        return;
-      const centroid = this.getCentroid(hull);
-      const expandedPoints = hull.map(([x3, y3]) => {
-        const dx = x3 - centroid[0];
-        const dy = y3 - centroid[1];
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        return [
-          x3 + dx / dist * padding,
-          y3 + dy / dist * padding
-        ];
-      });
-      ctx.save();
-      ctx.beginPath();
-      const first = expandedPoints[0];
-      ctx.moveTo(first[0], first[1]);
-      for (let i2 = 0; i2 < expandedPoints.length; i2++) {
-        const p1 = expandedPoints[i2];
-        const p2 = expandedPoints[(i2 + 1) % expandedPoints.length];
-        const midX = (p1[0] + p2[0]) / 2;
-        const midY = (p1[1] + p2[1]) / 2;
-        ctx.quadraticCurveTo(p1[0], p1[1], midX, midY);
-      }
-      ctx.closePath();
       const fillColor = tinycolor(cluster.color).setAlpha(globalOpacity).toRgbString();
       const strokeColor = tinycolor(cluster.color).setAlpha(globalOpacity * 2.5).toRgbString();
+      ctx.save();
       ctx.fillStyle = fillColor;
-      ctx.fill();
       ctx.strokeStyle = strokeColor;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
+      ctx.lineWidth = 1;
+      if (nodes.length === 1) {
+        const n2 = nodes[0];
+        ctx.beginPath();
+        ctx.arc(n2.x, n2.y, 22, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+      } else if (nodes.length === 2) {
+        const [n1, n2] = nodes;
+        const dx = n2.x - n1.x;
+        const dy = n2.y - n1.y;
+        const angle = Math.atan2(dy, dx);
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const radius = 18;
+        ctx.beginPath();
+        ctx.arc(n1.x, n1.y, radius, angle + Math.PI / 2, angle - Math.PI / 2);
+        ctx.arc(n2.x, n2.y, radius, angle - Math.PI / 2, angle + Math.PI / 2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+      } else {
+        const points = nodes.map((n2) => [n2.x, n2.y]);
+        const hull = hull_default(points);
+        if (hull && hull.length >= 3) {
+          const centroid = this.getCentroid(hull);
+          const expandedPoints = hull.map(([x5, y5]) => {
+            const dx = x5 - centroid[0];
+            const dy = y5 - centroid[1];
+            const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+            return [
+              x5 + dx / dist * padding,
+              y5 + dy / dist * padding
+            ];
+          });
+          ctx.beginPath();
+          const first = expandedPoints[0];
+          ctx.moveTo(first[0], first[1]);
+          for (let i2 = 0; i2 < expandedPoints.length; i2++) {
+            const p1 = expandedPoints[i2];
+            const p2 = expandedPoints[(i2 + 1) % expandedPoints.length];
+            const midX = (p1[0] + p2[0]) / 2;
+            const midY = (p1[1] + p2[1]) / 2;
+            ctx.quadraticCurveTo(p1[0], p1[1], midX, midY);
+          }
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        }
+      }
       ctx.restore();
     });
   }
   getCentroid(points) {
     let cx = 0;
     let cy = 0;
-    points.forEach(([x3, y3]) => {
-      cx += x3;
-      cy += y3;
+    points.forEach(([x5, y5]) => {
+      cx += x5;
+      cy += y5;
     });
     return [cx / points.length, cy / points.length];
   }
@@ -16840,6 +17273,8 @@ var SmartGraphView = class extends import_obsidian.ItemView {
   container = null;
   canvasWrapper = null;
   graphInstance = null;
+  hoverNode = null;
+  hasInitialFit = false;
   currentNodes = [];
   currentEdges = [];
   currentClusters = /* @__PURE__ */ new Map();
@@ -16877,10 +17312,6 @@ var SmartGraphView = class extends import_obsidian.ItemView {
       badge.style.color = "#e74c3c";
       badge.style.borderColor = "#e74c3c44";
     }
-    if (!scAvailable) {
-      const banner = container.createDiv({ cls: "smart-graph-notice-banner" });
-      banner.setText("Notice: obsidian-smart-connections is not active. Showing Vault links fallback.");
-    }
     this.canvasWrapper = container.createDiv({ cls: "smart-graph-canvas-wrapper" });
     this.initGraph();
     await this.refreshGraph();
@@ -16888,57 +17319,56 @@ var SmartGraphView = class extends import_obsidian.ItemView {
   initGraph() {
     if (!this.canvasWrapper)
       return;
-    this.graphInstance = forceGraph()(this.canvasWrapper).backgroundColor("#0f1115").nodeId("id").nodeLabel((node) => `${node.title} (${node.path})`).nodeVal((node) => node.size || 6).nodeColor((node) => node.color || "#ffffff").linkSource("source").linkTarget("target").linkDirectionalArrowLength((link) => link.type === "backlink" ? 4 : 0).linkDirectionalArrowRelPos(1).linkWidth((link) => link.weight ? link.weight * 2 : 1).linkColor((link) => {
-      if (link.type === "semantic")
-        return "rgba(52, 152, 219, 0.4)";
-      if (link.type === "wiki-link")
-        return "rgba(46, 204, 113, 0.4)";
-      return "rgba(255, 255, 255, 0.2)";
+    const width = this.canvasWrapper.clientWidth || 800;
+    const height = this.canvasWrapper.clientHeight || 600;
+    this.graphInstance = forceGraph()(this.canvasWrapper).backgroundColor("#0f1115").nodeId("id").nodeVal((node) => node.size || 4).nodeColor((node) => node.color || "#ffffff").linkSource("source").linkTarget("target").linkWidth(0.8).linkColor(() => "rgba(170, 176, 190, 0.18)").onNodeHover((node) => {
+      this.hoverNode = node || null;
     }).onRenderFramePre((ctx) => {
       if (this.currentClusters.size > 0) {
         this.hullRenderer.drawHulls(
           ctx,
           this.currentClusters,
-          this.plugin.settings.clusterHullsOpacity,
-          25
+          this.plugin.settings.hullOpacity,
+          this.plugin.settings.hullPadding
         );
       }
     }).nodeCanvasObject((node, ctx, globalScale) => {
-      const x3 = node.x || 0;
-      const y3 = node.y || 0;
-      const radius = (node.size || 6) / 2;
-      if (node.type === "root") {
+      const x5 = node.x || 0;
+      const y5 = node.y || 0;
+      const radius = node.size || 4;
+      if (node.isFocus) {
         ctx.save();
         ctx.beginPath();
-        ctx.arc(x3, y3, radius + 4, 0, 2 * Math.PI, false);
-        ctx.strokeStyle = "#2ecc71";
-        ctx.lineWidth = 2;
-        ctx.shadowColor = "#2ecc71";
-        ctx.shadowBlur = 10;
+        ctx.arc(x5, y5, 14, 0, 2 * Math.PI, false);
+        ctx.fillStyle = "rgba(88, 183, 123, 0.18)";
+        ctx.fill();
+        ctx.strokeStyle = "rgba(88, 183, 123, 0.4)";
+        ctx.lineWidth = 1;
         ctx.stroke();
         ctx.restore();
       }
       ctx.beginPath();
-      ctx.arc(x3, y3, radius, 0, 2 * Math.PI, false);
+      ctx.arc(x5, y5, radius, 0, 2 * Math.PI, false);
       ctx.fillStyle = node.color || "#ffffff";
       ctx.fill();
-      const label = node.title;
-      const fontSize = Math.max(10 / globalScale, 3);
-      ctx.font = `${fontSize}px Sans-Serif`;
-      if (globalScale > 0.8 || node.type === "root") {
+      const showLabel = node.isFocus || node.isRepresentative || this.hoverNode && this.hoverNode.id === node.id;
+      if (showLabel) {
+        const label = node.title;
+        const fontSize = Math.max(9 / globalScale, 2.5);
+        ctx.font = `${fontSize}px Sans-Serif`;
         const textWidth = ctx.measureText(label).width;
         const bckgDimensions = [textWidth + 6, fontSize + 4];
-        ctx.fillStyle = "rgba(15, 17, 21, 0.8)";
+        ctx.fillStyle = "rgba(10, 11, 13, 0.88)";
         ctx.fillRect(
-          x3 - bckgDimensions[0] / 2,
-          y3 + radius + 2,
+          x5 - bckgDimensions[0] / 2,
+          y5 + radius + 3,
           bckgDimensions[0],
           bckgDimensions[1]
         );
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillStyle = "#ffffff";
-        ctx.fillText(label, x3, y3 + radius + 2 + bckgDimensions[1] / 2);
+        ctx.fillStyle = "rgba(245, 246, 248, 0.95)";
+        ctx.fillText(label, x5, y5 + radius + 3 + bckgDimensions[1] / 2);
       }
     }).onNodeClick((node) => {
       if (node && node.path) {
@@ -16947,7 +17377,63 @@ var SmartGraphView = class extends import_obsidian.ItemView {
           this.app.workspace.getLeaf().openFile(file);
         }
       }
+    }).onEngineStop(() => {
+      if (!this.hasInitialFit && this.graphInstance) {
+        this.hasInitialFit = true;
+        this.graphInstance.zoomToFit(500, 70);
+      }
     });
+    this.graphInstance.d3Force("center", null);
+  }
+  applyClusterForces(width, height) {
+    if (!this.graphInstance || this.currentClusters.size === 0)
+      return;
+    const clusterIds = Array.from(this.currentClusters.keys());
+    const anchors = /* @__PURE__ */ new Map();
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radiusX = width * 0.32;
+    const radiusY = height * 0.32;
+    let focusClusterId = clusterIds[0];
+    this.currentClusters.forEach((c3, id2) => {
+      if (c3.nodes.some((n2) => n2.isFocus))
+        focusClusterId = id2;
+    });
+    anchors.set(focusClusterId, { x: centerX, y: centerY });
+    const remainingClusters = clusterIds.filter((id2) => id2 !== focusClusterId);
+    remainingClusters.forEach((clusterId, index7) => {
+      const angle = index7 / remainingClusters.length * Math.PI * 2 - Math.PI / 2;
+      anchors.set(clusterId, {
+        x: centerX + Math.cos(angle) * radiusX,
+        y: centerY + Math.sin(angle) * radiusY
+      });
+    });
+    this.graphInstance.d3Force(
+      "clusterX",
+      x_default4((node) => anchors.get(node.clusterId)?.x ?? centerX).strength(0.12)
+    );
+    this.graphInstance.d3Force(
+      "clusterY",
+      y_default3((node) => anchors.get(node.clusterId)?.y ?? centerY).strength(0.12)
+    );
+    this.graphInstance.d3Force(
+      "charge",
+      manyBody_default2().strength((node) => node.isRepresentative || node.isFocus ? -90 : -30)
+    );
+    this.graphInstance.d3Force(
+      "collision",
+      collide_default().radius((node) => node.isRepresentative || node.isFocus ? 18 : 9).strength(0.8)
+    );
+    this.graphInstance.d3Force(
+      "link",
+      link_default2().distance((edge) => {
+        if (edge.type === "cluster-link")
+          return 180;
+        if (edge.type === "wiki-link")
+          return 70;
+        return 45;
+      }).strength((edge) => edge.type === "cluster-link" ? 0.05 : 0.25)
+    );
   }
   async refreshGraph() {
     const activeFile = this.app.workspace.getActiveFile();
@@ -16958,16 +17444,22 @@ var SmartGraphView = class extends import_obsidian.ItemView {
     const { nodes: clusteredNodes, clusters } = this.communityDetector.detectCommunities(
       nodes,
       edges,
-      this.plugin.settings.clusterColors
+      this.plugin.settings.clusterColors,
+      this.plugin.settings.minimumClusterSize
     );
     this.currentNodes = clusteredNodes;
     this.currentEdges = edges;
     this.currentClusters = clusters;
-    if (this.graphInstance) {
+    this.hasInitialFit = false;
+    if (this.graphInstance && this.canvasWrapper) {
+      const width = this.canvasWrapper.clientWidth || 800;
+      const height = this.canvasWrapper.clientHeight || 600;
       this.graphInstance.graphData({
         nodes: this.currentNodes,
         links: this.currentEdges
       });
+      this.applyClusterForces(width, height);
+      this.graphInstance.numDimensions(2);
     }
   }
   async onClose() {
