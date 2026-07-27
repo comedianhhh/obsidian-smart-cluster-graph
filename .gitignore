@@ -1,0 +1,10 @@
+# Dependencies
+node_modules/
+
+# Production output (optional: remove if committing built main.js)
+# main.js
+
+# OS files
+.DS_Store
+Thumbs.db
+*.log

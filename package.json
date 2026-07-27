@@ -1,0 +1,43 @@
+{
+  "name": "obsidian-smart-graph-explorer",
+  "version": "1.0.0",
+  "description": "Semantic graph explorer with cluster convex hulls for Obsidian, powered by Smart Connections.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "node esbuild.config.mjs production"
+  },
+  "keywords": [
+    "obsidian",
+    "obsidian-plugin",
+    "graph-view",
+    "smart-connections",
+    "semantic-graph",
+    "ai"
+  ],
+  "author": "Smart Graph",
+  "license": "Commercial",
+  "dependencies": {
+    "@types/lodash-es": "^4.17.12",
+    "d3-force": "^3.0.0",
+    "d3-polygon": "^3.0.1",
+    "d3-shape": "^3.2.0",
+    "force-graph": "^1.43.5",
+    "lodash-es": "^4.18.1",
+    "tinycolor2": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/d3-force": "^3.0.10",
+    "@types/d3-polygon": "^3.0.2",
+    "@types/d3-shape": "^3.1.7",
+    "@types/node": "^20.11.0",
+    "@types/tinycolor2": "^1.4.6",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "builtin-modules": "^3.3.0",
+    "esbuild": "^0.19.11",
+    "obsidian": "latest",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
+  }
+}

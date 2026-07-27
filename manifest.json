@@ -1,0 +1,10 @@
+{
+  "id": "smart-graph-explorer",
+  "name": "Smart Graph Explorer",
+  "version": "1.0.0",
+  "minAppVersion": "1.0.0",
+  "description": "Semantic graph explorer with dynamic cluster hulls and multidimensional relations powered by Smart Connections.",
+  "author": "Smart Graph",
+  "authorUrl": "https://github.com/brianpetro/obsidian-smart-connections",
+  "isDesktopOnly": true
+}
