@@ -11934,23 +11934,16 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
       void this.refreshGraph();
     });
     if (!this.bridge.isSmartConnectionsAvailable()) {
-      const banner = container.createDiv({
+      container.createDiv({
         cls: "smart-graph-notice-banner",
         text: "Smart Connections unavailable"
-      });
-      banner.setCssStyles({
-        position: "absolute",
-        top: "50px",
-        left: "12px",
-        zIndex: "25"
       });
     }
   }
   initGraph() {
     if (!this.canvasWrapper)
       return;
-    const forceGraphFn = forceGraph;
-    this.graphInstance = forceGraphFn(this.canvasWrapper).backgroundColor("#0f1115").nodeId("id").nodeVal((node) => node.size || 4.5).nodeColor((node) => node.clusterColor || node.color || "#55B476").linkSource("source").linkTarget("target").onNodeHover((node) => {
+    this.graphInstance = forceGraph()(this.canvasWrapper).backgroundColor("#0f1115").nodeId("id").nodeVal((node) => node.size || 4.5).nodeColor((node) => node.clusterColor || node.color || "#55B476").linkSource("source").linkTarget("target").onNodeHover((node) => {
       this.hoverNode = node || null;
     }).onEngineStop(() => {
       this.applyUserZoomAndCentering();

@@ -486,3 +486,12 @@
   line-height: 1.4;
   color: #7a7f8d;
 }
+
+/* Notice Banner */
+.smart-graph-notice-banner {
+  position: absolute;
+  top: 50px;
+  left: 12px;
+  z-index: 25;
+}
+

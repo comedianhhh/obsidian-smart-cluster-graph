@@ -200,25 +200,18 @@ export class SmartGraphView extends ItemView {
 
     // Show warning banner ONLY if Smart Connections is unavailable
     if (!this.bridge.isSmartConnectionsAvailable()) {
-      const banner = container.createDiv({
+      container.createDiv({
         cls: 'smart-graph-notice-banner',
         text: 'Smart Connections unavailable',
       });
-      banner.setCssStyles({
-        position: 'absolute',
-        top: '50px',
-        left: '12px',
-        zIndex: '25',
-      });
     }
-
   }
 
   private initGraph(): void {
     if (!this.canvasWrapper) return;
 
-    const forceGraphFn = ForceGraph as unknown as (element: HTMLElement) => any;
-    this.graphInstance = forceGraphFn(this.canvasWrapper)
+    this.graphInstance = (ForceGraph as any)()(this.canvasWrapper)
+
 
       .backgroundColor('#0f1115')
       .nodeId('id')
