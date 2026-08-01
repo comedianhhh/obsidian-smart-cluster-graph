@@ -64,17 +64,21 @@ export class GraphDataEngine {
       });
     }
 
-    // 3. Backfill with Vault Markdown Files up to nodeLimit
+    // 3. Backfill with Vault Markdown Files (Only if hideUnconnectedNodes is disabled)
     const allVaultFiles = this.app.vault.getMarkdownFiles();
-    allVaultFiles.forEach((file) => {
-      if (candidateMap.size < nodeLimit && !candidateMap.has(file.path)) {
-        candidateMap.set(file.path, {
-          path: file.path,
-          score: file.path === focusPath ? 1.0 : 0.5,
-          title: file.basename,
-        });
-      }
-    });
+    const shouldHideUnconnected = settings.hideUnconnectedNodes !== false;
+
+    if (!shouldHideUnconnected) {
+      allVaultFiles.forEach((file) => {
+        if (candidateMap.size < nodeLimit && !candidateMap.has(file.path)) {
+          candidateMap.set(file.path, {
+            path: file.path,
+            score: file.path === focusPath ? 1.0 : 0.5,
+            title: file.basename,
+          });
+        }
+      });
+    }
 
     // Convert candidateMap into GraphNodes
     const candidateList = Array.from(candidateMap.values());
@@ -207,6 +211,11 @@ export class GraphDataEngine {
       }
     }
 
-    return { nodes, edges };
+    // 5. Filter out unconnected nodes if hideUnconnectedNodes is enabled
+    const finalNodes = shouldHideUnconnected
+      ? nodes.filter((n) => n.isFocus || (nodeEdgeCounts.get(n.path) || 0) > 0)
+      : nodes;
+
+    return { nodes: finalNodes, edges };
   }
 }

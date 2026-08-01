@@ -66,6 +66,7 @@ var DEFAULT_SETTINGS = {
   followActiveNote: false,
   graphMode: "neighborhood",
   densityPreset: "balanced",
+  hideUnconnectedNodes: true,
   licenseKey: "",
   isLicensed: false
 };
@@ -11426,15 +11427,18 @@ var GraphDataEngine = class {
       });
     }
     const allVaultFiles = this.app.vault.getMarkdownFiles();
-    allVaultFiles.forEach((file) => {
-      if (candidateMap.size < nodeLimit && !candidateMap.has(file.path)) {
-        candidateMap.set(file.path, {
-          path: file.path,
-          score: file.path === focusPath ? 1 : 0.5,
-          title: file.basename
-        });
-      }
-    });
+    const shouldHideUnconnected = settings.hideUnconnectedNodes !== false;
+    if (!shouldHideUnconnected) {
+      allVaultFiles.forEach((file) => {
+        if (candidateMap.size < nodeLimit && !candidateMap.has(file.path)) {
+          candidateMap.set(file.path, {
+            path: file.path,
+            score: file.path === focusPath ? 1 : 0.5,
+            title: file.basename
+          });
+        }
+      });
+    }
     const candidateList = Array.from(candidateMap.values());
     candidateList.forEach((cand) => {
       const isFocus = cand.path === focusPath;
@@ -11539,7 +11543,8 @@ var GraphDataEngine = class {
         }
       }
     }
-    return { nodes, edges };
+    const finalNodes = shouldHideUnconnected ? nodes.filter((n2) => n2.isFocus || (nodeEdgeCounts.get(n2.path) || 0) > 0) : nodes;
+    return { nodes: finalNodes, edges };
   }
 };
 
@@ -12449,6 +12454,13 @@ var SmartGraphSettingsTab = class extends import_obsidian3.PluginSettingTab {
     new import_obsidian3.Setting(containerEl).setName("Default Graph Mode").setDesc("Primary mode used for relationship discovery.").addDropdown(
       (dropdown) => dropdown.addOption("neighborhood", "Neighborhood (Semantic + Links + Tags)").addOption("semantic", "Semantic Only (Vector Similarity)").addOption("links", "Links Only (WikiLinks & Backlinks)").setValue(this.plugin.settings.graphMode).onChange(async (val) => {
         this.plugin.settings.graphMode = val;
+        await this.plugin.saveSettings();
+        this.plugin.refreshView();
+      })
+    );
+    new import_obsidian3.Setting(containerEl).setName("Hide Unrelated / Unconnected Notes").setDesc("Only display notes with WikiLinks, shared tags, or semantic similarity above threshold. Prevents random vault notes from cluttering the graph.").addToggle(
+      (toggle) => toggle.setValue(this.plugin.settings.hideUnconnectedNodes !== false).onChange(async (val) => {
+        this.plugin.settings.hideUnconnectedNodes = val;
         await this.plugin.saveSettings();
         this.plugin.refreshView();
       })

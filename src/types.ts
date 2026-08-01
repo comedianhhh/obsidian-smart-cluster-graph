@@ -93,6 +93,7 @@ export interface SmartGraphSettings {
   followActiveNote: boolean;
   graphMode: GraphMode;
   densityPreset: DensityPreset;
+  hideUnconnectedNodes: boolean;
   licenseKey: string;
   isLicensed: boolean;
 }
@@ -127,6 +128,7 @@ export const DEFAULT_SETTINGS: SmartGraphSettings = {
   followActiveNote: false,
   graphMode: 'neighborhood',
   densityPreset: 'balanced',
+  hideUnconnectedNodes: true,
   licenseKey: '',
   isLicensed: false,
 };

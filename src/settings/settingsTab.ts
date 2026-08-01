@@ -161,6 +161,20 @@ export class SmartGraphSettingsTab extends PluginSettingTab {
             this.plugin.refreshView();
           })
       );
+
+    // 6. Hide Unrelated / Unconnected Notes
+    new Setting(containerEl)
+      .setName('Hide Unrelated / Unconnected Notes')
+      .setDesc('Only display notes with WikiLinks, shared tags, or semantic similarity above threshold. Prevents random vault notes from cluttering the graph.')
+      .addToggle((toggle) =>
+        toggle
+          .setValue(this.plugin.settings.hideUnconnectedNodes !== false)
+          .onChange(async (val) => {
+            this.plugin.settings.hideUnconnectedNodes = val;
+            await this.plugin.saveSettings();
+            this.plugin.refreshView();
+          })
+      );
   }
 }
 
