@@ -112,15 +112,8 @@ export class SmartConnectionsBridge {
       return this.cosineSimilarity(fileA.vec, fileB.vec);
     }
 
-    // Heuristic fallbacks if vectors are missing: shared links/path similarity
+    // Heuristic fallbacks if vectors are missing
     if (fileA.path === fileB.path) return 1.0;
-    
-    // Shared directory path score
-    const pathA = fileA.path.split('/');
-    const pathB = fileB.path.split('/');
-    if (pathA.length > 1 && pathB.length > 1 && pathA[0] === pathB[0]) {
-      return 0.55;
-    }
 
     return 0.0;
   }

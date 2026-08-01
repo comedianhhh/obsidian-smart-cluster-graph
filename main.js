@@ -11354,11 +11354,6 @@ var SmartConnectionsBridge = class {
     }
     if (fileA.path === fileB.path)
       return 1;
-    const pathA = fileA.path.split("/");
-    const pathB = fileB.path.split("/");
-    if (pathA.length > 1 && pathB.length > 1 && pathA[0] === pathB[0]) {
-      return 0.55;
-    }
     return 0;
   }
   cosineSimilarity(vecA, vecB) {
@@ -11595,36 +11590,63 @@ var CommunityDetector = class {
           representativeNode = node;
         }
       });
+      const connectedClusterNodes = [];
       cNodes.forEach((node) => {
-        node.clusterId = folderName;
-        node.cluster = folderName;
-        node.clusterColor = color2;
-        node.color = color2;
-        node.isRepresentative = node.id === representativeNode.id && !node.isFocus;
-        node.type = node.isFocus || node.isRepresentative ? "cluster-center" : "note";
-        if (node.isFocus || node.isRepresentative) {
-          node.size = 8;
+        const degreeInCluster = internalEdges.filter(
+          (e2) => (typeof e2.source === "object" ? e2.source.id : e2.source) === node.id || (typeof e2.target === "object" ? e2.target.id : e2.target) === node.id
+        ).length;
+        const isIsolatedInFolder = degreeInCluster === 0 && !node.isFocus && cNodes.length > 1;
+        if (isIsolatedInFolder) {
+          const isolatedClusterId = `isolated-${node.id}`;
+          node.clusterId = isolatedClusterId;
+          node.cluster = isolatedClusterId;
+          node.clusterColor = color2;
+          node.color = color2;
+          node.isRepresentative = false;
+          node.type = "note";
+          node.size = 3.5;
           node.isOrphan = false;
-        } else if (cNodes.length < minimumClusterSize && !node.isFocus) {
-          node.isOrphan = true;
-          node.size = 2.5;
-          node.opacity = 0.25;
+          clusters.set(isolatedClusterId, {
+            id: isolatedClusterId,
+            name: node.title,
+            color: color2,
+            nodes: [node],
+            representativeId: node.id
+          });
         } else {
-          node.size = 4.5;
-          node.isOrphan = false;
+          node.clusterId = folderName;
+          node.cluster = folderName;
+          node.clusterColor = color2;
+          node.color = color2;
+          node.isRepresentative = node.id === representativeNode.id && !node.isFocus;
+          node.type = node.isFocus || node.isRepresentative ? "cluster-center" : "note";
+          if (node.isFocus || node.isRepresentative) {
+            node.size = 8;
+            node.isOrphan = false;
+          } else if (cNodes.length < minimumClusterSize && !node.isFocus) {
+            node.isOrphan = true;
+            node.size = 2.5;
+            node.opacity = 0.25;
+          } else {
+            node.size = 4.5;
+            node.isOrphan = false;
+          }
+          connectedClusterNodes.push(node);
         }
       });
-      clusters.set(folderName, {
-        id: folderName,
-        name: representativeNode ? representativeNode.title : folderName,
-        color: color2,
-        nodes: cNodes,
-        representativeId: representativeNode ? representativeNode.id : void 0
-      });
+      if (connectedClusterNodes.length > 0) {
+        clusters.set(folderName, {
+          id: folderName,
+          name: representativeNode ? representativeNode.title : folderName,
+          color: color2,
+          nodes: connectedClusterNodes,
+          representativeId: representativeNode ? representativeNode.id : void 0
+        });
+      }
     });
     const primaryFolderNames = new Set(primaryFolders.map(([f2]) => f2));
     nodes.forEach((node) => {
-      if (!primaryFolderNames.has(node.clusterId || "")) {
+      if (!node.clusterId || !primaryFolderNames.has(node.clusterId) && !node.clusterId.startsWith("isolated-")) {
         node.isOrphan = true;
         node.size = 2.5;
         node.opacity = 0.25;
@@ -12233,7 +12255,7 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
     const anchors = /* @__PURE__ */ new Map();
     const centerX = 0;
     const centerY = 0;
-    const radius = 150;
+    const radius = 220;
     let focusClusterId = clusterIds[0];
     this.currentClusters.forEach((c3, id2) => {
       if (c3.nodes.some((n2) => n2.isFocus))
@@ -12255,25 +12277,25 @@ var SmartGraphView = class extends import_obsidian2.ItemView {
     });
     this.graphInstance.d3Force(
       "clusterX",
-      x_default4((node) => anchors.get(node.clusterId)?.x ?? 0).strength(0.28)
+      x_default4((node) => anchors.get(node.clusterId)?.x ?? 0).strength(0.22)
     );
     this.graphInstance.d3Force(
       "clusterY",
-      y_default3((node) => anchors.get(node.clusterId)?.y ?? 0).strength(0.28)
+      y_default3((node) => anchors.get(node.clusterId)?.y ?? 0).strength(0.22)
     );
-    this.graphInstance.d3Force("centerGravityX", x_default4(0).strength(0.14));
-    this.graphInstance.d3Force("centerGravityY", y_default3(0).strength(0.14));
+    this.graphInstance.d3Force("centerGravityX", x_default4(0).strength(0.08));
+    this.graphInstance.d3Force("centerGravityY", y_default3(0).strength(0.08));
     this.graphInstance.d3Force(
       "charge",
-      manyBody_default2().strength((node) => node.isRepresentative || node.isFocus ? -70 : -30)
+      manyBody_default2().strength((node) => node.clusterId.startsWith("isolated-") ? -220 : node.isRepresentative || node.isFocus ? -120 : -80)
     );
     this.graphInstance.d3Force(
       "collision",
-      collide_default().radius((node) => node.isRepresentative || node.isFocus ? 18 : 10).strength(0.85)
+      collide_default().radius((node) => node.isRepresentative || node.isFocus ? 28 : 20).strength(0.9)
     );
     this.graphInstance.d3Force(
       "link",
-      link_default2().distance((edge) => edge.type === "semantic" ? 100 : 45).strength((edge) => {
+      link_default2().distance((edge) => edge.type === "semantic" ? 120 : 60).strength((edge) => {
         const s2 = typeof edge.source === "object" ? edge.source : this.currentNodes.find((n2) => n2.id === edge.source);
         const t3 = typeof edge.target === "object" ? edge.target : this.currentNodes.find((n2) => n2.id === edge.target);
         if (s2 && t3 && s2.clusterId === t3.clusterId)

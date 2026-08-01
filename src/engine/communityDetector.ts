@@ -76,40 +76,73 @@ export class CommunityDetector {
 
       // Size Hierarchy according to user spec:
       // Normal node = 4.5px, Representative / Focus = 8.0px
-      cNodes.forEach((node) => {
-        node.clusterId = folderName;
-        node.cluster = folderName;
-        node.clusterColor = color;
-        node.color = color;
-        node.isRepresentative = node.id === representativeNode.id && !node.isFocus;
-        node.type = node.isFocus || node.isRepresentative ? 'cluster-center' : 'note';
+      const connectedClusterNodes: GraphNode[] = [];
 
-        if (node.isFocus || node.isRepresentative) {
-          node.size = 8.0;
+      cNodes.forEach((node) => {
+        const degreeInCluster = internalEdges.filter(
+          (e) => (typeof e.source === 'object' ? e.source.id : e.source) === node.id ||
+                 (typeof e.target === 'object' ? e.target.id : e.target) === node.id
+        ).length;
+
+        // If a node has no internal edges in this cluster and is not focus/representative, isolate it
+        const isIsolatedInFolder = degreeInCluster === 0 && !node.isFocus && cNodes.length > 1;
+
+        if (isIsolatedInFolder) {
+          const isolatedClusterId = `isolated-${node.id}`;
+          node.clusterId = isolatedClusterId;
+          node.cluster = isolatedClusterId;
+          node.clusterColor = color;
+          node.color = color;
+          node.isRepresentative = false;
+          node.type = 'note';
+          node.size = 3.5;
           node.isOrphan = false;
-        } else if (cNodes.length < minimumClusterSize && !node.isFocus) {
-          node.isOrphan = true;
-          node.size = 2.5;
-          node.opacity = 0.25;
+          
+          clusters.set(isolatedClusterId, {
+            id: isolatedClusterId,
+            name: node.title,
+            color,
+            nodes: [node],
+            representativeId: node.id,
+          });
         } else {
-          node.size = 4.5;
-          node.isOrphan = false;
+          node.clusterId = folderName;
+          node.cluster = folderName;
+          node.clusterColor = color;
+          node.color = color;
+          node.isRepresentative = node.id === representativeNode.id && !node.isFocus;
+          node.type = node.isFocus || node.isRepresentative ? 'cluster-center' : 'note';
+
+          if (node.isFocus || node.isRepresentative) {
+            node.size = 8.0;
+            node.isOrphan = false;
+          } else if (cNodes.length < minimumClusterSize && !node.isFocus) {
+            node.isOrphan = true;
+            node.size = 2.5;
+            node.opacity = 0.25;
+          } else {
+            node.size = 4.5;
+            node.isOrphan = false;
+          }
+          connectedClusterNodes.push(node);
         }
       });
 
-      clusters.set(folderName, {
-        id: folderName,
-        name: representativeNode ? representativeNode.title : folderName,
-        color,
-        nodes: cNodes,
-        representativeId: representativeNode ? representativeNode.id : undefined,
-      });
+      if (connectedClusterNodes.length > 0) {
+        clusters.set(folderName, {
+          id: folderName,
+          name: representativeNode ? representativeNode.title : folderName,
+          color,
+          nodes: connectedClusterNodes,
+          representativeId: representativeNode ? representativeNode.id : undefined,
+        });
+      }
     });
 
     // Handle nodes outside top 5 clusters as background orphan nodes
     const primaryFolderNames = new Set(primaryFolders.map(([f]) => f));
     nodes.forEach((node) => {
-      if (!primaryFolderNames.has(node.clusterId || '')) {
+      if (!node.clusterId || (!primaryFolderNames.has(node.clusterId) && !node.clusterId.startsWith('isolated-'))) {
         node.isOrphan = true;
         node.size = 2.5;
         node.opacity = 0.25;

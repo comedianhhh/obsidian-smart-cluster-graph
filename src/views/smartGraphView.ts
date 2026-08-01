@@ -659,7 +659,7 @@ export class SmartGraphView extends ItemView {
     // Focus cluster anchor strictly at (0, 0)
     const centerX = 0;
     const centerY = 0;
-    const radius = 150;
+    const radius = 220;
 
     let focusClusterId = clusterIds[0];
     this.currentClusters.forEach((c, id) => {
@@ -687,37 +687,37 @@ export class SmartGraphView extends ItemView {
     // 1. Cluster Anchor Force
     this.graphInstance.d3Force(
       'clusterX',
-      forceX<GraphNode>((node) => anchors.get(node.clusterId)?.x ?? 0).strength(0.28)
+      forceX<GraphNode>((node) => anchors.get(node.clusterId)?.x ?? 0).strength(0.22)
     );
 
     this.graphInstance.d3Force(
       'clusterY',
-      forceY<GraphNode>((node) => anchors.get(node.clusterId)?.y ?? 0).strength(0.28)
+      forceY<GraphNode>((node) => anchors.get(node.clusterId)?.y ?? 0).strength(0.22)
     );
 
     // 2. Central Attraction
-    this.graphInstance.d3Force('centerGravityX', forceX<GraphNode>(0).strength(0.14));
-    this.graphInstance.d3Force('centerGravityY', forceY<GraphNode>(0).strength(0.14));
+    this.graphInstance.d3Force('centerGravityX', forceX<GraphNode>(0).strength(0.08));
+    this.graphInstance.d3Force('centerGravityY', forceY<GraphNode>(0).strength(0.08));
 
-    // 3. Charge force
+    // 3. Charge force (Stronger repulsion to push unconnected / isolated nodes apart)
     this.graphInstance.d3Force(
       'charge',
-      forceManyBody<GraphNode>().strength((node) => (node.isRepresentative || node.isFocus ? -70 : -30))
+      forceManyBody<GraphNode>().strength((node) => (node.clusterId.startsWith('isolated-') ? -220 : node.isRepresentative || node.isFocus ? -120 : -80))
     );
 
     // 4. Collision force
     this.graphInstance.d3Force(
       'collision',
       forceCollide<GraphNode>()
-        .radius((node) => (node.isRepresentative || node.isFocus ? 18 : 10))
-        .strength(0.85)
+        .radius((node) => (node.isRepresentative || node.isFocus ? 28 : 20))
+        .strength(0.9)
     );
 
     // 5. Link force
     this.graphInstance.d3Force(
       'link',
       forceLink<GraphNode, GraphEdge>()
-        .distance((edge: GraphEdge) => (edge.type === 'semantic' ? 100 : 45))
+        .distance((edge: GraphEdge) => (edge.type === 'semantic' ? 120 : 60))
         .strength((edge: GraphEdge) => {
           const s = typeof edge.source === 'object' ? edge.source : this.currentNodes.find((n) => n.id === edge.source);
           const t = typeof edge.target === 'object' ? edge.target : this.currentNodes.find((n) => n.id === edge.target);
